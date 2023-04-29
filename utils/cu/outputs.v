@@ -1,4 +1,4 @@
-module nextState (
+module outputs (
     input [3:0] StateRegister,
     output PCWrite, output PCWriteCond, output IorD,
     output MemRead, output MemWrite, output IRWrite,
