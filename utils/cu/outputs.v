@@ -53,7 +53,7 @@ module outputs (
     or (ALUSrcB1, WireState1, WireState2);
     or (ALUSrcB0, WireState0, WireState1);
     or (ALUSrcA, WireState2, WireState6, WireState8);
-    or (RegWrite, WireState4, WireState);
+    or (RegWrite, WireState4, WireState7);
     assign RegDst = WireState7;
     
 endmodule

@@ -5,12 +5,17 @@ module control_unit (
     output PCWrite, output PCWriteCond, output IorD,
     output MemRead, output MemWrite, output IRWrite,
     output MemtoReg, output PCSource1, output PCSource0,
-    output ALUOp1,output ALUOp0, output ALUSrcB1,
+    output ALUOp1, output ALUOp0, output ALUSrcB1,
     output ALUSrcB0, output ALUSrcA, output RegWrite,
     output RegDst
-);
+);  
+    initial begin
+        $dumpfile("wave.vcd");
+        $dumpvars(0, control_unit);
+    end
+    
     wire [3:0] NextState;
-    reg StateRegister[3:0];
+    reg [3:0] StateRegister;
 
     parameter STATE0 = 4'b0000;
     parameter STATE1 = 4'b0001;
@@ -28,9 +33,7 @@ module control_unit (
     end
 
     /* calculates the next state */
-    next_state next_state (.op(op), .s3(StateRegister[3]), .s2(StateRegister[2]),
-                           .s1(StateRegister[1]), .s0(StateRegister[0]), .ns3(next_state[3]),
-                           .ns2(next_state[2]), .ns1(next_state[1]), .s0(next_state[0]));
+    next_state next_state0 (.op(op), .state(StateRegister), .ns(NextState));
 
     /* sets the outputs based on the current state */
     outputs outputs (.StateRegister(StateRegister), .PCWrite(PCWrite), 
@@ -38,7 +41,7 @@ module control_unit (
                      .MemRead(MemRead), .MemWrite(MemWrite),
                      .IRWrite(IRWrite), .MemtoReg(MemtoReg),
                      .PCSource1(PCSource1), .PCSource0(PCSource0),
-                     .ALUOp1(ALUOp1),.ALUOp0(ALUOp0), .ALUSrcB1(ALUSrcB1),
+                     .ALUOp1(ALUOp1), .ALUOp0(ALUOp0), .ALUSrcB1(ALUSrcB1),
                      .ALUSrcB0(ALUSrcB0), .ALUSrcA(ALUSrcA),
                      .RegWrite(RegWrite), .RegDst(RegDst));
 
