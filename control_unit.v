@@ -1,3 +1,5 @@
+`include "./utils/cu/outputs.v"
+`include "./utils/cu/next_state.v"
 module control_unit (
     input [5:0] op, input clk,
     output PCWrite, output PCWriteCond, output IorD,
@@ -26,14 +28,22 @@ module control_unit (
     end
 
     /* calculates the next state */
-    // assign
+    next_state next_state (.op(op), .s3(StateRegister[3]), .s2(StateRegister[2]),
+                           .s1(StateRegister[1]), .s0(StateRegister[0]), .ns3(next_state[3]),
+                           .ns2(next_state[2]), .ns1(next_state[1]), .s0(next_state[0]));
+
+    /* sets the outputs based on the current state */
+    outputs outputs (.StateRegister(StateRegister), .PCWrite(PCWrite), 
+                     .PCWriteCond(PCWriteCond), .IorD(IorD),
+                     .MemRead(MemRead), .MemWrite(MemWrite),
+                     .IRWrite(IRWrite), .MemtoReg(MemtoReg),
+                     .PCSource1(PCSource1), .PCSource0(PCSource0),
+                     .ALUOp1(ALUOp1),.ALUOp0(ALUOp0), .ALUSrcB1(ALUSrcB1),
+                     .ALUSrcB0(ALUSrcB0), .ALUSrcA(ALUSrcA),
+                     .RegWrite(RegWrite), .RegDst(RegDst));
 
     /* sets the state register to the next state */
     always @(posedge clk) begin
         StateRegister <= NextState;
     end
-
-    /* sets the outputs based on the current state */
-    // assign
-
 endmodule
