@@ -46,7 +46,8 @@ module control_unit_tb ();
     
     task Check;
         input [31:0] expect;
-        if (expect[31:16] !== expect[15:0]) begin
+       //  expect[31:16] !== expect[15:0]
+        if (1) begin
             $display("Got %b, expected %b", expect[31:16], expect[15:0]);
             errors = errors + 1;
         end
@@ -54,8 +55,8 @@ module control_unit_tb ();
     initial begin       
        // add - R-type
        $display("Tipo R");
-       // op = 6'b110011;
-       op = 6'b000000;
+       op = 6'b110011;
+       // op = 6'b000000;
        #5
        Check({PCWrite, PCWriteCond, IorD, MemRead,
               MemWrite, IRWrite, MemtoReg, PCSource1,
@@ -84,8 +85,8 @@ module control_unit_tb ();
        
        // jal
        $display("Tipo jal");
-       // op = 6'b100011;
-       op = 6'b000010;
+       op = 6'b101111;
+       // op = 6'b000010;
        #10
        Check({PCWrite, PCWriteCond, IorD, MemRead,
               MemWrite, IRWrite, MemtoReg, PCSource1,
@@ -102,10 +103,10 @@ module control_unit_tb ();
               PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
               ALUSrcA, RegWrite, RegDst, State0});
        
-       // jal - beq-type
+       // beq
        $display("Tipo beq");
-       // op = 6'b101111;
-       op = 6'b000100;
+       op = 6'b100011;
+       // op = 6'b000100;
 
        #10
        Check({PCWrite, PCWriteCond, IorD, MemRead,
@@ -125,8 +126,8 @@ module control_unit_tb ();
        
        // lw
        $display("Tipo lw");
-       // op = 6'b000011;
-       op = 6'b100011;
+       op = 6'b000011;
+       // op = 6'b100011;
 
        #10
        Check({PCWrite, PCWriteCond, IorD, MemRead,
@@ -156,8 +157,8 @@ module control_unit_tb ();
        
        // sw
        $display("Tipo sw");
-       // op = 6'b100011;
-       op = 6'b101011;
+       op = 6'b100011;
+       // op = 6'b101011;
 
        #10
        Check({PCWrite, PCWriteCond, IorD, MemRead,
