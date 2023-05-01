@@ -1,7 +1,7 @@
 `include "./utils/cu/outputs.v"
 `include "./utils/cu/next_state.v"
 module control_unit (
-    input [5:0] op, input clk,
+    input [6:0] op, input clk,
     output PCWrite, output PCWriteCond, output IorD,
     output MemRead, output MemWrite, output IRWrite,
     output MemtoReg, output PCSource1, output PCSource0,
