@@ -27,7 +27,7 @@ module control_unit_tb ();
     
     parameter State0 = 16'b1001_0100_0000_1000;
     parameter State1 = 16'b0000_0000_0001_1000;
-    parameter State2 = 16'b0000_0000_0001_0000;
+    parameter State2 = 16'b0000_0000_0001_0100;
     parameter State3 = 16'b0011_0000_0000_0000;
     parameter State4 = 16'b0000_0010_0000_0010;
     parameter State5 = 16'b0010_1000_0000_0000;
@@ -82,31 +82,10 @@ module control_unit_tb ();
               PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
               ALUSrcA, RegWrite, RegDst, State0});
        
-       // beq
-       $display("Tipo beq");
-
+       // jal
+       $display("Tipo jal");
        // op = 6'b100011;
        op = 6'b000010;
-       #10
-       Check({PCWrite, PCWriteCond, IorD, MemRead,
-              MemWrite, IRWrite, MemtoReg, PCSource1,
-              PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
-              ALUSrcA, RegWrite, RegDst, State1});
-       #10
-       Check({PCWrite, PCWriteCond, IorD, MemRead,
-              MemWrite, IRWrite, MemtoReg, PCSource1,
-              PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
-              ALUSrcA, RegWrite, RegDst, State8});
-       #10
-       Check({PCWrite, PCWriteCond, IorD, MemRead,
-              MemWrite, IRWrite, MemtoReg, PCSource1,
-              PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
-              ALUSrcA, RegWrite, RegDst, State0});
-       // jal - J-type
-       $display("Tipo jal");
-       // op = 6'b101111;
-       op = 6'b000100;
-
        #10
        Check({PCWrite, PCWriteCond, IorD, MemRead,
               MemWrite, IRWrite, MemtoReg, PCSource1,
@@ -122,9 +101,30 @@ module control_unit_tb ();
               MemWrite, IRWrite, MemtoReg, PCSource1,
               PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
               ALUSrcA, RegWrite, RegDst, State0});
+       
+       // jal - beq-type
+       $display("Tipo beq");
+       // op = 6'b101111;
+       op = 6'b000100;
+
+       #10
+       Check({PCWrite, PCWriteCond, IorD, MemRead,
+              MemWrite, IRWrite, MemtoReg, PCSource1,
+              PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
+              ALUSrcA, RegWrite, RegDst, State1});
+       #10
+       Check({PCWrite, PCWriteCond, IorD, MemRead,
+              MemWrite, IRWrite, MemtoReg, PCSource1,
+              PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
+              ALUSrcA, RegWrite, RegDst, State8});
+       #10
+       Check({PCWrite, PCWriteCond, IorD, MemRead,
+              MemWrite, IRWrite, MemtoReg, PCSource1,
+              PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
+              ALUSrcA, RegWrite, RegDst, State0});
+       
        // lw
        $display("Tipo lw");
-
        // op = 6'b000011;
        op = 6'b100011;
 
@@ -153,9 +153,9 @@ module control_unit_tb ();
               MemWrite, IRWrite, MemtoReg, PCSource1,
               PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
               ALUSrcA, RegWrite, RegDst, State0});
+       
        // sw
        $display("Tipo sw");
-
        // op = 6'b100011;
        op = 6'b101011;
 
