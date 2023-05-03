@@ -12,7 +12,7 @@ module testbench ();
     integer i, errors = 0;
     task Check ;
         input [31:0] expect;
-        if (result != expect) begin
+        if (result !== expect) begin
                 $display ("Error : A: %b B: %b expect: %b got: %b", A, B, expect, result);
                 errors = errors + 1;
         end
