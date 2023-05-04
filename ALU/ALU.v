@@ -4,19 +4,19 @@
 `include "./mux_3x1_64bit_ALU.v"
 
 module ALU (
-    input [64:0] A,
-    input [64:0] B,
+    input [63:0] A,
+    input [63:0] B,
     input [3:0] ALUOp,
-    output [64:0] result,
+    output [63:0] result,
     output zero
 );
-    wire [64:0] resAddSub;
+    wire [63:0] resAddSub;
     wire overflow;
-    wire [64:0] resAnd;
-    wire [64:0] resOr;
+    wire [63:0] resAnd;
+    wire [63:0] resOr;
     
     /* Aqui sao calculados a soma, a subtracao, o and e o or bitwise */
-    sumALU Adder64b_mod (.A(A), .B(B), .SUB(ALUOp[2]) .S(resAddSub), .COUT(overflow));
+    Adder64b_mod Adder64b_mod (.A(A), .B(B), .SUB(ALUOp[2]), .S(resAddSub), .COUT(overflow));
     andModule andmod (.A(A), .B(B), .result(resAnd));
     orModule ormod (.A(A), .B(B), .result(resOr));
     
