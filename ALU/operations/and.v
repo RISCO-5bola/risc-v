@@ -1,7 +1,7 @@
 module andModule (
-    input [31:0] A,
-    input [31:0] B,
-    output [31:0] result
+    input [63:0] A,
+    input [63:0] B,
+    output [63:0] result
 );
     and (result[0], A[0], B[0]);
     and (result[1], A[1], B[1]);
@@ -35,5 +35,37 @@ module andModule (
     and (result[29], A[29], B[29]);
     and (result[30], A[30], B[30]);
     and (result[31], A[31], B[31]);
+    and (result[32], A[32], B[32]);
+    and (result[33], A[33], B[33]);
+    and (result[34], A[34], B[34]);
+    and (result[35], A[35], B[35]);
+    and (result[36], A[36], B[36]);
+    and (result[37], A[37], B[37]);
+    and (result[38], A[38], B[38]);
+    and (result[39], A[39], B[39]);
+    and (result[40], A[40], B[40]);
+    and (result[41], A[41], B[41]);
+    and (result[42], A[42], B[42]);
+    and (result[43], A[43], B[43]);
+    and (result[44], A[44], B[44]);
+    and (result[45], A[45], B[45]);
+    and (result[46], A[46], B[46]);
+    and (result[47], A[47], B[47]);
+    and (result[48], A[48], B[48]);
+    and (result[49], A[49], B[49]);
+    and (result[50], A[50], B[50]);
+    and (result[51], A[51], B[51]);
+    and (result[52], A[52], B[52]);
+    and (result[53], A[53], B[53]);
+    and (result[54], A[54], B[54]);
+    and (result[55], A[55], B[55]);
+    and (result[56], A[56], B[56]);
+    and (result[57], A[57], B[57]);
+    and (result[58], A[58], B[58]);
+    and (result[59], A[59], B[59]);
+    and (result[60], A[60], B[60]);
+    and (result[61], A[61], B[61]);
+    and (result[62], A[62], B[62]);
+    and (result[63], A[63], B[63]);
 
 endmodule
