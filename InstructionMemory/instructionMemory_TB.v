@@ -7,7 +7,7 @@
 */
 
 module testbench ();
-    reg [31:0] PC;
+    reg [63:0] PC;
     wire [31:0] instruction;
 
     InstructionMemory UUT (.PC(PC), .instruction(instruction));
@@ -15,7 +15,7 @@ module testbench ();
     integer i, errors = 0, j;
     task Check ;
         input [31:0] expect;
-        if (instruction != expect) begin
+        if (instruction !== expect) begin
                 $display ("Error : PC: %d expect: %b got: %b", PC, expect, instruction);
                 errors = errors + 1;
         end
@@ -26,27 +26,12 @@ module testbench ();
            hipotetica com posicao 0 valendo 32'b01000000000000000000000000110011,
            1 valendo 32'b00000000000000000010000010000011 e 2 valendo
            32'b00000000000000000000000001100011. O restante e nula */
-        PC = 32'd0;
+        PC = 64'd0;
         #10
-        Check(32'b01000000000000000000000000110011);
+        Check(32'b00000100_00000010_00000001_00000000);
+        PC = 64'd4;
         #10
-
-        PC = 32'd1;
-        #10
-        Check(32'b00000000000000000010000010000011);
-        #10
-
-        PC = 32'd2;
-        #10
-        Check(32'b00000000000000000000000001100011);
-        #10
-
-        // nao precisa testar tudo, demora demais, ja foram verificadas varias possibilidades
-        for (j = 32'd3; j < 32'b00000000000000000000000011111111; j = j + 32'd1) begin
-            PC = j;
-            #10
-            Check(32'b00000000000000000000000000000000);
-        end
+        Check(32'b00000100_00000010_00000001_00000000);
 
         $display("Test finished. Erros: %d", errors);
     end

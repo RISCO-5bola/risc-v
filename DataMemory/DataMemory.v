@@ -70,6 +70,4 @@ module data_memory(input clk,
           Memory[endereco_atual] <= write_data[63:56];
         end
    end      
-                   
-           
 endmodule
