@@ -1,6 +1,6 @@
 `timescale 1ns/1ns
 
-module testbench ();
+module Memory_TB ();
     reg clk;
     reg mem_read;
     reg mem_write;

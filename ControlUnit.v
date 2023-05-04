@@ -1,6 +1,6 @@
 `include "./utils/cu/outputs.v"
 `include "./utils/cu/next_state.v"
-module control_unit (
+module ControlUnit (
     input [6:0] op, input clk,
     output PCWrite, output PCWriteCond, output IorD,
     output MemRead, output MemWrite, output IRWrite,
@@ -11,7 +11,7 @@ module control_unit (
 );  
     initial begin
         $dumpfile("wave.vcd");
-        $dumpvars(0, control_unit);
+        $dumpvars(0, ControlUnit);
     end
     
     wire [3:0] NextState;

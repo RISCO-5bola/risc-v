@@ -1,4 +1,3 @@
-`include "reg_parametrizado.v"
 
 module Registers (
     input wire [4:0] readRegister1,

@@ -1,11 +1,11 @@
 module Memory(input clk,      
                    input mem_read,
                    input mem_write,
-                   input [7:0] endereco, //saida da ula
+                   input [63:0] endereco, //saida da ula
                    input [63:0] write_data, //data out b
                    output reg [63:0] read_data // write data
                    );
-   reg [7:0] endereco_atual;
+   reg [63:0] endereco_atual;
    reg [7:0] Memory [255:0];
 
    /*
@@ -57,7 +57,7 @@ module Memory(input clk,
    
    // sincrono
    always @(posedge clk, mem_write) begin
-        endereco_atual <= endereco[7:0];
+        endereco_atual <= endereco[63:0];
         
         if (mem_write == 1) begin
           Memory[endereco_atual + 7] <= write_data[7:0];
