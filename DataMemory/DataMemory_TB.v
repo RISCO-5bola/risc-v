@@ -8,7 +8,7 @@ module testbench ();
     reg [63:0] write_data;
     wire [63:0] read_data;
 
-    data_memory UUT (.clk(clk), .mem_read(mem_read), .mem_write(mem_write), .endereco(endereco), .write_data(write_data), .read_data(read_data));
+    Memory UUT (.clk(clk), .mem_read(mem_read), .mem_write(mem_write), .endereco(endereco), .write_data(write_data), .read_data(read_data));
 
     // quando da write, ele ve se deu certo usando o read em seguida
     initial begin

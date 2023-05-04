@@ -1,4 +1,4 @@
-module data_memory(input clk,      
+module Memory(input clk,      
                    input mem_read,
                    input mem_write,
                    input [7:0] endereco, //saida da ula
