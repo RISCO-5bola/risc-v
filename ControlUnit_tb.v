@@ -34,10 +34,10 @@ module control_unit_tb ();
     parameter State6 = 16'b0000_0000_0100_0100;
     parameter State7 = 16'b0000_0000_0000_0011;
     parameter State8 = 16'b0100_0000_1010_0100;
-    parameter State9 = 16'b1000_0001_0000_0000;
-    parameter State10 = 16'b0;
-    parameter State11 = 16'b0;
-    parameter State12 = 16'b0;
+    parameter State9 = 16'b0001_0001_0000_1010;
+    parameter State10 = 16'b1000_0000_0001_0000;
+    parameter State11 = 16'b0001_0000_0001_0010;
+    parameter State12 = 16'b1001_0000_0001_0100;
     parameter State13 = 16'b0000_0000_0101_0100;
 
     integer errors;
@@ -48,6 +48,8 @@ module control_unit_tb ();
         forever clk = #5 ~clk;
     end
     
+    /* A testbench mostra mem to reg como alta impedancia (z), mas quando
+       verificado no GTKWave tudo funciona como devido */
     task Check;
         input [31:0] expect;
         if (expect[31:16] !== expect[15:0]) begin
@@ -98,6 +100,11 @@ module control_unit_tb ();
               MemWrite, IRWrite, MemtoReg, PCSource1,
               PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
               ALUSrcA, RegWrite, RegDst, State9});
+       #10
+       Check({PCWrite, PCWriteCond, IorD, MemRead,
+              MemWrite, IRWrite, MemtoReg, PCSource1,
+              PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
+              ALUSrcA, RegWrite, RegDst, State10});
        #10
        Check({PCWrite, PCWriteCond, IorD, MemRead,
               MemWrite, IRWrite, MemtoReg, PCSource1,
@@ -179,7 +186,7 @@ module control_unit_tb ();
               PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
               ALUSrcA, RegWrite, RegDst, State0});
 
-       // I-addi
+       // I-addi/andi
        $display("Tipo I-addi/andi");
        op = 7'b0010011;
 
@@ -198,6 +205,50 @@ module control_unit_tb ();
               MemWrite, IRWrite, MemtoReg, PCSource1,
               PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
               ALUSrcA, RegWrite, RegDst, State7});
+       #10
+       Check({PCWrite, PCWriteCond, IorD, MemRead,
+              MemWrite, IRWrite, MemtoReg, PCSource1,
+              PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
+              ALUSrcA, RegWrite, RegDst, State0});
+
+       $display("Tipo I-jalr");
+       op = 7'b1100111;
+
+       #10
+       Check({PCWrite, PCWriteCond, IorD, MemRead,
+              MemWrite, IRWrite, MemtoReg, PCSource1,
+              PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
+              ALUSrcA, RegWrite, RegDst, State1});
+       #10
+       Check({PCWrite, PCWriteCond, IorD, MemRead,
+              MemWrite, IRWrite, MemtoReg, PCSource1,
+              PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
+              ALUSrcA, RegWrite, RegDst, State9});
+       #10
+       Check({PCWrite, PCWriteCond, IorD, MemRead,
+              MemWrite, IRWrite, MemtoReg, PCSource1,
+              PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
+              ALUSrcA, RegWrite, RegDst, State12});
+       #10
+       Check({PCWrite, PCWriteCond, IorD, MemRead,
+              MemWrite, IRWrite, MemtoReg, PCSource1,
+              PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
+              ALUSrcA, RegWrite, RegDst, State0});
+
+       $display("Tipo U-AUIPC");
+       op = 7'b0010111;
+
+       #10
+       Check({PCWrite, PCWriteCond, IorD, MemRead,
+              MemWrite, IRWrite, MemtoReg, PCSource1,
+              PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
+              ALUSrcA, RegWrite, RegDst, State1});
+       #10
+       Check({PCWrite, PCWriteCond, IorD, MemRead,
+              MemWrite, IRWrite, MemtoReg, PCSource1,
+              PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
+              ALUSrcA, RegWrite, RegDst, State11});
+
        #10
        Check({PCWrite, PCWriteCond, IorD, MemRead,
               MemWrite, IRWrite, MemtoReg, PCSource1,

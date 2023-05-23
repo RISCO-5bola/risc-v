@@ -10,7 +10,7 @@ module immediateGenerationUnit (instruction, immediate);
     wire [19:0] UTypeImmediate;
 
     wire [50:0] sign;
-    wire [43:0] signJ;
+    wire [42:0] signJ;
     wire [31:0] signU;
     wire wire1, wire2, wire3, wire4, wire5, wire6, wireU;
     wire [2:0] type;
@@ -42,7 +42,7 @@ module immediateGenerationUnit (instruction, immediate);
                    instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
                    instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
                    instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                   instruction[31], instruction[31], instruction[31], instruction[31]};
+                   instruction[31], instruction[31], instruction[31]};
 
     assign signU = {instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
                     instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
@@ -100,6 +100,6 @@ module immediateGenerationUnit (instruction, immediate);
        se type[2:0] = 011, sai o immediate do j
        se type[2:0] = 100, sai o immediate do u*/
     mux_6x1_64bit muxImmeadite (.A({sign, instruction[31], ITypeImmediate}), .B({sign, instruction[31], SWTypeImmediate}), 
-                                .C({sign, BTypeImmediate, 1'b0}), .D({signJ, JTypeImmediate}), .E({signU, UTypeImmediate, 12'b0}), 
+                                .C({sign, BTypeImmediate, 1'b0}), .D({signJ, JTypeImmediate, 1'b0}), .E({signU, UTypeImmediate, 12'b0}), 
                                 .S({type[2], type[1], type[0]}), .X(immediate));
 endmodule

@@ -215,28 +215,7 @@ module outputs_tb ();
        Check({ALUSrcA, 1'b1});
        Check({RegWrite, 1'b0});
        Check({RegDst, 1'b0});
-       /*#5
-       StateRegister = 4'd9;
-       #5*/
-       /*$display("Test #9");
-       Check({PCWrite, 1'b1});
-       Check({PCWriteCond, 1'b0});
-       Check({IorD, 1'b0});
-       Check({MemRead, 1'b0});
-       Check({MemWrite, 1'b0});
-       Check({IRWrite, 1'b0});
-       Check({MemtoReg, 1'b0});
-       Check({PCSource1, 1'b1});
-       Check({PCSource0, 1'b0});
-       Check({ALUOp1, 1'b0});
-       Check({ALUOp0, 1'b0});
-       Check({ALUSrcB1, 1'b0});
-       Check({ALUSrcB0, 1'b0});
-       Check({ALUSrcA, 1'b0});
-       Check({RegWrite, 1'b0});
-       Check({RegDst, 1'b0});*/
-       /*A partir daqui, os testes com as novas instruções de JAL, JALR e AUIPC*/
-       //Estado 9
+       // Estado 9
        #5
        StateRegister = 4'd9;
        #5
@@ -248,7 +227,7 @@ module outputs_tb ();
        Check({MemWrite, 1'b0});
        Check({IRWrite, 1'b0});
        Check({MemtoReg, 1'b0});
-       Check({PCSource1, 1'b0});
+       Check({PCSource1, 1'b1});
        Check({PCSource0, 1'b0});//not so sure
        Check({ALUOp1, 1'b0});
        Check({ALUOp0, 1'b0}); //somar é 00, certo?
@@ -319,6 +298,27 @@ module outputs_tb ();
        Check({ALUSrcB0, 1'b0});
        Check({ALUSrcA, 1'b1});
        Check({RegWrite, 1'b0});//aqui
+       Check({RegDst, 1'b0});
+       // Estado 13
+       #5
+       StateRegister = 4'd13;
+       #5
+       $display("Test #13");
+       Check({PCWrite, 1'b0});
+       Check({PCWriteCond, 1'b0});
+       Check({IorD, 1'b0});
+       Check({MemRead, 1'b0});
+       Check({MemWrite, 1'b0});
+       Check({IRWrite, 1'b0});
+       Check({MemtoReg, 1'b0});
+       Check({PCSource1, 1'b0});
+       Check({PCSource0, 1'b0});
+       Check({ALUOp1, 1'b1});
+       Check({ALUOp0, 1'b0});
+       Check({ALUSrcB1, 1'b1}); 
+       Check({ALUSrcB0, 1'b0});
+       Check({ALUSrcA, 1'b1});
+       Check({RegWrite, 1'b0});
        Check({RegDst, 1'b0});
 
        
