@@ -30,6 +30,7 @@ module control_unit (
     parameter STATE10 = 4'b1010;//estado JAL
     parameter STATE11 = 4'b1011;//estado U
     parameter STATE12 = 4'b1100;//estado JALR
+    parameter STATE13 = 4'b1011;
 
     initial begin
         StateRegister <= STATE0;

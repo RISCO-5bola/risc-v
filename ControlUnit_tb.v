@@ -35,6 +35,10 @@ module control_unit_tb ();
     parameter State7 = 16'b0000_0000_0000_0011;
     parameter State8 = 16'b0100_0000_1010_0100;
     parameter State9 = 16'b1000_0001_0000_0000;
+    parameter State10 = 16'b0;
+    parameter State11 = 16'b0;
+    parameter State12 = 16'b0;
+    parameter State13 = 16'b0000_0000_0101_0100;
 
     integer errors;
 
@@ -55,7 +59,6 @@ module control_unit_tb ();
        // add - R-type
        $display("Tipo R");
        op = 7'b0110011;
-       // op = 6'b000000;
        #5
        Check({PCWrite, PCWriteCond, IorD, MemRead,
               MemWrite, IRWrite, MemtoReg, PCSource1,
@@ -85,7 +88,6 @@ module control_unit_tb ();
        // jal
        $display("Tipo jal");
        op = 7'b1101111;
-       // op = 6'b000010;
        #10
        Check({PCWrite, PCWriteCond, IorD, MemRead,
               MemWrite, IRWrite, MemtoReg, PCSource1,
@@ -105,7 +107,6 @@ module control_unit_tb ();
        // beq
        $display("Tipo beq");
        op = 7'b1100011;
-       // op = 6'b000100;
 
        #10
        Check({PCWrite, PCWriteCond, IorD, MemRead,
@@ -126,7 +127,6 @@ module control_unit_tb ();
        // lw
        $display("Tipo lw");
        op = 7'b0000011;
-       // op = 6'b100011;
 
        #10
        Check({PCWrite, PCWriteCond, IorD, MemRead,
@@ -157,7 +157,6 @@ module control_unit_tb ();
        // sw
        $display("Tipo sw");
        op = 7'b0100011;
-       // op = 6'b101011;
 
        #10
        Check({PCWrite, PCWriteCond, IorD, MemRead,
@@ -174,6 +173,31 @@ module control_unit_tb ();
               MemWrite, IRWrite, MemtoReg, PCSource1,
               PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
               ALUSrcA, RegWrite, RegDst, State5});
+       #10
+       Check({PCWrite, PCWriteCond, IorD, MemRead,
+              MemWrite, IRWrite, MemtoReg, PCSource1,
+              PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
+              ALUSrcA, RegWrite, RegDst, State0});
+
+       // I-addi
+       $display("Tipo I-addi/andi");
+       op = 7'b0010011;
+
+       #10
+       Check({PCWrite, PCWriteCond, IorD, MemRead,
+              MemWrite, IRWrite, MemtoReg, PCSource1,
+              PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
+              ALUSrcA, RegWrite, RegDst, State1});
+       #10
+       Check({PCWrite, PCWriteCond, IorD, MemRead,
+              MemWrite, IRWrite, MemtoReg, PCSource1,
+              PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
+              ALUSrcA, RegWrite, RegDst, State13});
+       #10
+       Check({PCWrite, PCWriteCond, IorD, MemRead,
+              MemWrite, IRWrite, MemtoReg, PCSource1,
+              PCSource0, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0,
+              ALUSrcA, RegWrite, RegDst, State7});
        #10
        Check({PCWrite, PCWriteCond, IorD, MemRead,
               MemWrite, IRWrite, MemtoReg, PCSource1,
