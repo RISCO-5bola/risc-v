@@ -160,6 +160,26 @@ module next_state_tb ();
         Check1({ns[3:0], 4'b10_01});
         #5
 
+        // Teste tipo-I-addi
+        state[3:0] = 4'b00_01;
+        op[6:0] = 7'b0010011;
+        #5
+        $display("Test #14");
+        Check1({state[3:0], 4'b00_01});
+        Check2({op[6:0], 7'b0010011});
+        Check1({ns[3:0], 4'b10_11});
+        #5
+
+        // Teste tipo-I-addi
+        state[3:0] = 4'b10_11;
+        op[6:0] = 7'b0010011;
+        #5
+        $display("Test #15");
+        Check1({state[3:0], 4'b10_11});
+        Check2({op[6:0], 7'b0010011});
+        Check1({ns[3:0], 4'b01_11});
+        #5
+
         $display ("\nErrors: %d", errors);
         $finish;
     end

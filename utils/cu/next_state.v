@@ -4,7 +4,7 @@ module next_state (
     output [3:0] ns
 );
     wire wire0, wire1, wire2, wire3, wire4, wire5, wire6, wire7,
-         wire8, wire9, wire10, wire11, wire12, wire13;
+         wire8, wire9, wire10, wire11, wire12, wire13, wire14, wire15;
 
     /* tipo j current state 1 para next state 9*/
     and (wire0, op[6], op[5], ~op[4], op[3], op[2], op[1], op[0], ~state[3], ~state[2], ~state[1], state[0]);
@@ -47,10 +47,19 @@ module next_state (
 
     /* tipo I-Jalr current state 1 para next state 9*/
     and (wire13, op[6], op[5], ~op[4], ~op[3], op[2], op[1], op[0], ~state[3], ~state[2], ~state[1], state[0]);
-   
-    or (ns[0], wire9, wire8, wire3, wire5, wire0, wire12, wire13);
-    or (ns[1], wire2, wire6, wire8, wire5, wire10, wire12, wire7);
-    or (ns[2], wire2, wire3, wire4, wire5, wire11);
-    or (ns[3], wire0, wire1, wire10, wire11, wire12, wire13);
+
+    /* tipo I-addi current state 1 para next state 13 */
+    and (wire14, ~op[6], ~op[5], op[4], ~op[3], ~op[2], op[1], op[0], ~state[3], ~state[2], ~state[1], state[0]);
+
+    /* tipo I-addi current sate 13 para next state 7 */
+    and (wire15, ~op[6], ~op[5], op[4], ~op[3], ~op[2], op[1], op[0], state[3], ~state[2], state[1], state[0]);
+
+    or (ns[3], wire0, wire1, wire10, wire11, wire12, wire13, wire14); 
+    or (ns[2], wire2, wire3, wire4, wire5, wire11, wire15);
+    or (ns[1], wire2, wire6, wire8, wire5, wire10, wire12, wire7, wire14, wire15);
+    or (ns[0], wire9, wire8, wire3, wire5, wire0, wire12, wire13, wire14, wire15);
+    
+    
+    
 
 endmodule
