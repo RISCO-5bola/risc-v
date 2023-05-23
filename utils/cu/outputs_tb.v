@@ -249,7 +249,7 @@ module outputs_tb ();
        Check({IRWrite, 1'b0});
        Check({MemtoReg, 1'b0});
        Check({PCSource1, 1'b0});
-       Check({PCSource0, 1'b0});//not so sure
+       Check({PCSource0, 1'b1});//not so sure
        Check({ALUOp1, 1'b0});
        Check({ALUOp0, 1'b0}); //somar é 00, certo?
        Check({ALUSrcB1, 1'b1}); //aqui
@@ -291,7 +291,7 @@ module outputs_tb ();
        Check({IRWrite, 1'b0});
        Check({MemtoReg, 1'b0});
        Check({PCSource1, 1'b0});
-       Check({PCSource0, 1'b0});
+       Check({PCSource0, 1'b1});
        Check({ALUOp1, 1'b0});
        Check({ALUOp0, 1'b0});
        Check({ALUSrcB1, 1'b1}); 

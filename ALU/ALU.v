@@ -1,14 +1,19 @@
-`include "./operations/and.v"
-`include "./operations/Adder64b_mod.v"
-`include "./operations/or.v"
-`include "./mux_3x1_64bit_ALU.v"
+`include "./ALU/operations/and.v"
+`include "./ALU/operations/Adder64b_mod.v"
+`include "./ALU/operations/or.v"
+`include "./ALU/mux_3x1_64bit_ALU.v"
 
 module ALU (
     input [63:0] A,
     input [63:0] B,
     input [3:0] ALUOp,
     output [63:0] result,
-    output zero
+    output equal,
+    output not_equal,
+    output lesser_than,
+    output greater_or_equal,
+    output unsigned_lesser,
+    output unsigned_greater_equal
 );
     wire [63:0] resAddSub;
     wire overflow;
@@ -25,9 +30,9 @@ module ALU (
     */
     mux_3x1_64bit_ALU mux_3x1_64bit_ALU(.S(ALUOp), .A(resAddSub), .B(resAnd), .C(resOr), .X(result));
     
-    /* Por ultimo, calcula-se se o resultado vale zero por meio de um nor com todos os bits do resultado.
+    /* Por ultimo, calcula-se se o resultado vale equal por meio de um nor com todos os bits do resultado.
        Esse valor e utilizado para a branch na instrucao beq */
-    nor (zero,
+    nor (equal,
     result[0],
     result[1],
     result[2],
@@ -93,4 +98,15 @@ module ALU (
     result[62],
     result[63]
     );
+
+    assign not_equal = ~equal;
+
+    // signed lesser & greater_or_equal:
+    assign lesser_than = result[63];
+    assign greater_or_equal = ~lesser_than;
+
+    // unsigned lesser & greater_or_equal:
+
+    assign unsigned_lesser = A < B ? 1'b1 : 1'b0;
+    assign unsigned_greater_equal = ~unsigned_lesser;
 endmodule

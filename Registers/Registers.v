@@ -111,44 +111,9 @@ reg_parametrizado reg31(.clk(clk), .load(load31), .in_data(writeData), .out_data
 
 // como o sinal tem so 1 load, precisa ter o load para o registrador
 // especifico somente
-always @(writeRegister) begin
+always @(*) begin
     if (regWrite == 1) begin
         case (writeRegister)
-
-            5'b0 : begin 
-                load0 <= 1'b1;
-                load1 <= 1'b0;
-                load2 <= 1'b0;
-                load3 <= 1'b0;
-                load4 <= 1'b0;
-                load5 <= 1'b0;
-                load6 <= 1'b0;
-                load7 <= 1'b0;
-                load8 <= 1'b0;
-                load9 <= 1'b0;
-                load10 <= 1'b0;
-                load11 <= 1'b0;
-                load12 <= 1'b0;
-                load13 <= 1'b0;
-                load14 <= 1'b0;
-                load15 <= 1'b0;
-                load16 <= 1'b0;
-                load17 <= 1'b0;
-                load18 <= 1'b0;
-                load19 <= 1'b0;
-                load20 <= 1'b0;
-                load21 <= 1'b0;
-                load22 <= 1'b0;
-                load23 <= 1'b0;
-                load24 <= 1'b0;
-                load25 <= 1'b0;
-                load26 <= 1'b0;
-                load27 <= 1'b0;
-                load28 <= 1'b0;
-                load29 <= 1'b0;
-                load30 <= 1'b0;
-                load31 <= 1'b0;
-            end
             5'h1 : begin 
                 load0 <= 1'b0;
                 load1 <= 1'b1;
@@ -1202,6 +1167,40 @@ always @(writeRegister) begin
                 load30 <= 1'b0;
                 load31 <= 1'b1;
             end
+            default: begin
+                load0 <= 1'b0;
+                load1 <= 1'b0;
+                load2 <= 1'b0;
+                load3 <= 1'b0;
+                load4 <= 1'b0;
+                load5 <= 1'b0;
+                load6 <= 1'b0;
+                load7 <= 1'b0;
+                load8 <= 1'b0;
+                load9 <= 1'b0;
+                load10 <= 1'b0;
+                load11 <= 1'b0;
+                load12 <= 1'b0;
+                load13 <= 1'b0;
+                load14 <= 1'b0;
+                load15 <= 1'b0;
+                load16 <= 1'b0;
+                load17 <= 1'b0;
+                load18 <= 1'b0;
+                load19 <= 1'b0;
+                load20 <= 1'b0;
+                load21 <= 1'b0;
+                load22 <= 1'b0;
+                load23 <= 1'b0;
+                load24 <= 1'b0;
+                load25 <= 1'b0;
+                load26 <= 1'b0;
+                load27 <= 1'b0;
+                load28 <= 1'b0;
+                load29 <= 1'b0;
+                load30 <= 1'b0;
+                load31 <= 1'b0;
+            end
         endcase
     end else begin
         load0 <= 1'b0;
@@ -1240,7 +1239,7 @@ always @(writeRegister) begin
     
 end
 
-always @(readRegister1, readRegister2) begin
+always @(*) begin
         case (readRegister1)
             5'b0 : readData1 = register0;
             5'h1 : readData1 = register1;

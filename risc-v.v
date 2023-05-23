@@ -10,6 +10,8 @@
 `include "./ALU/ALU.v"
 `include "./mux/mux_2x1_64bit.v"
 `include "./mux/mux_3x1_64bit.v"
+`include "./mux/mux_2x1_64bit_S2.v"
+`include "./mux/mux_6x1_1b.v"
 `include "./Registers/inst_reg.v"
 
 /* Este modulo e o risc-v em si, como mostrado no diagrama do readme inicial */
@@ -18,15 +20,18 @@ module riscv (
     input reset,
     input clk
 );
+
     initial begin
-        $dumpfile("my_dumpfile.vcd"); 
+        $dumpfile("wave.vcd");
+
         $dumpvars(0, riscv);
+
     end
     /* 
         Wires especificados. Para localizar exatamente
         as entradas e as saidas, verificar o arquivo
         datapath.png
-     */
+    */
 
     /* outputs do control */
     wire PCWrite, PCWriteCond, IorD, IRWrite;
@@ -62,7 +67,7 @@ module riscv (
 
     /* saida da ALU */
     wire [63:0] ALUResult;
-    wire zero;
+    wire selectedFlag;
 
     /* saida do immediate generator */
     wire [63:0] immGenParaMux2;
@@ -73,22 +78,28 @@ module riscv (
     /* resultado do and do branch */
     wire andBranch;
 
-    and (andBranch, PCWriteCond, zero);
+    /* flags enviadas pela ALU */
+    wire [5:0] flags;
+    mux6x1_1b mux6x1_1b (.BEQ(flags[5]), .BNE(flags[4]), .BLT(flags[3]),
+                         .BGE(flags[2]), .BLTU(flags[1]), .BGEU(flags[0]),
+                         .funct3(instrRegOut[14:12]), .selectedFlag(selectedFlag));
+    
+    and (andBranch, PCWriteCond, selectedFlag);
     or (orParaPC, andBranch, PCWrite);
     
-    PC programCounter (.clk(clk), .load(orParaPC), .in_data(nextPCPosition), .out_data(PCout));
+    PC programCounter (.clk(clk), .load(orParaPC), .in_data(nextPCPosition), .out_data(PCout), .reset(reset));
     mux_2x1_64bit muxPC (.A(PCout), .B(regALUout), .S(IorD), .X(instructionAddress));
 
     Memory mem (.mem_read(MemRead), .mem_write(MemWrite), .endereco(instructionAddress), 
-                .write_data(regBparaMux2), .read_data(dataReadFromMemory));
+                .write_data(regBparaMux2), .read_data(dataReadFromMemory), .clk(clk));
     
-    inst_reg instrReg (.clk(clk), .load(IRWrite), .in_data(dataReadFromMemory[31:0]),
+    inst_reg instrReg (.clk(clk), .load(IRWrite), .in_data(dataReadFromMemory[63:32]),
                                 .out_data(instrRegOut));
 
     reg_parametrizado memDataRegister (.clk(clk), .load(1'b1), .in_data(dataReadFromMemory),
                                         .out_data(memDataReg));
 
-    mux_2x1_64bit muxReg (.A(regALUout), .B(memDataReg), .S(MemtoReg), .X(dataToWrite));
+    mux_2x1_64bit muxRegWriteData (.A(regALUout), .B(memDataReg), .S(MemtoReg), .X(dataToWrite));
 
     ControlUnit control (.op({
         instrRegOut[6],
@@ -97,7 +108,7 @@ module riscv (
         instrRegOut[3],
         instrRegOut[2],
         instrRegOut[1],
-        instrRegOut[0]}),
+        instrRegOut[0]}), .reset(reset),
         .clk(clk), .PCWrite(PCWrite), .PCWriteCond(PCWriteCond), .IorD(IorD),
         .MemRead(MemRead), .MemWrite(MemWrite), .IRWrite(IRWrite), .MemtoReg(MemtoReg),
         .PCSource1(PCSource1), .PCSource0(PCSource0), .ALUOp1(ALUOp1), .ALUOp0(ALUOp0),
@@ -109,14 +120,12 @@ module riscv (
         instrRegOut[30],
         instrRegOut[14],
         instrRegOut[13],
-        instrRegOut[12]}), 
+        instrRegOut[12]}),
+        .opcode(instrRegOut[6:0]),
         .operation(ALUOp));
 
-    immediateG immgen (.inst(instrRegOut), .imm(immGenParaMux2));
+    immediateG immgen (.instruction(instrRegOut), .immediate(immGenParaMux2));
     
-    Memory datamem (.clk(clk), .mem_read(MemRead), .mem_write(MemWrite), .endereco(ALUResult), 
-                    .write_data(dataReadRegister2), .read_data(dataReadFromMemory));
-
     Registers regs (
         .readRegister1({
             instrRegOut[19],
@@ -141,17 +150,18 @@ module riscv (
         .writeData(dataToWrite),
         .regWrite(RegWrite),
         .clk(clk),
-        .readData1 (readData1paraRegA), 
-        .readData2(dataReadRegister2));
+        .readData1(readData1paraRegA), 
+        .readData2(readData2paraRegB));
 
     reg_parametrizado regA (.clk(clk), .load(1'b1), .in_data(readData1paraRegA), .out_data(regAparaMux1));
     mux_2x1_64bit mux1ALU (.A(instructionAddress), .B(regAparaMux1), .S(ALUSrcA), .X(mux1paraALU));
 
     reg_parametrizado regB (.clk(clk), .load(1'b1), .in_data(readData2paraRegB), .out_data(regBparaMux2));
-    mux_3x1_64bit mux2ALU (.A(regBparaMux2), .B(64'd4), .C(immGenParaMux2), .S({ALUSrcB0, ALUSrcB1}), .X(mux2paraALU));
+    mux_3x1_64bit mux2ALU (.A(regBparaMux2), .B(64'd4), .C(immGenParaMux2), .S({ALUSrcB1, ALUSrcB0}), .X(mux2paraALU));
 
-    ALU alu (.A(mux1paraALU), .B(mux2paraALU), .ALUOp(ALUOp), .result(ALUResult), .zero(zero));
+    ALU alu (.A(mux1paraALU), .B(mux2paraALU), .ALUOp(ALUOp), .result(ALUResult), .equal(flags[5]), .not_equal(flags[4]), .lesser_than(flags[3]), 
+             .greater_or_equal(flags[2]), .unsigned_lesser(flags[1]), .unsigned_greater_equal(flags[0]));
 
     reg_parametrizado ALUout (.clk(clk), .load(1'b1), .in_data(ALUResult), .out_data(regALUout));
-    mux_2x1_64bit mux3ALUout (.A(ALUResult), .B(regALUout), .S(PCSource0), .X(nextPCPosition));
+    mux_2x1_64bit_S2 mux3ALUout (.A(ALUResult), .B(regALUout), .S({PCSource1, PCSource0}), .X(nextPCPosition));
 endmodule

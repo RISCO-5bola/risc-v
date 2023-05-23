@@ -98,13 +98,13 @@ module outputs (
     assign IRWrite = WireState0;
     assign MemtoReg = WireState4;
     assign PCSource1 = WireState9;
-    assign PCSource0 = WireState8;
+    or (PCSource0, WireState8, WireState10, WireState12);
     or (ALUOp1, WireState6, WireState13);
     assign ALUOp0 = WireState8;
     or (ALUSrcB1, WireState1, WireState2, WireState10, WireState11, WireState12, WireState13);
     or (ALUSrcB0, WireState0, WireState1, WireState9);
     or (ALUSrcA, WireState2, WireState6, WireState8, WireState12, WireState13);
-    or (RegWrite, WireState4, WireState7, WireState9, WireState11);
+    or (RegWrite, WireState4, WireState7, WireState9);
     assign RegDst = WireState7;
 
     

@@ -180,6 +180,16 @@ module next_state_tb ();
         Check1({ns[3:0], 4'b01_11});
         #5
 
+        // Teste tipo-U-AUIPC
+        state[3:0] = 4'b10_11;
+        op[6:0] = 7'b0010111;
+        #5
+        $display("Test #16");
+        Check1({state[3:0], 4'b10_11});
+        Check2({op[6:0], 7'b0010111});
+        Check1({ns[3:0], 4'b01_11});
+        #5
+
         $display ("\nErrors: %d", errors);
         $finish;
     end
