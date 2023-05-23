@@ -215,10 +215,10 @@ module outputs_tb ();
        Check({ALUSrcA, 1'b1});
        Check({RegWrite, 1'b0});
        Check({RegDst, 1'b0});
-       #5
+       /*#5
        StateRegister = 4'd9;
-       #5
-       $display("Test #9");
+       #5*/
+       /*$display("Test #9");
        Check({PCWrite, 1'b1});
        Check({PCWriteCond, 1'b0});
        Check({IorD, 1'b0});
@@ -234,6 +234,93 @@ module outputs_tb ();
        Check({ALUSrcB0, 1'b0});
        Check({ALUSrcA, 1'b0});
        Check({RegWrite, 1'b0});
+       Check({RegDst, 1'b0});*/
+       /*A partir daqui, os testes com as novas instruções de JAL, JALR e AUIPC*/
+       //Estado 9
+       #5
+       StateRegister = 4'd9;
+       #5
+       $display("Test #9");
+       Check({PCWrite, 1'b0});
+       Check({PCWriteCond, 1'b0});
+       Check({IorD, 1'b0});
+       Check({MemRead, 1'b1});
+       Check({MemWrite, 1'b0});
+       Check({IRWrite, 1'b0});
+       Check({MemtoReg, 1'b0});
+       Check({PCSource1, 1'b0});
+       Check({PCSource0, 1'b0});//not so sure
+       Check({ALUOp1, 1'b0});
+       Check({ALUOp0, 1'b0}); //somar é 00, certo?
+       Check({ALUSrcB1, 1'b0});
+       Check({ALUSrcB0, 1'b1});
+       Check({ALUSrcA, 1'b0});
+       Check({RegWrite, 1'b1});
        Check({RegDst, 1'b0});
+       //Estado 10
+       #5
+       StateRegister = 4'd10;
+       #5
+       $display("Test #10");
+       Check({PCWrite, 1'b1}); //aqui
+       Check({PCWriteCond, 1'b0});
+       Check({IorD, 1'b0});
+       Check({MemRead, 1'b0});
+       Check({MemWrite, 1'b0});
+       Check({IRWrite, 1'b0});
+       Check({MemtoReg, 1'b0});
+       Check({PCSource1, 1'b0});
+       Check({PCSource0, 1'b0});//not so sure
+       Check({ALUOp1, 1'b0});
+       Check({ALUOp0, 1'b0}); //somar é 00, certo?
+       Check({ALUSrcB1, 1'b1}); //aqui
+       Check({ALUSrcB0, 1'b0});
+       Check({ALUSrcA, 1'b0});
+       Check({RegWrite, 1'b0});
+       Check({RegDst, 1'b0});
+       //Estado 11
+       #5
+       StateRegister = 4'd11;
+       #5
+       $display("Test #11");
+       Check({PCWrite, 1'b0});
+       Check({PCWriteCond, 1'b0});
+       Check({IorD, 1'b0});
+       Check({MemRead, 1'b1}); //aqui
+       Check({MemWrite, 1'b0});
+       Check({IRWrite, 1'b0});
+       Check({MemtoReg, 1'b0});
+       Check({PCSource1, 1'b0});
+       Check({PCSource0, 1'b0});
+       Check({ALUOp1, 1'b0});
+       Check({ALUOp0, 1'b0});
+       Check({ALUSrcB1, 1'b1}); 
+       Check({ALUSrcB0, 1'b0});
+       Check({ALUSrcA, 1'b0});
+       Check({RegWrite, 1'b1});//aqui
+       Check({RegDst, 1'b0});
+       //Estado 12
+       #5
+       StateRegister = 4'd12;
+       #5
+       $display("Test #12");
+       Check({PCWrite, 1'b1});
+       Check({PCWriteCond, 1'b0});
+       Check({IorD, 1'b0});
+       Check({MemRead, 1'b1}); //aqui
+       Check({MemWrite, 1'b0});
+       Check({IRWrite, 1'b0});
+       Check({MemtoReg, 1'b0});
+       Check({PCSource1, 1'b0});
+       Check({PCSource0, 1'b0});
+       Check({ALUOp1, 1'b0});
+       Check({ALUOp0, 1'b0});
+       Check({ALUSrcB1, 1'b1}); 
+       Check({ALUSrcB0, 1'b0});
+       Check({ALUSrcA, 1'b1});
+       Check({RegWrite, 1'b0});//aqui
+       Check({RegDst, 1'b0});
+
+       
     end
 endmodule

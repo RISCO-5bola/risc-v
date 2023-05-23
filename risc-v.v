@@ -114,7 +114,8 @@ module riscv (
 
     immediateG immgen (.inst(instrRegOut), .imm(immGenParaMux2));
     
-    Memory datamem (.clk(clk), .mem_read(MemRead), .mem_write(MemWrite), .endereco(ALUResult), .write_data(dataReadRegister2), .read_data(dataReadFromMemory));
+    Memory datamem (.clk(clk), .mem_read(MemRead), .mem_write(MemWrite), .endereco(ALUResult), 
+                    .write_data(dataReadRegister2), .read_data(dataReadFromMemory));
 
     Registers regs (
         .readRegister1({

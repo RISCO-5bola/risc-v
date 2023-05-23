@@ -1,4 +1,4 @@
-module ControlUnit_tb ();
+module control_unit_tb ();
     reg [6:0] op;
     reg clk;
     wire PCWrite;
@@ -18,7 +18,7 @@ module ControlUnit_tb ();
     wire RegWrite;
     wire RegDst;
     
-    ControlUnit UUT(.op(op), .PCWrite(PCWrite), .PCWriteCond(PCWriteCond), .IorD(IorD),
+    control_unit UUT(.op(op), .PCWrite(PCWrite), .PCWriteCond(PCWriteCond), .IorD(IorD),
                      .MemRead(MemRead), .MemWrite(MemWrite), .IRWrite(IRWrite),
                      .MemtoReg(MemtoReg), .PCSource1(PCSource1), .PCSource0(PCSource0),
                      .ALUOp1(ALUOp1), .ALUOp0(ALUOp0), .ALUSrcB1(ALUSrcB1),
