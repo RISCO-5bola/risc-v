@@ -161,7 +161,7 @@ module riscv (
 
     ALU alu (.A(mux1paraALU), .B(mux2paraALU), .ALUOp(ALUOp), .result(ALUResult), .equal(flags[5]), .not_equal(flags[4]), .lesser_than(flags[3]), 
              .greater_or_equal(flags[2]), .unsigned_lesser(flags[1]), .unsigned_greater_equal(flags[0]));
-
+    
     reg_parametrizado ALUout (.clk(clk), .load(1'b1), .in_data(ALUResult), .out_data(regALUout));
     mux_2x1_64bit_S2 mux3ALUout (.A(ALUResult), .B(regALUout), .S({PCSource1, PCSource0}), .X(nextPCPosition));
 endmodule

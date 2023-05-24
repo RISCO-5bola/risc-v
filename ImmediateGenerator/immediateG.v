@@ -66,11 +66,11 @@ module immediateG (instruction, immediate);
     nand (wire3, ~instruction[6], instruction[5], ~instruction[4], ~instruction[3],
                ~instruction[2], instruction[1], instruction[0]);
 
-    /* reconhece se a instrucao e j */
+    /* reconhece se a instrucao e j !!!!*/
     and (wire4, instruction[6], instruction[5], ~instruction[4], instruction[3],
                instruction[2], instruction[1], instruction[0]);
 
-    /* reconhece se a instrucao e U*/
+    /* reconhece se a instrucao e U !!!!*/
     and (wireU, ~instruction[6], ~instruction[5], instruction[4], ~instruction[3],
                instruction[2], instruction[1], instruction[0]);
 
@@ -97,4 +97,9 @@ module immediateG (instruction, immediate);
     mux_6x1_64bit muxImmeadite (.A({sign, instruction[31], ITypeImmediate}), .B({sign, instruction[31], SWTypeImmediate}), 
                                 .C({sign, BTypeImmediate, 1'b0}), .D({signJ[43:1], JTypeImmediate, 1'b0}), .E({signU, UTypeImmediate, 12'b0}), 
                                 .S({type[2], type[1], type[0]}), .X(immediate));
+
+    
+    
+    Adder64b_mod adderPCMinus4 (.A(PCout), .B(64'd4), .SUB(1'b1), .S(PCMinus4))
+   
 endmodule

@@ -33,7 +33,7 @@ module next_state (
     /* tipo lw current state 2 para next state 3 */
     and (wire8, ~op[6], ~op[5], ~op[4], ~op[3], ~op[2], op[1], op[0], ~state[3], ~state[2], state[1], ~state[0]);
 
-    /* current state 0 */
+    /* current state 0 para next state 1 */
     and (wire9, ~state[3], ~state[2], ~state[1], ~state[0]);
 
     /* tipo jal current state 9 para next state 10 */
