@@ -69,6 +69,9 @@ Abaixo está o datapath dessa entrega (baseado no livro Computer Organization an
  ![controlunit](https://raw.githubusercontent.com/RISCO-5bola/risc-v/main/ControlUnit.jpeg)
  
  Optamos por fazer as funções de próximo estado e de saídas de forma estrutural e em módulos separados, buscando evitar bugs de atraso de clock usando o bloco always. Por outro lado, deixamos tudo comentado para que, cada vez que adicionamos um estado novo, possamos alterar tudo sem muitos problemas.
+
+ Abaixo, está a representação da máquina de estados da Unidade de Controle multiciclo.
+ ![estados](https://raw.githubusercontent.com/RISCO-5bola/risc-v/main/estados_uc.png)
  
 ## Ondas analisadas
  Nos comentários do arquivo index_tb.v, são mostradas os valores esperados para os registradores após cada uma das instruções. Sendo assim, a descrição da testagem das instruções implementadas está presente no arquivo citado (index_tb.v)
