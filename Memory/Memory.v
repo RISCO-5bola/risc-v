@@ -131,30 +131,30 @@ module Memory(input clk,
 
      // imm[11:0] rs1 000 rd 1100111 JALR rs1 = x5 rd = x5
      /* Alterado, somar 4*/
-     Memory[1118] = 8'b1_1100111;  
-     Memory[1117] = 8'b1_000_0010; 
-     Memory[1116] = 8'b0000_0010;
-     Memory[1115] = 8'b00000000;
+     Memory[1114] = 8'b1_1100111;  
+     Memory[1113] = 8'b1_000_0010; 
+     Memory[1112] = 8'b0000_0010;
+     Memory[1111] = 8'b00000000;
 
      // imm[11:0] rs1 000 rd 0010011 imm = 3 rd = x6
      /* suspeito alterar posicao inicial */
-     Memory[1106] = 8'b0_0010011;  
-     Memory[1105] = 8'b1_000_0011; 
-     Memory[1104] = 8'b0011_0000;
-     Memory[1103] = 8'b00000000;
+     Memory[1102] = 8'b0_0010011;  
+     Memory[1101] = 8'b1_000_0011; 
+     Memory[1100] = 8'b0011_0000;
+     Memory[1099] = 8'b00000000;
 
      // imm[11:0] rs1 000 rd 0010011 imm = -1 rd = x6
      /* suspeito alterar posicao inicial */
-     Memory[1110] = 8'b0_0010011;  
-     Memory[1109] = 8'b1_000_0011; 
-     Memory[1108] = 8'b1110_0001;
+     Memory[1106] = 8'b0_0010011;  
+     Memory[1105] = 8'b1_000_0011; 
+     Memory[1104] = 8'b1110_0001;
+     Memory[1103] = 8'b11111111;
+
+     // imm[31:12] rd 0010111 AUIPC imm -8
+     Memory[1110] = 8'b0_0010111;  
+     Memory[1109] = 8'b1000_0011; 
+     Memory[1108] = 8'b11111111;
      Memory[1107] = 8'b11111111;
-     
-     // imm[31:12] rd 0010111 AUIPC imm 8
-     Memory[1114] = 8'b0_0010111;  
-     Memory[1113] = 8'b1000_0011; 
-     Memory[1112] = 8'b00000000;
-     Memory[1111] = 8'b00000000;
    end
    
    assign read_data = {Memory[endereco + 0], Memory[endereco + 1], 

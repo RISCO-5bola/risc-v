@@ -1,62 +1,84 @@
-`timescale 1ns / 100 ps
+module immediateG_tb ();
+    reg [31:0] instruction;
+    wire signed [63:0] immediate;
 
-module immediateG_tb();
-    reg [31:0]inst_tb;
-    wire [63:0] imm_tb;
+    immediateG UUT(.instruction(instruction), .immediate(immediate));
 
-    immediateG uut (.inst(inst_tb), .imm(imm_tb));
-
+    /* funcionando */
     initial begin
-       
-        //CASO DEFAULT 
-        inst_tb = 32'b0;
-        #20 /*Intervalo setado para garantir que os bits foram comunicados*/
-        $display("CASO DEFAULT");
-        $display("Immediate = %b\n", imm_tb);
-        if(imm_tb == 64'b0)
-            $display("OK\n"); 
-        else
-            $display("Erro");
-        #20
+        #10
+        /* addi -> imm = 2*/
+        instruction = 32'b000000000010_00000_000_00000_0010011;        
+        #10
+        $display("Imm (addi) = %d", immediate);
 
-        //BEQ
-        inst_tb = 32'b0000111111111111111111110_1100011;
-        #20
-        $display ("\nCASO BEQ");
-        $display("Immediate = %b\n", imm_tb);
-        if(imm_tb == {52'b0, 12'b000001111111})
-            $display("OK\n");
-        else
-            $display("Erro");
-        //LW
-        inst_tb = 32'b0101010101010111111111111_0000011;
-        #20
-        $display("\nCASO LW");
-        $display("Immediate = %b\n", imm_tb);
-        if(imm_tb == {52'b0, 12'b010101010101})
-            $display("OK\n");
-        else
-            $display("Erro");
+        /* addi -> imm = -2*/
+        instruction = 32'b111111111110_00000_000_00000_0010011;
+        #10
+        $display("Imm (addi) = %d", immediate);
 
-        //SW
-        inst_tb = 32'b0101010111111111111110101_0100011;
-        #20
-        $display("\nCASO SW");
-        $display("Immediate = %b\n", imm_tb);
-        if(imm_tb == {52'b0, 12'b010101010101})
-            $display("OK\n");
-        else
-            $display("Erro");
+        /* lw -> imm = 4*/
+        instruction = 32'b000000000100_00000_010_00000_0000011;
+        #10
+        $display("Imm (lw) = %d", immediate);
+            
+        /* lw -> imm = -4*/
+        instruction = 32'b111111111100_00000_010_00000_0000011;
+        #10
+        $display("Imm (lw) = %d", immediate);
+            
+        /* sw -> imm = 8*/
+        instruction = 32'b0000000_00000_00000_010_01000_0100011;
+        #10
+        $display("Imm (sw) = %d", immediate);
+            
+        /* sw -> imm = -8*/
+        instruction = 32'b1111111_00000_00000_010_11000_0100011;
+        #10
+        $display("Imm (sw) = %d", immediate);
 
-        //J                                           
-        inst_tb = 32'b1_00111100_1_0011111100_00000_1101111;
-        #20
-        $display("\nCASO J");
-        $display("Immediate = %b\n", imm_tb);
-        if(imm_tb == {42'b0, 20'b1_0011111100_1_00111100})
-            $display("OK\n");
-        else
-            $display("Erro");
-        $finish; 
+        /* b -> imm = 16*/
+        instruction = 32'b0000000_00000_00000_000_1000_0_1100011;
+        #10
+        $display("Imm (b) = %d", immediate);
+            
+        /* b -> imm = -16*/
+        instruction = 32'b1111111_00000_00000_000_1000_1_1100011;
+        #10
+        $display("Imm (b) = %d", immediate);
+
+        /* jal -> imm = 32*/
+        instruction = 32'b0_0000100000_0_00000000_00000_1101111;
+        #10
+        $display("Imm (jal) = %d", immediate);
+            
+        /* jal -> imm = -32*/
+        instruction = 32'b1_1111100000_1_11111111_00000_1101111;
+        #10
+        $display("Imm (jal) = %d", immediate);
+
+        /* u -> imm = 4096*/ 
+        instruction = 32'b00000000000000000001_00000_0010111;
+        #10
+        $display("Imm (u) = %d", immediate);
+            
+        /* u -> imm = -4096*/
+        instruction = 32'b11111111111111111111_00000_0010111;
+        #10
+        $display("Imm (u) = %d", immediate);
+
+        /* jalr -> imm = -64*/
+        instruction = 32'b111111000000_00000_000_00000_1100111;
+        #10
+        $display("Imm (jalr) = %d", immediate);
+            
+        /* jalr -> imm = 64*/
+        instruction = 32'b000001000000_00000_000_00000_1100111;
+        #10
+        $display("Imm (jalr) = %d", immediate);
+
+
+        $finish;
+            
     end
 endmodule
