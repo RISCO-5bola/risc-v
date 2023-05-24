@@ -10,9 +10,15 @@
 
  - Situação do processador: estamos ajustando o fluxo de dados do processador multiciclo RV64I (que será atualizado para RV64F).
  
-## Compilação
- O comando para rodar é:
+## Como rodar
+ Comando para compilar:
  ``iverilog risc-v.v risc-v_tb.v``
+ 
+ Comando para rodar:
+ ``./a.out``
+
+ Comando para visualizar no GTKWave:
+ ``gtkwave wave.vcd``
  
  Sistema operacional usado: Linux Mint (Debian/Ubuntu).
 
@@ -37,18 +43,25 @@ As seguintes instruções foram implementadas:
 | BLTU | branch if less than (unsigned) | compara dois valores unsigned e pula para uma instrução específica se rs1 for menor que rs2 |
 | BGEU | branch if greater than or equal to(unsigned) | compara dois unsigned valores e pula para uma instrução específica se rs1 for maior que rs2 |
 
-## Datapath
-Abaixo está o datapath dessa entrega:
-![datapath](https://raw.githubusercontent.com/RISCO-5bola/risc-v/main/datapath_patterson.png)
+### Operações do tipo J (salto de instruções não condicional):
+| Instrução | Função        | Descrição                                                               |
+|  JAL      | Jump and Link | Salva o valor do PC somado de um immediate em um registrador, então salva para uma dada posição da memória - ou seja, incrementa um valor no 
 
-Atenção: o papel da Unidade de controle é feito pela testbench.
+
+
+## Datapath
+Abaixo está o datapath dessa entrega (baseado no livro Computer Organization and Design The Hardware Software Interface [RISC-V Edition] de David A. Patterson e John L. Hennessy):
+![datapath](https://raw.githubusercontent.com/RISCO-5bola/risc-v/main/datapath_patterson.png)
 
 ## Ondas analisadas
  Nos comentários do arquivo index_tb.v, são mostradas os valores esperados para os registradores após cada uma das instruções. Sendo assim, a descrição da testagem das instruções implementadas está presente no arquivo citado (index_tb.v)
 
- As instruções em binário estão no arquivo ./Memory/InstructionMemory.v e seguem o Instruction Set oficial do RISC-V.
+ As instruções em binário estão no arquivo ./Memory/Memory.v e seguem o Instruction Set oficial do RISC-V. Como os dados e as instruções estão na mesma memória, considerou-se que os dados iniciam na posição 0 da memória e os dados na posição 1023.
  
  Atenção: cada um dos módulos foi testado individualmente e verificado no GTKWave para que tivesse o comportamento esperando. Portanto, os outros testes estão presentes nos arquivos *_tb.v presentes espalhados nas respectivas pastas, sempre próximos do módulo testado.
  
- Abaixo, uma imagem da análise de sinais:
- ![wave](https://raw.githubusercontent.com/RISCO-5bola/datapath-temporario-riscv/main/wave.png?token=GHSAT0AAAAAACAU3YLC2AR233ZUTEXGXT6GZC3ZQXQ)
+ ## GTKWave
+ Deixamos um arquivo chamado waveDoGrupo.vcd com as ondas geradas pelo grupo no último teste realizado e condizente com as instruções implementadas. 
+ 
+ Para rodar, use o comando:
+ ``gtkwave waveDoGrupo.vcd``
