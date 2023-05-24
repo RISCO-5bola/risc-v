@@ -39,7 +39,7 @@ As seguintes instruções foram implementadas:
 
 ## Datapath
 Abaixo está o datapath dessa entrega:
-![datapath](https://raw.githubusercontent.com/RISCO-5bola/datapath-temporario-riscv/main/index.png?token=GHSAT0AAAAAACAU3YLCXNCQSDEALBY7I6HEZC3ZOPQ)
+![datapath](https://raw.githubusercontent.com/RISCO-5bola/risc-v/main/datapath_patterson.png)
 
 Atenção: o papel da Unidade de controle é feito pela testbench.
 
