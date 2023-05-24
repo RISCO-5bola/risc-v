@@ -25,17 +25,23 @@
 ## Instruções implementadas
 As seguintes instruções foram implementadas:
 
-### Operações básicas aritméticas: (tipo R e I):
+### Operações básicas aritméticas com registradores: (tipo R):
 | Instrução | Função        | Descrição                                                               |
 |-----------|---------------|-------------------------------------------------------------------------|
 | add       | add           | soma entre valores de dois registradores do banco de registradores      |
 | sub       | sub           | subtração entre valores de dois registradores do banco de registradores |
-| addi      | add immediate | soma um valor de um registrador com uma dada constante                  |
-| subi      | sub immediate | essa instrução é apenas um addi com a constante (immediate) negativa    |
+
+
+### Operações com immediate: (Tipo I):
+| Instrução | Função        | Descrição                                                                   |
+|-----------|---------------|-----------------------------------------------------------------------------|
+| addi      | add immediate | soma um valor de um registrador com uma dada constante                      |
+| subi      | sub immediate | essa instrução é apenas um addi com a constante (immediate) negativa        |
+| jalr      | jump link reg | salva em registrador o PC +4 e manda para o PC o valor de um reg + immediate|
 
 ### Operações do tipo B (de salto nas instruções):
-| Instrução | Função        | Descrição                                                               |
-|-----------|---------------|-------------------------------------------------------------------------|
+| Instrução | Função        | Descrição                                                                     |
+|-----------|---------------|-------------------------------------------------------------------------------|
 | BEQ | branch if equal | compara dois valores e pula para uma instrução específica se os valores forem iguais |
 | BNE | branch if not equal | compara dois valores e pula para uma instrução específica se forem diferentes |
 | BLT | branch if less than | compara dois valores e pula para uma instrução específica se rs1 for menor que rs2 |
@@ -44,15 +50,26 @@ As seguintes instruções foram implementadas:
 | BGEU | branch if greater than or equal to(unsigned) | compara dois unsigned valores e pula para uma instrução específica se rs1 for maior que rs2 |
 
 ### Operações do tipo J (salto de instruções não condicional):
-| Instrução | Função        | Descrição                                                               |
-|  JAL      | Jump and Link | Salva o valor do PC somado de um immediate em um registrador, então salva para uma dada posição da memória - ou seja, incrementa um valor no 
+| Instrução | Função        | Descrição                                                                   |
+|-----------|---------------|-----------------------------------------------------------------------------|
+|  JAL      | Jump and Link | Salva o valor do PC somado de 4 em um registrador, então salta para uma dada posição da memória - ou seja, incrementa um valor no valor atual do PC e salva no PC.
 
-
+### Operações do tipo U ():
+| Instrução | Função            | Descrição                                                                   |
+|-----------|-------------------|-----------------------------------------------------------------------------|
+|   AUIPC   |add upper imm to PC|acresce o valor do PC de um immediate e soma em um dado registrador          |
 
 ## Datapath
 Abaixo está o datapath dessa entrega (baseado no livro Computer Organization and Design The Hardware Software Interface [RISC-V Edition] de David A. Patterson e John L. Hennessy):
 ![datapath](https://raw.githubusercontent.com/RISCO-5bola/risc-v/main/datapath_patterson.png)
 
+ ### Unidade de controle
+ Dentre todos os módulos criados até o momento, o mais complexo é a Unidade de Controle multiciclo. A implementação foi feita usando como referência a máquina de estados do livro de Patterson e Henessy.
+
+ ![controlunit](https://raw.githubusercontent.com/RISCO-5bola/risc-v/main/ControlUnit.jpeg)
+ 
+ Optamos por fazer as funções de próximo estado e de saídas de forma estrutural e em módulos separados, buscando evitar bugs de atraso de clock usando o bloco always. Por outro lado, deixamos tudo comentado para que, cada vez que adicionamos um estado novo, possamos alterar tudo sem muitos problemas.
+ 
 ## Ondas analisadas
  Nos comentários do arquivo index_tb.v, são mostradas os valores esperados para os registradores após cada uma das instruções. Sendo assim, a descrição da testagem das instruções implementadas está presente no arquivo citado (index_tb.v)
 
