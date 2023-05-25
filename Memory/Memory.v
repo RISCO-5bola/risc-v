@@ -180,7 +180,7 @@ module Memory(input clk,
       implementadas em sala
       */
       /* 0000000 rs2 rs1 111 rd 0110011 AND rs2 = x5 rs1 = x6 rd = x7 
-         realiza and entre x5 e x6, guardando 1025 em x7*/
+         realiza and entre x5 e x6, guardando 1095 em x7*/
       Memory[1118] = 8'b1_0110011;  
       Memory[1117] = 8'b1_111_0011; 
       Memory[1116] = 8'b0110_0010;
