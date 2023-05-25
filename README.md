@@ -35,11 +35,11 @@ As seguintes instruções foram implementadas:
 - [X] BGE
 - [X] BLTU
 - [X] BGEU
-- [ ] LB
-- [ ] LH
-- [ ] LW
-- [ ] LBU
-- [ ] LHU
+- [X] LB
+- [X] LH
+- [X] LW
+- [X] LBU
+- [X] LHU
 - [ ] SB
 - [ ] SH
 - [ ] SW
@@ -65,7 +65,7 @@ As seguintes instruções foram implementadas:
 - [ ] FENCE
 - [ ] ECALL
 - [ ] EBREAK
-- [ ] LWU
+- [X] LWU
 - [X] LD
 - [X] SD
 - [ ] ADDIW
