@@ -1,7 +1,8 @@
 `include "./ALU/operations/and.v"
 `include "./ALU/operations/Adder64b_mod.v"
 `include "./ALU/operations/or.v"
-`include "./ALU/mux_3x1_64bit_ALU.v"
+`include "./ALU/operations/xor.v"
+`include "./ALU/mux_7x1_64bit_ALU.v"
 
 module ALU (
     input [63:0] A,
@@ -19,6 +20,7 @@ module ALU (
     wire overflow;
     wire [63:0] resAnd;
     wire [63:0] resOr;
+    wire [63:0] resXor;
 
     /* Verifica se deve ser uma instrucao de subtracao */
     wire isSub;
@@ -28,11 +30,12 @@ module ALU (
     Adder64b_mod Adder64b_mod (.A(A), .B(B), .SUB(isSub), .S(resAddSub), .COUT(overflow));
     andModule andmod (.A(A), .B(B), .result(resAnd));
     orModule ormod (.A(A), .B(B), .result(resOr));
+    xorModule xormod (.A(A), .B(B), .result(resXor));
     
     /* De acordo com o ALUOp, e selecionado o resultado entre os 4 anteriores em um mux.
        Esse mux foi feito na forma estrutural
     */
-    mux_3x1_64bit_ALU mux_3x1_64bit_ALU(.S(ALUOp), .A(resAddSub), .B(resAnd), .C(resOr), .X(result));
+    mux_7x1_64bit_ALU mux_3x1_64bit_ALU(.S(ALUOp), .A(resAddSub), .B(resAnd), .C(resOr), .D(resAddSub), .E(resXor), .X(result));
     
     /* Por ultimo, calcula-se se o resultado vale equal por meio de um nor com todos os bits do resultado.
        Esse valor e utilizado para a branch na instrucao beq */

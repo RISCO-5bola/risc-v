@@ -46,7 +46,7 @@ As seguintes instruções foram implementadas:
 - [X] ADDI
 - [ ] SLTI
 - [ ] SLTIU
-- [ ] XORI
+- [X] XORI
 - [X] ORI
 - [X] ANDI
 - [ ] SLLI

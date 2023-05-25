@@ -181,7 +181,7 @@ module Memory(input clk,
 
      // imm[31:12] rd 0010111 AUIPC imm -8 rd = x5
      /* este este foi so para verificar se o AUIPC estava funcionando
-       com complemento de dois também, então o registrador 5 deve valer -31661
+       com complemento de dois também, então o registrador 5 deve valer -31665
        NAO FAZ SENTIDO EM TERMOS DE MEMORIA, E SO UM TESTE */
       Memory[1106] = 8'b0_0010111;  
       Memory[1105] = 8'b1000_0011; 
@@ -312,6 +312,22 @@ module Memory(input clk,
       Memory[1177] = 8'b0_110_0100; 
       Memory[1176] = 8'b1000_0000;
       Memory[1175] = 8'b00000010;
+
+      /* Teste XOR */
+      /* 0000000 rs2 rs1 100 rd 0110011 XOR rs2 = x1 rs1 = x3 rd = x10
+         xor entre registradores x1 e x3, gravando 6 no registrador x10 */
+      Memory[1182] = 8'b0_0110011;  
+      Memory[1181] = 8'b1_100_0101; 
+      Memory[1180] = 8'b0001_0001;
+      Memory[1179] = 8'b0000000_0;
+
+      /* Teste XORI */
+      /* imm[11:0] rs1 100 rd 0010011  XORI rs1 = x3 rd = x10 im = 010
+         xor entre o registrador x3 e 2, gravando 12 no registrador x10 */
+      Memory[1186] = 8'b0_0010011;  
+      Memory[1185] = 8'b1_100_0101; 
+      Memory[1184] = 8'b0010_0001;
+      Memory[1183] = 8'b00000000;
    end
    
    assign read_data = {Memory[endereco + 0], Memory[endereco + 1], 
