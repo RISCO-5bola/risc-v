@@ -44,7 +44,7 @@ As seguintes instruções foram implementadas:
 - [ ] SH
 - [ ] SW
 - [X] ADDI
-- [ ] SLTI
+- [X] SLTI
 - [ ] SLTIU
 - [X] XORI
 - [X] ORI
