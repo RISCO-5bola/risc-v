@@ -328,6 +328,29 @@ module Memory(input clk,
       Memory[1185] = 8'b1_100_0101; 
       Memory[1184] = 8'b0010_0001;
       Memory[1183] = 8'b00000000;
+
+      /* Teste SLT */
+      /* 0000000 rs2 rs1 010 rd 0110011 SLT rs2 = x4 rs1 = x6 rd = x11
+         como rs1 < rs2, x11 deve valer 1 */
+      Memory[1182] = 8'b1_0110011;  
+      Memory[1181] = 8'b0_010_0101; 
+      Memory[1180] = 8'b0100_0011;
+      Memory[1179] = 8'b0000000_0;
+
+      /* 0000000 rs2 rs1 010 rd 0110011 SLT rs2 = x6 rs1 = x4 rd = x11
+         como rs1 > rs2, x11 deve valer 0 */
+      Memory[1186] = 8'b1_0110011;  
+      Memory[1185] = 8'b0_010_0101; 
+      Memory[1184] = 8'b0110_0010;
+      Memory[1183] = 8'b0000000_0;
+
+      /* Teste SLTI */
+      /* imm[11:0] rs1 010 rd 0010011 SLTI rs2 = x4 rs1 = x6 rd = x11
+         como rs1 < rs2, x11 deve valer 1 */
+      // Memory[1186] = 8'b1_0010011;  
+      // Memory[1185] = 8'b0_010_0101; 
+      // Memory[1184] = 8'b0100_0011;
+      // Memory[1183] = 8'b0000000_0;
    end
    
    assign read_data = {Memory[endereco + 0], Memory[endereco + 1], 

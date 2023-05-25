@@ -55,7 +55,7 @@ As seguintes instruções foram implementadas:
 - [X] ADD
 - [X] SUB
 - [ ] SLL
-- [ ] SLT
+- [X] SLT
 - [ ] SLTU
 - [X] XOR
 - [ ] SRL
