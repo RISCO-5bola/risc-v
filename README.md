@@ -56,7 +56,7 @@ As seguintes instruções foram implementadas:
 - [X] SUB
 - [ ] SLL
 - [X] SLT
-- [ ] SLTU
+- [X] SLTU
 - [X] XOR
 - [ ] SRL
 - [ ] SRA
