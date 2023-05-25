@@ -51,6 +51,26 @@ module Memory(input clk,
      Memory[29] = 8'd0;
      Memory[30] = 8'd0;
      Memory[31] = 8'd16;
+
+     /* Para testes de load unsigned */
+     Memory[32] = 8'b10000000;
+     Memory[33] = 8'b01000000;
+     Memory[34] = 8'b00100000;
+     Memory[35] = 8'b00010000;
+     Memory[36] = 8'b00001000;
+     Memory[37] = 8'b00000100;
+     Memory[38] = 8'b00000010;
+     Memory[39] = 8'b00000001;
+
+     /* Para testes de load signed */
+     Memory[40] = 8'b10000000;
+     Memory[41] = 8'b11000000;
+     Memory[42] = 8'b10100000;
+     Memory[43] = 8'b10010000;
+     Memory[44] = 8'b10001000;
+     Memory[45] = 8'b10000100;
+     Memory[46] = 8'b10000010;
+     Memory[47] = 8'b10000001;
     
      /* 
       Instruction Memory
@@ -206,7 +226,92 @@ module Memory(input clk,
       Memory[1129] = 8'b1_110_0011; 
       Memory[1128] = 8'b0011_0001;
       Memory[1127] = 8'b00000000;
-     
+
+
+      /* Testes com a memoria */
+      /* imm[11:0] rs1 000 rd 0000011 LB rd = x9 rs1 = x0 im = 32
+         da load de 1 byte com sinal em x9, x9 deve valer 1 */
+      Memory[1134] = 8'b1_0000011;  
+      Memory[1133] = 8'b0_000_0100; 
+      Memory[1132] = 8'b0000_0000;
+      Memory[1131] = 8'b00000010;
+
+      /* imm[11:0] rs1 000 rd 0000011 LB rd = x9 rs1 = x0 im = 40
+         da load de 1 byte com sinal em x9, x9 deve valer -127 */
+      Memory[1138] = 8'b1_0000011;  
+      Memory[1137] = 8'b0_000_0100; 
+      Memory[1136] = 8'b1000_0000;
+      Memory[1135] = 8'b00000010;
+
+      /* imm[11:0] rs1 100 rd 0000011 LBU rd = x9 rs1 = x0 im = 32
+         da load de 1 byte sem sinal em x9, x9 deve valer 1 */
+      Memory[1142] = 8'b1_0000011;  
+      Memory[1141] = 8'b0_100_0100; 
+      Memory[1140] = 8'b0000_0000;
+      Memory[1139] = 8'b00000010;
+
+      /* imm[11:0] rs1 100 rd 0000011 LBU rd = x9 rs1 = x0 im = 40
+         da load de 1 byte sem sinal em x9, x9 deve valer 129 */
+      Memory[1146] = 8'b1_0000011;  
+      Memory[1145] = 8'b0_100_0100; 
+      Memory[1144] = 8'b1000_0000;
+      Memory[1143] = 8'b00000010;
+
+      /* imm[11:0] rs1 001 rd 0000011 LH rd = x9 rs1 = x0 im = 32
+         da load de 2 bytes com sinal em x9, x9 deve valer 513 */
+      Memory[1150] = 8'b1_0000011;  
+      Memory[1149] = 8'b0_001_0100; 
+      Memory[1148] = 8'b0000_0000;
+      Memory[1147] = 8'b00000010;
+
+      /* imm[11:0] rs1 001 rd 0000011 LH rd = x9 rs1 = x0 im = 40
+         da load de 2 bytes com sinal em x9, x9 deve valer -32127 */
+      Memory[1154] = 8'b1_0000011;  
+      Memory[1153] = 8'b0_001_0100; 
+      Memory[1152] = 8'b1000_0000;
+      Memory[1151] = 8'b00000010;
+
+      /* imm[11:0] rs1 101 rd 0000011 LHU rd = x9 rs1 = x0 im = 32
+         da load de 2 bytes sem sinal em x9, x9 deve valer 513 */
+      Memory[1158] = 8'b1_0000011;  
+      Memory[1157] = 8'b0_101_0100; 
+      Memory[1156] = 8'b0000_0000;
+      Memory[1155] = 8'b00000010;
+
+      /* imm[11:0] rs1 101 rd 0000011 LHU rd = x9 rs1 = x0 im = 40
+         da load de 2 bytes sem sinal em x9, x9 deve valer 33409 */
+      Memory[1162] = 8'b1_0000011;  
+      Memory[1161] = 8'b0_101_0100; 
+      Memory[1160] = 8'b1000_0000;
+      Memory[1159] = 8'b00000010;
+
+      /* imm[11:0] rs1 010 rd 0000011 LW rd = x9 rs1 = x0 im = 32
+         da load de 4 bytes com sinal em x9, x9 deve valer 134480385 */
+      Memory[1166] = 8'b1_0000011;  
+      Memory[1165] = 8'b0_010_0100; 
+      Memory[1164] = 8'b0000_0000;
+      Memory[1163] = 8'b00000010;
+
+      /* imm[11:0] rs1 010 rd 0000011 LW rd = x9 rs1 = x0 im = 40
+         da load de 4 bytes com sinal em x9, x9 deve valer -204581759 */
+      Memory[1170] = 8'b1_0000011;  
+      Memory[1169] = 8'b0_010_0100; 
+      Memory[1168] = 8'b1000_0000;
+      Memory[1167] = 8'b00000010;
+
+      /* imm[11:0] rs1 110 rd 0000011 LWU rd = x9 rs1 = x0 im = 32
+         da load de 4 bytes sem sinal em x9, x9 deve valer 2290385537 */
+      Memory[1174] = 8'b1_0000011;  
+      Memory[1173] = 8'b0_110_0100; 
+      Memory[1172] = 8'b0000_0000;
+      Memory[1171] = 8'b00000010;
+
+      /* imm[11:0] rs1 110 rd 0000011 LWU rd = x9 rs1 = x0 im = 40
+         da load de 4 bytes sem sinal em x9, x9 deve valer 2290385537 */
+      Memory[1178] = 8'b1_0000011;  
+      Memory[1177] = 8'b0_110_0100; 
+      Memory[1176] = 8'b1000_0000;
+      Memory[1175] = 8'b00000010;
    end
    
    assign read_data = {Memory[endereco + 0], Memory[endereco + 1], 
