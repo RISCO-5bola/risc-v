@@ -25,6 +25,60 @@
 ## Instruções implementadas
 As seguintes instruções foram implementadas:
 
+- [] LUI
+- [X] AUIPC
+- [X] JAL
+- [X] JALR
+- [X] BEQ
+- [X] BNE
+- [X] BLT
+- [X] BGE
+- [X] BLTU
+- [X] BGEU
+- [] LB
+- [] LH
+- [] LW
+- [] LBU
+- [] LHU
+- [] SB
+- [] SH
+- [] SW
+- [X] ADDI
+- [] SLTI
+- [] SLTIU
+- [] XORI
+- [X] ORI
+- [X] ANDI
+- [] SLLI
+- [] SRLI
+- [] SRAI
+- [X] ADD
+- [X] SUB
+- [] SLL
+- [] SLT
+- [] SLTU
+- [X] XOR
+- [] SRL
+- [] SRA
+- [X] OR
+- [X] AND
+- [] FENCE
+- [] ECALL
+- [] EBREAK
+- [] LWU
+- [X] LD
+- [X] SD
+- [] ADDIW
+- [] SLLIW
+- [] SRLIW
+- [] SRAIW
+- [] ADDW
+- [] SUBW
+- [] SLLW
+- [] SRLW
+- [] SRAW
+
+## Descrição das instruções
 ### Operações básicas aritméticas com registradores: (tipo R):
 | Instrução | Função        | Descrição                                                               |
 |-----------|---------------|-------------------------------------------------------------------------|
