@@ -25,7 +25,7 @@
 ## Instruções implementadas
 As seguintes instruções foram implementadas:
 
-- [] LUI
+- [ ] LUI
 - [X] AUIPC
 - [X] JAL
 - [X] JALR
@@ -35,48 +35,48 @@ As seguintes instruções foram implementadas:
 - [X] BGE
 - [X] BLTU
 - [X] BGEU
-- [] LB
-- [] LH
-- [] LW
-- [] LBU
-- [] LHU
-- [] SB
-- [] SH
-- [] SW
+- [ ] LB
+- [ ] LH
+- [ ] LW
+- [ ] LBU
+- [ ] LHU
+- [ ] SB
+- [ ] SH
+- [ ] SW
 - [X] ADDI
-- [] SLTI
-- [] SLTIU
-- [] XORI
+- [ ] SLTI
+- [ ] SLTIU
+- [ ] XORI
 - [X] ORI
 - [X] ANDI
-- [] SLLI
-- [] SRLI
-- [] SRAI
+- [ ] SLLI
+- [ ] SRLI
+- [ ] SRAI
 - [X] ADD
 - [X] SUB
-- [] SLL
-- [] SLT
-- [] SLTU
+- [ ] SLL
+- [ ] SLT
+- [ ] SLTU
 - [X] XOR
-- [] SRL
-- [] SRA
+- [ ] SRL
+- [ ] SRA
 - [X] OR
 - [X] AND
-- [] FENCE
-- [] ECALL
-- [] EBREAK
-- [] LWU
+- [ ] FENCE
+- [ ] ECALL
+- [ ] EBREAK
+- [ ] LWU
 - [X] LD
 - [X] SD
-- [] ADDIW
-- [] SLLIW
-- [] SRLIW
-- [] SRAIW
-- [] ADDW
-- [] SUBW
-- [] SLLW
-- [] SRLW
-- [] SRAW
+- [ ] ADDIW
+- [ ] SLLIW
+- [ ] SRLIW
+- [ ] SRAIW
+- [ ] ADDW
+- [ ] SUBW
+- [ ] SLLW
+- [ ] SRLW
+- [ ] SRAW
 
 ## Descrição das instruções
 ### Operações básicas aritméticas com registradores: (tipo R):
