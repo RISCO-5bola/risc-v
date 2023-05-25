@@ -6,13 +6,14 @@
 `include "./Registers/Registers.v"
 `include "./Registers/reg_parametrizado.v"
 `include "./ImmediateGenerator/immediateG.v"
-`include "./ALU_Control/ALU_Control_structural.v"
+`include "./ALU_Control/ALU_Control.v"
 `include "./ALU/ALU.v"
 `include "./mux/mux_2x1_64bit.v"
-`include "./mux/mux_3x1_64bit.v"
+`include "./mux/mux_4x1_64bit.v"
 `include "./mux/mux_2x1_64bit_S2.v"
 `include "./mux/mux_6x1_1b.v"
 `include "./Registers/inst_reg.v"
+`include "load_choose.v"
 
 /* Este modulo e o risc-v em si, como mostrado no diagrama do readme inicial */
 
@@ -57,7 +58,8 @@ module riscv (
 
     /* saida do mux que vai para o registers */
     wire [63:0] dataToWrite;
-
+    /* tratamento dos dados a serem escritos nos registradores */
+    wire [63:0] dataChoosenToBeWrittenMux;
     /* conteudo do register lido 2 */
     wire [63:0] dataReadRegister2;
 
@@ -74,6 +76,9 @@ module riscv (
 
     /* operacao gerada pela ALU Control */
     wire [3:0] ALUOp;
+
+    /* Estado atual */
+    wire [3:0] currentState;
     
     /* resultado do and do branch */
     wire andBranch;
@@ -113,19 +118,21 @@ module riscv (
         .MemRead(MemRead), .MemWrite(MemWrite), .IRWrite(IRWrite), .MemtoReg(MemtoReg),
         .PCSource1(PCSource1), .PCSource0(PCSource0), .ALUOp1(ALUOp1), .ALUOp0(ALUOp0),
         .ALUSrcB1(ALUSrcB1), .ALUSrcB0(ALUSrcB0), .ALUSrcA(ALUSrcA), .RegWrite(RegWrite),
-        .RegDst(RegDst));
+        .RegDst(RegDst), .currentState(currentState));
 
     ALU_Control aluctrl (.ALUOp1(ALUOp1), .ALUOp0(ALUOp0), 
         .funct({
         instrRegOut[30],
+        instrRegOut[25],
         instrRegOut[14],
         instrRegOut[13],
         instrRegOut[12]}),
         .opcode(instrRegOut[6:0]),
-        .operation(ALUOp));
+        .operation(ALUOp), .currentState(currentState));
 
     immediateG immgen (.instruction(instrRegOut), .immediate(immGenParaMux2));
     
+    load_choose load_choose (.dataReadFromMemory(dataToWrite), .opcode(instrRegOut[6:0]), .funct3(instrRegOut[14:12]), .writeDataReg(dataChoosenToBeWrittenMux));
     Registers regs (
         .readRegister1({
             instrRegOut[19],
@@ -147,7 +154,7 @@ module riscv (
             instrRegOut[8],
             instrRegOut[7]
         }),
-        .writeData(dataToWrite),
+        .writeData(dataChoosenToBeWrittenMux),
         .regWrite(RegWrite),
         .clk(clk),
         .readData1(readData1paraRegA), 
@@ -157,7 +164,7 @@ module riscv (
     mux_2x1_64bit mux1ALU (.A(instructionAddress), .B(regAparaMux1), .S(ALUSrcA), .X(mux1paraALU));
 
     reg_parametrizado regB (.clk(clk), .load(1'b1), .in_data(readData2paraRegB), .out_data(regBparaMux2));
-    mux_3x1_64bit mux2ALU (.A(regBparaMux2), .B(64'd4), .C(immGenParaMux2), .S({ALUSrcB1, ALUSrcB0}), .X(mux2paraALU));
+    mux_4x1_64bit mux2ALU (.A(regBparaMux2), .B(64'd4), .C(immGenParaMux2), .D(64'd0), .S({ALUSrcB1, ALUSrcB0}), .X(mux2paraALU));
 
     ALU alu (.A(mux1paraALU), .B(mux2paraALU), .ALUOp(ALUOp), .result(ALUResult), .equal(flags[5]), .not_equal(flags[4]), .lesser_than(flags[3]), 
              .greater_or_equal(flags[2]), .unsigned_lesser(flags[1]), .unsigned_greater_equal(flags[0]));

@@ -84,7 +84,7 @@ module immediateG (instruction, immediate);
     or (type[1], wire2, wire4); 
     or (type[0], wire1, wire2, wire5);
  
-    mux_6x1_64bit muxminus4 (.D({signJ, JTypeImmediate, 1'b0}), .F({sign, instruction[31], JALRTypeImmediate}), 
+    mux_6x1_64bit muxminus4 (.D({signJ, JTypeImmediate, 1'b0}), .C({sign, BTypeImmediate, 1'b0}), .F({sign, instruction[31], JALRTypeImmediate}), 
                         .E({signU, UTypeImmediate, 12'b0}), .S({type[2], type[1], type[0]}), .X({mux4}));
     Adder64b_mod Adder64b_mod (.A(mux4), .B(64'd4), .SUB(1'b1), .S(resAddSub), .COUT(overflow));
 
@@ -96,7 +96,7 @@ module immediateG (instruction, immediate);
        se type[2:0] = 100, sai o immediate do u
        se type[2:0] = 101, sai o immediate do JALR*/
     mux_6x1_64bit muxImmeadite (.A({sign, instruction[31], ITypeImmediate}), .B({sign, instruction[31], SWTypeImmediate}), 
-                                .C({sign, BTypeImmediate, 1'b0}), .D(resAddSub), .E({resAddSub}), 
-                                .F({resAddSub}), .S({type[2], type[1], type[0]}), .X(immediate));
+                                .C(resAddSub), .D(resAddSub), .E(resAddSub), 
+                                .F({sign, instruction[31], JALRTypeImmediate}), .S({type[2], type[1], type[0]}), .X(immediate));
    
 endmodule

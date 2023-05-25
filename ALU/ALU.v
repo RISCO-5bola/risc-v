@@ -19,9 +19,13 @@ module ALU (
     wire overflow;
     wire [63:0] resAnd;
     wire [63:0] resOr;
+
+    /* Verifica se deve ser uma instrucao de subtracao */
+    wire isSub;
+    and (isSub, ALUOp[0], ALUOp[1]);
     
     /* Aqui sao calculados a soma, a subtracao, o and e o or bitwise */
-    Adder64b_mod Adder64b_mod (.A(A), .B(B), .SUB(ALUOp[2]), .S(resAddSub), .COUT(overflow));
+    Adder64b_mod Adder64b_mod (.A(A), .B(B), .SUB(isSub), .S(resAddSub), .COUT(overflow));
     andModule andmod (.A(A), .B(B), .result(resAnd));
     orModule ormod (.A(A), .B(B), .result(resOr));
     

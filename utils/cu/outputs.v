@@ -59,6 +59,10 @@ module outputs (
     and (WireState13, StateRegister[3], StateRegister[2],
                       ~StateRegister[1], StateRegister[0]);
 
+    /* Correcao do tipo B */
+    and (WireState14, StateRegister[3], StateRegister[2],
+                      StateRegister[1], ~StateRegister[0]);
+
     //MemtoReg
     //PCSourceO 00 ou 01
     //PCsource1 
@@ -91,20 +95,20 @@ module outputs (
     //memtoreg = 0
 
     or (PCWrite, WireState0, WireState10, WireState12);
-    assign PCWriteCond = WireState8;
+    assign PCWriteCond = WireState14;
     or (IorD, WireState3, WireState5);
     or (MemRead, WireState0, WireState3, WireState9, WireState11, WireState12);
     assign MemWrite = WireState5;
     assign IRWrite = WireState0;
     assign MemtoReg = WireState4;
     assign PCSource1 = WireState9;
-    assign PCSource0 = WireState8;
+    assign PCSource0 = WireState14;
     
     or (ALUOp1, WireState6, WireState13);
     assign ALUOp0 = WireState8;
-    or (ALUSrcB1, WireState1, WireState2, WireState10, WireState11, WireState12, WireState13);
+    or (ALUSrcB1, WireState2, WireState1, WireState10, WireState8, WireState9, WireState11, WireState12, WireState13);
     or (ALUSrcB0, WireState0, WireState1, WireState9);
-    or (ALUSrcA, WireState2, WireState6, WireState8, WireState12, WireState13);
+    or (ALUSrcA, WireState2, WireState6, WireState14, WireState12, WireState13);
     or (RegWrite, WireState4, WireState7, WireState9);
     assign RegDst = WireState7;
 

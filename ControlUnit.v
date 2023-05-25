@@ -7,7 +7,7 @@ module ControlUnit (
     output MemtoReg, output PCSource1, output PCSource0,
     output ALUOp1, output ALUOp0, output ALUSrcB1,
     output ALUSrcB0, output ALUSrcA, output RegWrite,
-    output RegDst
+    output RegDst, output [3:0] currentState
 );  
     wire [3:0] NextState;
     reg [3:0] StateRegister;
@@ -26,6 +26,7 @@ module ControlUnit (
     parameter STATE11 = 4'b1011;//estado U
     parameter STATE12 = 4'b1100;//estado JALR
     parameter STATE13 = 4'B1101;//tipo I
+    parameter STATE14 = 4'B1110;//correcao tipo B
     
     initial begin
         StateRegister <= STATE0;
@@ -49,4 +50,6 @@ module ControlUnit (
         if (reset == 1'b1) StateRegister <= STATE0;
         else StateRegister <= NextState;
     end
+
+    assign currentState = StateRegister;
 endmodule

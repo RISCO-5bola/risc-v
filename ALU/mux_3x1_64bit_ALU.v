@@ -5,13 +5,13 @@ module mux_3x1_64bit_ALU (
 );
 always @ (*) 
     begin
-        if (S == 4'b0010)
+        if (S == 4'b0000)
             X <= A;
-        else if (S == 4'b0110)
+        else if (S == 4'b0011)
             X <= A;
-        else if (S == 4'b0000)
-            X <= B;
         else if (S == 4'b0001)
+            X <= B;
+        else if (S == 4'b0010)
             X <= C;
     end
 endmodule
