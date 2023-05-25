@@ -374,6 +374,22 @@ module Memory(input clk,
       Memory[1200] = 8'b0011_0010;
       Memory[1199] = 8'b00000000;
 
+      /* Teste SLTIU */
+      /* imm[11:0] rs1 011 rd 0010011 SLTIU rs1 = x6 rd = x11 imm = 3
+         como rs1 > 3, x11 deve valer 0 */
+      Memory[1206] = 8'b1_0010011;  
+      Memory[1205] = 8'b0_011_0101; 
+      Memory[1204] = 8'b0011_0011;
+      Memory[1203] = 8'b00000000;
+
+      /* imm[11:0] rs1 011 rd 0010011 SLTIU rs1 = x4 rd = x11 imm = 15
+         como rs1 < 3, x11 deve valer 1 */
+      Memory[1210] = 8'b1_0010011;  
+      Memory[1209] = 8'b0_011_0101; 
+      Memory[1208] = 8'b1111_0010;
+      Memory[1207] = 8'b00000000;
+
+
       
    end
    
