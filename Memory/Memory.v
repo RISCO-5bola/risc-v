@@ -1,10 +1,10 @@
 module Memory(input clk,      
-                   input mem_read,
-                   input mem_write,
-                   input [63:0] endereco, //saida da ula
-                   input [63:0] write_data, //data out b
-                   output [63:0] read_data // write data
-                   );
+              input mem_read,
+              input mem_write,
+              input [63:0] endereco, //saida da ula
+              input [63:0] write_data, //data out b
+              output [63:0] read_data // write data
+             );
    reg [63:0] endereco_atual;
    reg [7:0] Memory [2047:0];
 
@@ -332,64 +332,99 @@ module Memory(input clk,
       /* Teste SLT */
       /* 0000000 rs2 rs1 010 rd 0110011 SLT rs2 = x4 rs1 = x6 rd = x11
          como rs1 < rs2, x11 deve valer 1 */
-      Memory[1182] = 8'b1_0110011;  
-      Memory[1181] = 8'b0_010_0101; 
-      Memory[1180] = 8'b0100_0011;
-      Memory[1179] = 8'b0000000_0;
+      Memory[1190] = 8'b1_0110011;  
+      Memory[1189] = 8'b0_010_0101; 
+      Memory[1188] = 8'b0100_0011;
+      Memory[1187] = 8'b0000000_0;
 
       /* 0000000 rs2 rs1 010 rd 0110011 SLT rs2 = x6 rs1 = x4 rd = x11
          como rs1 > rs2, x11 deve valer 0 */
-      Memory[1186] = 8'b1_0110011;  
-      Memory[1185] = 8'b0_010_0101; 
-      Memory[1184] = 8'b0110_0010;
-      Memory[1183] = 8'b0000000_0;
+      Memory[1194] = 8'b1_0110011;  
+      Memory[1193] = 8'b0_010_0101; 
+      Memory[1192] = 8'b0110_0010;
+      Memory[1191] = 8'b0000000_0;
 
       /* Teste SLTU */
       /* 0000000 rs2 rs1 010 rd 0110011 SLTU rs2 = x4 rs1 = x6 rd = x11
          como rs1 > rs2, x11 deve valer 0 */
-      Memory[1190] = 8'b1_0110011;  
-      Memory[1189] = 8'b0_011_0101; 
-      Memory[1188] = 8'b0100_0011;
-      Memory[1187] = 8'b0000000_0;
+      Memory[1198] = 8'b1_0110011;  
+      Memory[1197] = 8'b0_011_0101; 
+      Memory[1196] = 8'b0100_0011;
+      Memory[1195] = 8'b0000000_0;
 
       /* 0000000 rs2 rs1 010 rd 0110011 SLTU rs2 = x6 rs1 = x4 rd = x11
          como rs1 < rs2, x11 deve valer 1 */
-      Memory[1194] = 8'b1_0110011;  
-      Memory[1193] = 8'b0_011_0101; 
-      Memory[1192] = 8'b0110_0010;
-      Memory[1191] = 8'b0000000_0;
+      Memory[1202] = 8'b1_0110011;  
+      Memory[1201] = 8'b0_011_0101; 
+      Memory[1200] = 8'b0110_0010;
+      Memory[1199] = 8'b0000000_0;
 
       /* Teste SLTI */
       /* imm[11:0] rs1 010 rd 0010011 SLTI rs1 = x6 rd = x11 imm = 3
          como rs1 < 3, x11 deve valer 1 */
-      Memory[1198] = 8'b1_0010011;  
-      Memory[1197] = 8'b0_010_0101; 
-      Memory[1196] = 8'b0011_0011;
-      Memory[1195] = 8'b00000000;
+      Memory[1206] = 8'b1_0010011;  
+      Memory[1205] = 8'b0_010_0101; 
+      Memory[1204] = 8'b0011_0011;
+      Memory[1203] = 8'b00000000;
 
       /* imm[11:0] rs1 010 rd 0010011 SLTI rs1 = x4 rd = x11 imm = 3
          como rs1 > 3, x11 deve valer 0 */
-      Memory[1202] = 8'b1_0010011;  
-      Memory[1201] = 8'b0_010_0101; 
-      Memory[1200] = 8'b0011_0010;
-      Memory[1199] = 8'b00000000;
+      Memory[1210] = 8'b1_0010011;  
+      Memory[1209] = 8'b0_010_0101; 
+      Memory[1208] = 8'b0011_0010;
+      Memory[1207] = 8'b00000000;
 
       /* Teste SLTIU */
       /* imm[11:0] rs1 011 rd 0010011 SLTIU rs1 = x6 rd = x11 imm = 3
          como rs1 > 3, x11 deve valer 0 */
-      Memory[1206] = 8'b1_0010011;  
-      Memory[1205] = 8'b0_011_0101; 
-      Memory[1204] = 8'b0011_0011;
-      Memory[1203] = 8'b00000000;
+      Memory[1214] = 8'b1_0010011;  
+      Memory[1213] = 8'b0_011_0101; 
+      Memory[1212] = 8'b0011_0011;
+      Memory[1211] = 8'b00000000;
 
       /* imm[11:0] rs1 011 rd 0010011 SLTIU rs1 = x4 rd = x11 imm = 15
          como rs1 < 3, x11 deve valer 1 */
-      Memory[1210] = 8'b1_0010011;  
-      Memory[1209] = 8'b0_011_0101; 
-      Memory[1208] = 8'b1111_0010;
-      Memory[1207] = 8'b00000000;
+      Memory[1218] = 8'b1_0010011;  
+      Memory[1217] = 8'b0_011_0101; 
+      Memory[1216] = 8'b1111_0010;
+      Memory[1215] = 8'b00000000;
 
+      /* Testes com storage */
+      /* imm[11:5] rs2 rs1 000 imm[4:0] 0100011 SB imm = 40 rs2 = x6 rs1 = x0  */
+      Memory[1222] = 8'b0_0100011;  
+      Memory[1221] = 8'b0_000_0100; 
+      Memory[1220] = 8'b0110_0000;
+      Memory[1219] = 8'b0000001_0;
 
+      // ld x1, 0(x0)
+      Memory[1226] = 8'b1_0000011;
+      Memory[1225] = 8'b0_011_0000;
+      Memory[1224] = 8'b1000_0000;
+      Memory[1223] = 8'b00000010;
+      
+      /* imm[11:5] rs2 rs1 001 imm[4:0] 0100011 SB imm = 40 rs2 = x6 rs1 = x0  */
+      Memory[1230] = 8'b0_0100011;  
+      Memory[1229] = 8'b0_001_0100; 
+      Memory[1228] = 8'b0110_0000;
+      Memory[1227] = 8'b0000001_0;
+
+      // ld x1, 0(x0)
+      Memory[1234] = 8'b1_0000011;
+      Memory[1233] = 8'b0_011_0000;
+      Memory[1232] = 8'b1000_0000;
+      Memory[1231] = 8'b00000010;
+
+      /* imm[11:5] rs2 rs1 001 imm[4:0] 0100011 SB imm = 40 rs2 = x6 rs1 = x0  */
+      Memory[1238] = 8'b0_0100011;  
+      Memory[1237] = 8'b0_010_0100; 
+      Memory[1236] = 8'b0110_0000;
+      Memory[1235] = 8'b0000001_0;
+
+      // ld x1, 0(x0)
+      Memory[1242] = 8'b1_0000011;
+      Memory[1241] = 8'b0_011_0000;
+      Memory[1240] = 8'b1000_0000;
+      Memory[1239] = 8'b00000010;
       
    end
    

@@ -14,6 +14,7 @@
 `include "./mux/mux_6x1_1b.v"
 `include "./Registers/inst_reg.v"
 `include "load_choose.v"
+`include "storage_choose.v"
 
 /* Este modulo e o risc-v em si, como mostrado no diagrama do readme inicial */
 
@@ -43,6 +44,9 @@ module riscv (
     /* sinais do PC e seu MUX */
     wire [63:0] nextPCPosition, PCout, regALUout;
     wire orParaPC;
+
+    /* entrada para o write da memory */
+    wire [63:0] dataToWriteMem;
 
     /* saida do PC */
     wire [63:0] instructionAddress;
@@ -96,7 +100,7 @@ module riscv (
     mux_2x1_64bit muxPC (.A(PCout), .B(regALUout), .S(IorD), .X(instructionAddress));
 
     Memory mem (.mem_read(MemRead), .mem_write(MemWrite), .endereco(instructionAddress), 
-                .write_data(regBparaMux2), .read_data(dataReadFromMemory), .clk(clk));
+                .write_data(dataToWriteMem), .read_data(dataReadFromMemory), .clk(clk));
     
     inst_reg instrReg (.clk(clk), .load(IRWrite), .in_data(dataReadFromMemory[63:32]),
                                 .out_data(instrRegOut));
@@ -133,6 +137,8 @@ module riscv (
     immediateG immgen (.instruction(instrRegOut), .immediate(immGenParaMux2));
     
     load_choose load_choose (.dataReadFromMemory(dataToWrite), .opcode(instrRegOut[6:0]), .funct3(instrRegOut[14:12]), .writeDataReg(dataChoosenToBeWrittenMux));
+    storage_choose storage_choose (.writeData(regBparaMux2), .funct3(instrRegOut[14:12]), .dataToBeWritten(dataToWriteMem));
+
     Registers regs (
         .readRegister1({
             instrRegOut[19],

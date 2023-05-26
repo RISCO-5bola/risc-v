@@ -40,9 +40,9 @@ As seguintes instruções foram implementadas:
 - [X] LW
 - [X] LBU
 - [X] LHU
-- [ ] SB
-- [ ] SH
-- [ ] SW
+- [X] SB
+- [X] SH
+- [X] SW
 - [X] ADDI
 - [X] SLTI
 - [X] SLTIU
