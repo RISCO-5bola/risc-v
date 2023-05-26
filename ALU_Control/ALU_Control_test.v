@@ -182,16 +182,16 @@ module ALU_Control (
                funct[4], funct[2], ~funct[1], funct[0]);
     
     /* verifica sll 0110011 + 001 */
-    and (sll, ~opcode[6], opcode[5], opcode[4], ~opcode[3], ~opcode[2], opcode[1], opcode[0],
+    and (sll, opcode[6], ~opcode[5], opcode[4], ~opcode[3], ~opcode[2], opcode[1], opcode[0],
               ~funct[2], ~funct[1], funct[0]);
     
     /* verifica srl 0110011 + 0x101*/
-    and (srl, ~opcode[6], opcode[5], opcode[4], ~opcode[3], ~opcode[2], opcode[1], opcode[0],
+    and (srl, opcode[6], ~opcode[5], opcode[4], ~opcode[3], ~opcode[2], opcode[1], opcode[0],
               ~funct[3], funct[2], ~funct[1], funct[0]);
     
     /* verifica sra 0110011 + 1x101 */
-    and (sra, ~opcode[6], opcode[5], opcode[4], ~opcode[3], ~opcode[2], opcode[1], opcode[0],
-              funct[4], funct[2], ~funct[1], funct[0]);
+    and (sra, opcode[6], ~opcode[5], opcode[4], ~opcode[3], ~opcode[2], opcode[1], opcode[0],
+              funct[3], funct[2], ~funct[1], funct[0]);
     
     /*
         Seta output da operacao

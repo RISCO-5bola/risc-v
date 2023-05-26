@@ -397,6 +397,7 @@ module Memory(input clk,
       Memory[1219] = 8'b0000001_0;
 
       // ld x1, 0(x0)
+      // reg x1 = 79
       Memory[1226] = 8'b1_0000011;
       Memory[1225] = 8'b0_011_0000;
       Memory[1224] = 8'b1000_0000;
@@ -409,6 +410,7 @@ module Memory(input clk,
       Memory[1227] = 8'b0000001_0;
 
       // ld x1, 0(x0)
+      // reg x1 = 33871
       Memory[1234] = 8'b1_0000011;
       Memory[1233] = 8'b0_011_0000;
       Memory[1232] = 8'b1000_0000;
@@ -421,10 +423,110 @@ module Memory(input clk,
       Memory[1235] = 8'b0000001_0;
 
       // ld x1, 0(x0)
+      // reg x1 = 4294935631
       Memory[1242] = 8'b1_0000011;
       Memory[1241] = 8'b0_011_0000;
       Memory[1240] = 8'b1000_0000;
       Memory[1239] = 8'b00000010;
+
+      /* Testes com SHIFTs */
+      /* Reseta registrador x12 para x6 */
+      // 000000 shamt rs1 001 rd 0010011 SLLI rd = x12 rs1 = x6 shamt = 0
+      // x12 = -31665
+      Memory[1246] = 8'b0_0010011;
+      Memory[1245] = 8'b0_001_0110;
+      Memory[1244] = 8'b0000_0011;
+      Memory[1243] = 8'b000000_00;
+
+      // 000000 shamt rs1 001 rd 0010011 SLLI rd = x12 rs1 = x6 shamt = 0
+      // x12 = -253320
+      Memory[1250] = 8'b0_0010011;
+      Memory[1249] = 8'b0_001_0110;
+      Memory[1248] = 8'b0011_0011;
+      Memory[1247] = 8'b000000_00;
+
+      /* Reseta registrador */
+      // 000000 shamt rs1 001 rd 0010011 SLLI rd = x12 rs1 = x6 shamt = 0
+      // x12 = -31665
+      Memory[1254] = 8'b0_0010011;
+      Memory[1253] = 8'b0_001_0110;
+      Memory[1252] = 8'b0000_0011;
+      Memory[1251] = 8'b000000_00;
+
+      // 000000 shamt rs1 001 rd 0010011 SRLI rd = x12 rs1 = x6 shamt = 0
+      // x12 = 230584300921369993
+      Memory[1258] = 8'b0_0010011;
+      Memory[1257] = 8'b0_101_0110;
+      Memory[1256] = 8'b0011_0011;
+      Memory[1255] = 8'b000000_00;
+      
+      /* Reseta registrador */
+      // 000000 shamt rs1 001 rd 0010011 SLLI rd = x12 rs1 = x6 shamt = 0
+      // x12 = -31665
+      Memory[1262] = 8'b0_0010011;
+      Memory[1261] = 8'b0_001_0110;
+      Memory[1260] = 8'b0000_0011;
+      Memory[1259] = 8'b000000_00;
+
+      // 000000 shamt rs1 001 rd 0010011 SRAI rd = x12 rs1 = x6 shamt = 0
+      // x12 = 230584300921369993
+      Memory[1266] = 8'b0_0010011;
+      Memory[1265] = 8'b0_101_0110;
+      Memory[1264] = 8'b0011_0011;
+      Memory[1263] = 8'b010000_00;
+
+      // 0100000 shamt rs1 101 rd 0010011 SRAI rd = x12 rs1 = x5 shamt = 3
+      // x12 = -3959
+      Memory[1270] = 8'b1_0010011;
+      Memory[1269] = 8'b0_101_0010;
+      Memory[1268] = 8'b0011_0011;
+      Memory[1267] = 8'b010000_00;
+
+      /* Reseta registrador */
+      // 000000 shamt rs1 001 rd 0010011 SLLI rd = x12 rs1 = x6 shamt = 0
+      // x12 = -31665
+      Memory[1274] = 8'b0_0010011;
+      Memory[1273] = 8'b0_001_0110;
+      Memory[1272] = 8'b0000_0011;
+      Memory[1271] = 8'b000000_00;
+
+      // 0000000 rs2 rs1 001 rd 0110011 SLL rd = x12 rs1 = x6 rs2 = x2
+      // x12 = -2026560
+      Memory[1278] = 8'b0_0110011;
+      Memory[1277] = 8'b0_001_0110;
+      Memory[1276] = 8'b0010_0011;
+      Memory[1275] = 8'b000000_00;
+
+      /* Reseta registrador */
+      // 000000 shamt rs1 001 rd 0010011 SLLI rd = x12 rs1 = x6 shamt = 0
+      // x12 = -31665
+      Memory[1282] = 8'b0_0010011;
+      Memory[1281] = 8'b0_001_0110;
+      Memory[1280] = 8'b0000_0011;
+      Memory[1279] = 8'b000000_00;
+      
+      // 0000000 rs2 rs1 101 rd 0110011 SRL rd = x12 rs1 = x6 rs2 = x2
+      // x12 = -288230376151711249
+      Memory[1286] = 8'b0_0110011;
+      Memory[1285] = 8'b0_101_0110;
+      Memory[1284] = 8'b0010_0011;
+      Memory[1283] = 8'b000000_00;
+
+      /* Reseta registrador */
+      // 000000 shamt rs1 001 rd 0010011 SLLI rd = x12 rs1 = x6 shamt = 0
+      // x12 = -31665
+      Memory[1290] = 8'b0_0010011;
+      Memory[1289] = 8'b0_001_0110;
+      Memory[1288] = 8'b0000_0011;
+      Memory[1287] = 8'b000000_00;
+      
+      // 0100000 rs2 rs1 101 rd 0110011 SRA rd = x12 rs1 = x6 rs2 = x2
+      // x12 = -495
+      Memory[1294] = 8'b0_0110011;
+      Memory[1293] = 8'b0_101_0110;
+      Memory[1292] = 8'b0010_0011;
+      Memory[1291] = 8'b010000_00;
+
       
    end
    

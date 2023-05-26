@@ -2,10 +2,10 @@
 `include "./ALU/operations/Adder64b_mod.v"
 `include "./ALU/operations/or.v"
 `include "./ALU/operations/xor.v"
-`include "./ALU/mux_7x1_64bit_ALU.v"
+`include "./ALU/mux_10x1_64bit_ALU.v"
 
 module ALU (
-    input [63:0] A,
+    input signed [63:0] A,
     input [63:0] B,
     input [3:0] ALUOp,
     output [63:0] result,
@@ -23,6 +23,13 @@ module ALU (
     wire [63:0] resXor;
     wire [63:0] resSLT;
     wire [63:0] resSLTU;
+    wire [63:0] resShiftLeftLogical;
+    wire [63:0] resShiftRightLogical;
+    wire [63:0] resShiftRightArith;
+
+    /* variante do A signed para que ela faca o shift aritimetico */
+    // wire signed [63:0] signedA;
+    // assign signedA = A;
 
     /* Verifica se deve ser uma instrucao de subtracao */
     wire isSub;
@@ -39,6 +46,9 @@ module ALU (
 
     assign resSLT = {63'd0, lesser_than};
     assign resSLTU = {63'd0, unsigned_lesser};
+    assign resShiftLeftLogical = A << B[4:0];
+    assign resShiftRightLogical = A >> B[4:0];
+    assign resShiftRightArith = A >>> B[4:0];
 
     /* Aqui sao calculados a soma, a subtracao, o and e o or bitwise */
     Adder64b_mod Adder64b_mod (.A(A), .B(B), .SUB(isSub), .S(resAddSub), .COUT(overflow));
@@ -49,7 +59,7 @@ module ALU (
     /* De acordo com o ALUOp, e selecionado o resultado entre os 4 anteriores em um mux.
        Esse mux foi feito na forma estrutural
     */
-    mux_7x1_64bit_ALU mux_3x1_64bit_ALU(.S(ALUOp), .A(resAddSub), .B(resAnd), .C(resOr), .D(resAddSub), .E(resXor), .F(resSLT), .G(resSLTU), .X(result));
+    mux_10x1_64bit_ALU mux_10x1_64bit_ALU(.S(ALUOp), .A(resAddSub), .B(resAnd), .C(resOr), .D(resAddSub), .E(resXor), .F(resSLT), .G(resSLTU), .H(resShiftLeftLogical), .I(resShiftRightLogical), .J(resShiftRightArith), .X(result));
     
     /* Por ultimo, calcula-se se o resultado vale equal por meio de um nor com todos os bits do resultado.
        Esse valor e utilizado para a branch na instrucao beq */
