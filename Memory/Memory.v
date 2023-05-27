@@ -71,6 +71,16 @@ module Memory(input clk,
      Memory[45] = 8'b10000100;
      Memory[46] = 8'b10000010;
      Memory[47] = 8'b10000001;
+
+     /* testes para extensao RV64I */
+     Memory[48] = 8'b10000000;
+     Memory[49] = 8'b11000000;
+     Memory[50] = 8'b10100000;
+     Memory[51] = 8'b10010000;
+     Memory[52] = 8'b01001000;
+     Memory[53] = 8'b10000100;
+     Memory[54] = 8'b10000010;
+     Memory[55] = 8'b10000001;
     
      /* 
       Instruction Memory
@@ -477,8 +487,8 @@ module Memory(input clk,
 
       // 0100000 shamt rs1 101 rd 0010011 SRAI rd = x12 rs1 = x5 shamt = 3
       // x12 = -3959
-      Memory[1270] = 8'b1_0010011;
-      Memory[1269] = 8'b0_101_0010;
+      Memory[1270] = 8'b0_0010011;
+      Memory[1269] = 8'b0_101_0110;
       Memory[1268] = 8'b0011_0011;
       Memory[1267] = 8'b010000_00;
 
@@ -527,6 +537,97 @@ module Memory(input clk,
       Memory[1292] = 8'b0010_0011;
       Memory[1291] = 8'b010000_00;
 
+      /* extensao RV64I */
+      // imm[11:0] rs1 000 rd 0011011 ADDIW rs1 = x6 rd = x14 imm = 1
+      // x14 = -31664
+      Memory[1298] = 8'b0_0011011;
+      Memory[1297] = 8'b0_000_0111;
+      Memory[1296] = 8'b0001_0011;
+      Memory[1295] = 8'b00000000;
+
+      // imm[11:0] rs1 000 rd 0011011 ADDIW rs1 = x6 rd = x14 imm = -1
+      // x14 = -31666
+      Memory[1302] = 8'b0_0011011;
+      Memory[1301] = 8'b0_000_0111;
+      Memory[1300] = 8'b1111_0011;
+      Memory[1299] = 8'b11111111;
+
+      // ld x6, 0(x0)
+      // reg x6 = -9169152299773951359
+      Memory[1306] = 8'b0_0000011;
+      Memory[1305] = 8'b0_011_0011;
+      Memory[1304] = 8'b0000_0000;
+      Memory[1303] = 8'b00000011;
+
+      // imm[11:0] rs1 000 rd 0011011 ADDIW rs1 = x6 rd = x14 imm = 1
+      // x14 = 1216643714
+      Memory[1310] = 8'b0_0011011;
+      Memory[1309] = 8'b0_000_0111;
+      Memory[1308] = 8'b0001_0011;
+      Memory[1307] = 8'b00000000;
+
+      // 0000000 shamt rs1 001 rd 0011011 SLLIW rs1 = x6 rd = x14 imm = 3
+      // x14 = 1143215112
+      Memory[1314] = 8'b0_0011011;
+      Memory[1313] = 8'b0_001_0111;
+      Memory[1312] = 8'b0011_0011;
+      Memory[1311] = 8'b0000000_0;
+
+      // 0000000 shamt rs1 101 rd 0011011 SRLIW rs1 = x6 rd = x14 imm = 3
+      // x14 = 152080464
+      Memory[1318] = 8'b0_0011011;
+      Memory[1317] = 8'b0_101_0111;
+      Memory[1316] = 8'b0011_0011;
+      Memory[1315] = 8'b0000000_0;
+
+      // 0100000 shamt rs1 101 rd 0011011 SRAIW rs1 = x6 rd = x14 imm = 3
+      // x14 = 9109050
+      Memory[1322] = 8'b0_0011011;
+      Memory[1321] = 8'b0_101_0111;
+      Memory[1320] = 8'b0011_0011;
+      Memory[1319] = 8'b0100000_0;
+
+      // 0100000 shamt rs1 101 rd 0011011 SRAIW rs1 = x1 rd = x14 imm = 3
+      // x14 = -3959
+      Memory[1326] = 8'b0_0011011;
+      Memory[1325] = 8'b1_101_0111;
+      Memory[1324] = 8'b0011_0000;
+      Memory[1323] = 8'b0100000_0;
+
+      // 0000000 rs2 rs1 000 rd 0111011 ADDW rd = x15 rs1 = x1 rs2 = x3 
+      // x15 = -31651
+      Memory[1330] = 8'b1_0111011;
+      Memory[1329] = 8'b1_000_0111;
+      Memory[1328] = 8'b0011_0000;
+      Memory[1327] = 8'b0000000_0;
+
+      // 0100000 rs2 rs1 000 rd 0111011 SUBW rd = x15 rs1 = x1 rs2 = x3 
+      // x15 = -31679
+      Memory[1334] = 8'b1_0111011;
+      Memory[1333] = 8'b1_000_0111;
+      Memory[1332] = 8'b0011_0000;
+      Memory[1331] = 8'b0100000_0;
+
+      // 0000000 rs2 rs1 001 rd 0111011 SLLW rd = x15 rs1 = x1 rs2 = x3 
+      // x15 = -518799360
+      Memory[1338] = 8'b1_0111011;
+      Memory[1337] = 8'b1_001_0111;
+      Memory[1336] = 8'b0011_0000;
+      Memory[1335] = 8'b0000000_0;
+
+      // 0000000 rs2 rs1 101 rd 0111011 SRLW rd = x15 rs1 = x1 rs2 = x3 
+      // x15 = 262142
+      Memory[1342] = 8'b1_0111011;
+      Memory[1341] = 8'b1_101_0111;
+      Memory[1340] = 8'b0011_0000;
+      Memory[1339] = 8'b0000000_0;
+
+      // 0100000 rs2 rs1 101 rd 0111011 SRAW rd = x15 rs1 = x1 rs2 = x3 
+      // x15 = -2
+      Memory[1346] = 8'b1_0111011;
+      Memory[1345] = 8'b1_101_0111;
+      Memory[1344] = 8'b0011_0000;
+      Memory[1343] = 8'b0100000_0;
       
    end
    

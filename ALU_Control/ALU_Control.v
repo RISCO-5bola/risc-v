@@ -7,23 +7,23 @@ module ALU_Control (
     output [3:0] operation
 );
     /*
-     Operations:
+     Operacoes:
      0000: add
      0001: and
      0010: or
      0011: sub
-     
-     implementar
      0100: xor
      0101: slt
      0110: sltiu (unsigned)
      0111: shift left logical
      1000: shift right logical
      1001: shift right arithmetical
+     1010: addw
+     1011: subw
+     1100: sllw
+     1101: srlw
+     1110: sraw
 
-
-
-     adicionar outras
      */
 
     /* A operacao a ser feita pela ALU depende do 
@@ -49,6 +49,17 @@ module ALU_Control (
     wire sll;
     wire srl;
     wire sra;
+
+    /* extensao RV64I */
+    wire addiw;
+    wire addw;
+    wire subw;
+    wire slliw;
+    wire sllw;
+    wire srliw;
+    wire srlw;
+    wire sraiw;
+    wire sraw;
         
     wire WireState0;    
     wire WireState1;    
@@ -81,6 +92,15 @@ module ALU_Control (
     wire wire13;
     wire wire14;
     wire wire15;
+    wire wire16;
+    wire wire17;
+    wire wire18;
+    wire wire19;
+    wire wire20;
+    wire wire21;
+    wire wire22;
+    wire wire23;
+    wire wire24;
     wire realizarSub;
     wire realizarOr;
     wire realizarAnd;
@@ -90,6 +110,11 @@ module ALU_Control (
     wire realizarShiftLeftLogical;
     wire realizarShiftRightLogical;
     wire realizarShiftRightArith;
+    wire realizarAddW;
+    wire realizarSubW;
+    wire realizarShiftLeftLogicalW;
+    wire realizarShiftRightLogicalW;
+    wire realizarShiftRightArithW;
 
     // and (WireState0, ~currentState[3], ~currentState[2],
     //                  ~currentState[1], ~currentState[0]);
@@ -193,6 +218,43 @@ module ALU_Control (
     and (sra, ~opcode[6], opcode[5], opcode[4], ~opcode[3], ~opcode[2], opcode[1], opcode[0],
               funct[4], funct[2], ~funct[1], funct[0]);
     
+    /* extensao RV64I */
+    /* verifica addiw */
+    and (addiw, ~opcode[6], ~opcode[5], opcode[4], opcode[3], ~opcode[2], opcode[1], opcode[0],
+              ~funct[2], ~funct[1], ~funct[0]);
+
+    /* verifica slliw*/
+    and (slliw, ~opcode[6], ~opcode[5], opcode[4], opcode[3], ~opcode[2], opcode[1], opcode[0],
+              ~funct[2], ~funct[1], funct[0]);
+
+    /* verifica srliw */
+    and (srliw, ~opcode[6], ~opcode[5], opcode[4], opcode[3], ~opcode[2], opcode[1], opcode[0],
+              ~funct[4], funct[2], ~funct[1], funct[0]);
+    
+    /* verifica sraiw */
+    and (sraiw, ~opcode[6], ~opcode[5], opcode[4], opcode[3], ~opcode[2], opcode[1], opcode[0],
+              funct[4], funct[2], ~funct[1], funct[0]);
+    
+    /* verifica addw */
+    and (addw, ~opcode[6], opcode[5], opcode[4], opcode[3], ~opcode[2], opcode[1], opcode[0],
+              ~funct[4], ~funct[2], ~funct[1], ~funct[0]);
+    
+    /* verifica subw */
+    and (subw, ~opcode[6], opcode[5], opcode[4], opcode[3], ~opcode[2], opcode[1], opcode[0],
+               funct[4], ~funct[2], ~funct[1], ~funct[0]);
+
+    /* verifica sllw */
+    and (sllw, ~opcode[6], opcode[5], opcode[4], opcode[3], ~opcode[2], opcode[1], opcode[0],
+               ~funct[2], ~funct[1], funct[0]);
+    
+    /* verifica srlw */
+    and (srlw, ~opcode[6], opcode[5], opcode[4], opcode[3], ~opcode[2], opcode[1], opcode[0],
+               ~funct[4], funct[2], ~funct[1], funct[0]);
+
+    /* verifica sraw */
+    and (sraw, ~opcode[6], opcode[5], opcode[4], opcode[3], ~opcode[2], opcode[1], opcode[0],
+               funct[4], funct[2], ~funct[1], funct[0]);
+
     /*
         Seta output da operacao
     */
@@ -234,8 +296,38 @@ module ALU_Control (
     and (wire16, sra, WireState6);
     or (realizarShiftRightArith, wire15, wire16);
 
-    or (operation[3], realizarShiftRightLogical, realizarShiftRightArith);
-    or (operation[2], realizarXor, realizarSlt, realizarSltu, realizarShiftLeftLogical);
-    or (operation[1], WireState14, realizarSub, realizarSltu, realizarOr, realizarShiftLeftLogical);
-    or (operation[0], WireState14, realizarSub, realizarSlt, realizarAnd, realizarShiftLeftLogical, realizarShiftRightArith);
+    /* extensao RV64I */
+    /* realizar addw */
+    and (wire17, addiw, WireState13);
+    and (wire18, addw, WireState6);
+    or (realizarAddW, wire17, wire18);
+
+    /* realizar subw */
+    and (realizarSubW, subw, WireState6);
+
+    /* realizar Shift Left Logical W */
+    and (wire19, slliw, WireState13);
+    and (wire20, sllw, WireState6);
+    or (realizarShiftLeftLogicalW, wire19, wire20);
+
+    /* realizar Shift Right Logical W */
+    and (wire21, srliw, WireState13);
+    and (wire22, srlw, WireState6);
+    or (realizarShiftRightLogicalW, wire21, wire22);
+
+    /* realizar Shift Right Arithmetical W */
+    and (wire23, sraiw, WireState13);
+    and (wire24, sraw, WireState6);
+    or (realizarShiftRightArithW, wire23, wire24);
+
+    /* Seta os outputs de saida para as operacoes da ALU */
+    or (operation[3], realizarShiftRightLogical, realizarShiftRightArith, realizarAddW,
+                      realizarSubW, realizarShiftLeftLogicalW, realizarShiftRightLogicalW,
+                      realizarShiftRightArithW);
+    or (operation[2], realizarXor, realizarSlt, realizarSltu, realizarShiftLeftLogical,
+                      realizarShiftLeftLogicalW, realizarShiftRightLogicalW, realizarShiftRightArithW);
+    or (operation[1], WireState14, realizarSub, realizarSltu, realizarOr, realizarShiftLeftLogical,
+                      realizarAddW, realizarSubW, realizarShiftRightArithW);
+    or (operation[0], WireState14, realizarSub, realizarSlt, realizarAnd, realizarShiftLeftLogical,
+                      realizarShiftRightArith, realizarSubW, realizarShiftRightLogicalW);
 endmodule

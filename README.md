@@ -68,15 +68,15 @@ As seguintes instruções foram implementadas:
 - [X] LWU
 - [X] LD
 - [X] SD
-- [ ] ADDIW
-- [ ] SLLIW
-- [ ] SRLIW
-- [ ] SRAIW
-- [ ] ADDW
-- [ ] SUBW
-- [ ] SLLW
-- [ ] SRLW
-- [ ] SRAW
+- [X] ADDIW
+- [X] SLLIW
+- [x] SRLIW
+- [X] SRAIW
+- [X] ADDW
+- [x] SUBW
+- [X] SLLW
+- [X] SRLW
+- [X] SRAW
 
 ## Descrição das instruções
 ### Operações básicas aritméticas com registradores: (tipo R):
