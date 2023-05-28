@@ -628,6 +628,21 @@ module Memory(input clk,
       Memory[1345] = 8'b1_101_0111;
       Memory[1344] = 8'b0011_0000;
       Memory[1343] = 8'b0100000_0;
+
+      /* Teste LUI */
+      // imm[31:12] rd 0110111 rd = x16 imm = 1
+      // x16 = 4096
+      Memory[1350] = 8'b0_0110111;
+      Memory[1349] = 8'b0001_1000;
+      Memory[1348] = 8'b00000000;
+      Memory[1347] = 8'b00000000;
+
+      // imm[31:12] rd 0110111 rd = x16 imm = 2
+      // x16 = 8192
+      Memory[1354] = 8'b0_0110111;
+      Memory[1353] = 8'b0010_1000;
+      Memory[1352] = 8'b00000000;
+      Memory[1351] = 8'b00000000;
       
    end
    

@@ -9,6 +9,7 @@
 `include "./ALU_Control/ALU_Control.v"
 `include "./ALU/ALU.v"
 `include "./mux/mux_2x1_64bit.v"
+`include "./mux/mux_3x1_64bit.v"
 `include "./mux/mux_4x1_64bit.v"
 `include "./mux/mux_2x1_64bit_S2.v"
 `include "./mux/mux_6x1_1b.v"
@@ -39,7 +40,8 @@ module riscv (
     wire PCWrite, PCWriteCond, IorD, IRWrite;
     wire MemtoReg, PCSource1, PCSource0, RegWrite, MemRead;
     wire MemWrite, Branch, ALUOp1, ALUOp0, ALUSrcB1, ALUSrcB0;
-    wire ALUSrcA, RegDst;
+    wire [1:0] ALUSrcA;
+    wire RegDst;
 
     /* sinais do PC e seu MUX */
     wire [63:0] nextPCPosition, PCout, regALUout;
@@ -167,7 +169,7 @@ module riscv (
         .readData2(readData2paraRegB));
 
     reg_parametrizado regA (.clk(clk), .load(1'b1), .in_data(readData1paraRegA), .out_data(regAparaMux1));
-    mux_2x1_64bit mux1ALU (.A(instructionAddress), .B(regAparaMux1), .S(ALUSrcA), .X(mux1paraALU));
+    mux_3x1_64bit mux1ALU (.A(instructionAddress), .B(regAparaMux1), .C(64'd0), .S(ALUSrcA), .X(mux1paraALU));
 
     reg_parametrizado regB (.clk(clk), .load(1'b1), .in_data(readData2paraRegB), .out_data(regBparaMux2));
     mux_4x1_64bit mux2ALU (.A(regBparaMux2), .B(64'd4), .C(immGenParaMux2), .D(64'd0), .S({ALUSrcB1, ALUSrcB0}), .X(mux2paraALU));

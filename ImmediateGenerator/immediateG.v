@@ -1,4 +1,4 @@
-`include "./ImmediateGenerator/mux_6x1_64bit.v"
+`include "./ImmediateGenerator/mux_7x1_64bit.v"
 // `include "../ALU/operations/Adder64b_mod.v"
 module immediateG (instruction, immediate);
 
@@ -15,7 +15,7 @@ module immediateG (instruction, immediate);
     wire [50:0] sign;
     wire [42:0] signJ;
     wire [31:0] signU;
-    wire wire1, wire2, wire3, wire4, wire5;
+    wire wire1, wire2, wire3, wire4, wire5, wire6;
     wire [2:0] type;
     wire [63:0] mux4;
     wire [63:0] resAddSub;
@@ -80,11 +80,15 @@ module immediateG (instruction, immediate);
      and (wire5, instruction[6], instruction[5], ~instruction[4], ~instruction[3],
                 instruction[2], instruction[1], instruction[0]);
 
-    or (type[2], wire3, wire5);
-    or (type[1], wire2, wire4); 
+    /* reconhece se a instruca e lui */
+     and (wire6, ~instruction[6], instruction[5], instruction[4], ~instruction[3],
+                instruction[2], instruction[1], instruction[0]);
+
+    or (type[2], wire3, wire5, wire6);
+    or (type[1], wire2, wire4, wire6); 
     or (type[0], wire1, wire2, wire5);
  
-    mux_6x1_64bit muxminus4 (.D({signJ, JTypeImmediate, 1'b0}), .C({sign, BTypeImmediate, 1'b0}), .F({sign, instruction[31], JALRTypeImmediate}), 
+    mux_7x1_64bit muxminus4 (.D({signJ, JTypeImmediate, 1'b0}), .C({sign, BTypeImmediate, 1'b0}), .F({sign, instruction[31], JALRTypeImmediate}), 
                         .E({signU, UTypeImmediate, 12'b0}), .S({type[2], type[1], type[0]}), .X({mux4}));
     Adder64b_mod Adder64b_mod (.A(mux4), .B(64'd4), .SUB(1'b1), .S(resAddSub), .COUT(overflow));
 
@@ -94,9 +98,10 @@ module immediateG (instruction, immediate);
        se type[2:0] = 010, sai o immediate do b 
        se type[2:0] = 011, sai o immediate do j
        se type[2:0] = 100, sai o immediate do u
-       se type[2:0] = 101, sai o immediate do JALR*/
-    mux_6x1_64bit muxImmeadite (.A({sign, instruction[31], ITypeImmediate}), .B({sign, instruction[31], SWTypeImmediate}), 
+       se type[2:0] = 101, sai o immediate do JALR
+       se type[2:0] = 110, sai o immediate do LUI*/
+    mux_7x1_64bit muxImmeadite (.A({sign, instruction[31], ITypeImmediate}), .B({sign, instruction[31], SWTypeImmediate}), 
                                 .C(resAddSub), .D(resAddSub), .E(resAddSub), 
-                                .F({sign, instruction[31], JALRTypeImmediate}), .S({type[2], type[1], type[0]}), .X(immediate));
+                                .F({sign, instruction[31], JALRTypeImmediate}), .G({signU, UTypeImmediate, 12'b0}), .S({type[2], type[1], type[0]}), .X(immediate));
    
 endmodule

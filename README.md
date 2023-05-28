@@ -25,7 +25,7 @@
 ## Instruções implementadas
 As seguintes instruções foram implementadas:
 
-- [ ] LUI
+- [X] LUI
 - [X] AUIPC
 - [X] JAL
 - [X] JALR
