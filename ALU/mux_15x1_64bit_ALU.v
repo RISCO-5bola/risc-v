@@ -12,7 +12,7 @@ always @ (*)
         else if (S == 4'b0010)
             X <= C;
         else if (S == 4'b0011)
-            X <= D;
+            X <= A;
         else if (S == 4'b0100)
             X <= E;
         else if (S == 4'b0101)
