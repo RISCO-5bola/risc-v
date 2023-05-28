@@ -191,7 +191,7 @@ module Memory(input clk,
 
      // imm[31:12] rd 0010111 AUIPC imm -8 rd = x5
      /* este este foi so para verificar se o AUIPC estava funcionando
-       com complemento de dois também, então o registrador 5 deve valer -31665
+       com complemento de dois também, então o registrador x6 deve valer -31665
        NAO FAZ SENTIDO EM TERMOS DE MEMORIA, E SO UM TESTE */
       Memory[1106] = 8'b0_0010111;  
       Memory[1105] = 8'b1000_0011; 
@@ -303,14 +303,14 @@ module Memory(input clk,
       Memory[1163] = 8'b00000010;
 
       /* imm[11:0] rs1 010 rd 0000011 LW rd = x9 rs1 = x0 im = 40
-         da load de 4 bytes com sinal em x9, x9 deve valer -204581759 */
+         da load de 4 bytes com sinal em x9, x9 deve valer -2004581759 */
       Memory[1170] = 8'b1_0000011;  
       Memory[1169] = 8'b0_010_0100; 
       Memory[1168] = 8'b1000_0000;
       Memory[1167] = 8'b00000010;
 
       /* imm[11:0] rs1 110 rd 0000011 LWU rd = x9 rs1 = x0 im = 32
-         da load de 4 bytes sem sinal em x9, x9 deve valer 2290385537 */
+         da load de 4 bytes sem sinal em x9, x9 deve valer 134480385 */
       Memory[1174] = 8'b1_0000011;  
       Memory[1173] = 8'b0_110_0100; 
       Memory[1172] = 8'b0000_0000;
@@ -448,7 +448,7 @@ module Memory(input clk,
       Memory[1244] = 8'b0000_0011;
       Memory[1243] = 8'b000000_00;
 
-      // 000000 shamt rs1 001 rd 0010011 SLLI rd = x12 rs1 = x6 shamt = 0
+      // 000000 shamt rs1 001 rd 0010011 SLLI rd = x12 rs1 = x6 shamt = 3
       // x12 = -253320
       Memory[1250] = 8'b0_0010011;
       Memory[1249] = 8'b0_001_0110;
@@ -463,7 +463,7 @@ module Memory(input clk,
       Memory[1252] = 8'b0000_0011;
       Memory[1251] = 8'b000000_00;
 
-      // 000000 shamt rs1 001 rd 0010011 SRLI rd = x12 rs1 = x6 shamt = 0
+      // 000000 shamt rs1 001 rd 0010011 SRLI rd = x12 rs1 = x6 shamt = 3
       // x12 = 230584300921369993
       Memory[1258] = 8'b0_0010011;
       Memory[1257] = 8'b0_101_0110;
@@ -478,18 +478,18 @@ module Memory(input clk,
       Memory[1260] = 8'b0000_0011;
       Memory[1259] = 8'b000000_00;
 
-      // 000000 shamt rs1 001 rd 0010011 SRAI rd = x12 rs1 = x6 shamt = 0
-      // x12 = 230584300921369993
+      // 010000 shamt rs1 101 rd 0010011 SRAI rd = x12 rs1 = x6 shamt = 3
+      // x12 = -3959
       Memory[1266] = 8'b0_0010011;
       Memory[1265] = 8'b0_101_0110;
       Memory[1264] = 8'b0011_0011;
       Memory[1263] = 8'b010000_00;
 
-      // 0100000 shamt rs1 101 rd 0010011 SRAI rd = x12 rs1 = x5 shamt = 3
-      // x12 = -3959
+      // 0100000 shamt rs1 101 rd 0010011 SRAI rd = x12 rs1 = x1 shamt = 3
+      // x12 = 536866953
       Memory[1270] = 8'b0_0010011;
-      Memory[1269] = 8'b0_101_0110;
-      Memory[1268] = 8'b0011_0011;
+      Memory[1269] = 8'b1_101_0110;
+      Memory[1268] = 8'b0011_0000;
       Memory[1267] = 8'b010000_00;
 
       /* Reseta registrador */
@@ -516,7 +516,7 @@ module Memory(input clk,
       Memory[1279] = 8'b000000_00;
       
       // 0000000 rs2 rs1 101 rd 0110011 SRL rd = x12 rs1 = x6 rs2 = x2
-      // x12 = -288230376151711249
+      // x12 = 288230376151711249
       Memory[1286] = 8'b0_0110011;
       Memory[1285] = 8'b0_101_0110;
       Memory[1284] = 8'b0010_0011;
@@ -581,7 +581,7 @@ module Memory(input clk,
       Memory[1315] = 8'b0000000_0;
 
       // 0100000 shamt rs1 101 rd 0011011 SRAIW rs1 = x6 rd = x14 imm = 3
-      // x14 = 9109050
+      // x14 = 152080464
       Memory[1322] = 8'b0_0011011;
       Memory[1321] = 8'b0_101_0111;
       Memory[1320] = 8'b0011_0011;

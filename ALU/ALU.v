@@ -5,7 +5,7 @@
 `include "./ALU/mux_15x1_64bit_ALU.v"
 
 module ALU (
-    input [63:0] A,
+    input signed [63:0] A,
     input [63:0] B,
     input [3:0] ALUOp,
     output [63:0] result,
