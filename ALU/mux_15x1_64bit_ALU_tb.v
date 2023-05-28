@@ -48,7 +48,7 @@ module and_tb ();
        $display("Test saida D");
        S = 4'b0011;
        #10
-       Check({X, D});
+       Check({X, A});
        #10
 
        $display("Test saida E");
