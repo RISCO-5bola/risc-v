@@ -25,170 +25,205 @@ module next_state_tb ();
 
     next_state UUT (.op(op), .state(state), .ns(ns));
 
+    /* cada teste abaixo representa um wire diferente 
+       do next_state.v e a ordem esta a mesma*/
+
     initial begin
-        // Teste state 0
-        state[3:0] = 4'b00_00;
-        #5
-        $display("Test #0");
-        Check1({state[3:0], 4'b00_00});
-        Check1({ns[3:0], 4'b00_01});
-        #5
-        
-        // Teste tipo-J
+
+        /* tipo jal current state 1 para next state 9*/
         state[3:0] = 4'b00_01;
         op[6:0] = 7'b1101111;
         #5
-        $display("Test #1");
+        $display("Test wire0");
         Check1({state[3:0], 4'b00_01});
         Check2({op[6:0], 7'b1101111});
         Check1({ns[3:0], 4'b10_01});
         #5
 
-        // Teste tipo-B
+        /* tipo b current state 1 para next state 8*/
         state[3:0] = 4'b00_01;
         op[6:0] = 7'b1100011;
         #5
-        $display("Test #2");
+        $display("Test wire1");
         Check1({state[3:0], 4'b00_01});
         Check2({op[6:0], 7'b1100011});
         Check1({ns[3:0], 4'b10_00});
         #5
 
-        // Teste tipo-R
-        state[3:0] = 4'b00_01;
-        op[6:0] = 7'b0110011;
+        /* tipo b current state 8 para next state 14*/
+        state[3:0] = 4'b10_00;
+        op[6:0] = 7'b1100011;
         #5
-        $display("Test #3");
+        $display("Test wire17");
+        Check1({state[3:0], 4'b10_00});
+        Check2({op[6:0], 7'b1100011});
+        Check1({ns[3:0], 4'b11_10});
+        #5
+
+        /* tipo r current state 1 para next state 6*/
+        state[3:0] = 4'b00_01;
+        op[6:0] = 7'b011x011;
+        #5
+        $display("Test wire2");
         Check1({state[3:0], 4'b00_01});
-        Check2({op[6:0], 7'b0110011});
+        Check2({op[6:0], 7'b011x011});
         Check1({ns[3:0], 4'b01_10});
         #5
 
-        // Teste tipo-sw
+        /* tipo sw current state 2 para next state 5*/
         state[3:0] = 4'b00_10;
         op[6:0] = 7'b0100011;
         #5
-        $display("Test #4");
+        $display("Test wire3");
         Check1({state[3:0], 4'b00_10});
         Check2({op[6:0], 7'b0100011});
         Check1({ns[3:0], 4'b01_01});
         #5
 
-        // Teste state 3
+        /* current state 3 para next state 4*/
         state[3:0] = 4'b00_11;
         #5
-        $display("Test #5");
+        $display("Test wire4");
         Check1({state[3:0], 4'b00_11});
         Check1({ns[3:0], 4'b01_00});
         #5
         
-        // Teste state 6
+        /* current state 6 para next state 7*/
         state[3:0] = 4'b01_10;
         #5
-        $display("Test #6");
+        $display("Test wire5");
         Check1({state[3:0], 4'b01_10});
         Check1({ns[3:0], 4'b01_11});
         #5
 
-        // Teste tipo-lw
+        /* tipo lw current state 1 para next state 2 */
         state[3:0] = 4'b00_01;
         op[6:0] = 7'b0000011;
         #5
-        $display("Test #7");
+        $display("Test wire6");
         Check1({state[3:0], 4'b00_01});
         Check2({op[6:0], 7'b0000011});
         Check1({ns[3:0], 4'b00_10});
         #5
 
-        // Teste tipo-sw
+        /* tipo sw current state 1 para next state 2 */
         state[3:0] = 4'b00_01;
         op[6:0] = 7'b0100011;
         #5
-        $display("Test #8");
+        $display("Test wire7");
         Check1({state[3:0], 4'b00_01});
         Check2({op[6:0], 7'b0100011});
         Check1({ns[3:0], 4'b00_10});
         #5
 
-        // Teste tipo-lw
+        /* tipo lw current state 2 para next state 3 */
         state[3:0] = 4'b00_10;
         op[6:0] = 7'b0000011;
         #5
-        $display("Test #9");
+        $display("Test wire8");
         Check1({state[3:0], 4'b00_10});
         Check2({op[6:0], 7'b0000011});
         Check1({ns[3:0], 4'b00_11});
         #5
 
-        // Teste tipo-j
+        /* current state 0 para next state 1 */
+        state[3:0] = 4'b00_00;
+        #5
+        $display("Test wire9");
+        Check1({state[3:0], 4'b00_00});
+        Check1({ns[3:0], 4'b00_01});
+        #5
+
+        /* tipo jal current state 9 para next state 10 */
         state[3:0] = 4'b10_01;
         op[6:0] = 7'b1101111;
         #5
-        $display("Test #10");
+        $display("Test wire10");
         Check1({state[3:0], 4'b10_01});
         Check2({op[6:0], 7'b1101111});
         Check1({ns[3:0], 4'b10_10});
         #5
 
-        // Teste tipo-I-Jalr
+        /* tipo I-Jalr current state 9 para next state 12 */
         state[3:0] = 4'b10_01;
         op[6:0] = 7'b1100111;
         #5
-        $display("Test #11");
+        $display("Test wire11");
         Check1({state[3:0], 4'b10_01});
         Check2({op[6:0], 7'b1100111});
         Check1({ns[3:0], 4'b11_00});
         #5
 
-        // Teste tipo-U-AUIPC
+        /* tipo U-AUIPC current state 1 para next state 11 */
         state[3:0] = 4'b00_01;
         op[6:0] = 7'b0010111;
         #5
-        $display("Test #12");
+        $display("Test wire12");
         Check1({state[3:0], 4'b00_01});
         Check2({op[6:0], 7'b0010111});
         Check1({ns[3:0], 4'b10_11});
         #5
 
-        // Teste tipo-I-Jalr
+        /* tipo I-Jalr current state 1 para next state 9*/
         state[3:0] = 4'b00_01;
         op[6:0] = 7'b1100111;
         #5
-        $display("Test #13");
+        $display("Test wire13");
         Check1({state[3:0], 4'b00_01});
         Check2({op[6:0], 7'b1100111});
         Check1({ns[3:0], 4'b10_01});
         #5
 
-        // Teste tipo-I-addi/andi
+        /* tipo I-addi current state 1 para next state 13 */
         state[3:0] = 4'b00_01;
-        op[6:0] = 7'b0010011;
+        op[6:0] = 7'b001x011;
         #5
-        $display("Test #14");
+        $display("Test wire14");
         Check1({state[3:0], 4'b00_01});
-        Check2({op[6:0], 7'b0010011});
+        Check2({op[6:0], 7'b001x011});
         Check1({ns[3:0], 4'b11_01});
         #5
 
-        // Teste tipo-I-addi/andi
+        /* tipo I-addi current sate 13 para next state 7 */
         state[3:0] = 4'b11_01;
-        op[6:0] = 7'b0010011;
+        op[6:0] = 7'b001x011;
         #5
-        $display("Test #15");
+        $display("Test wire15");
         Check1({state[3:0], 4'b11_01});
-        Check2({op[6:0], 7'b0010011});
+        Check2({op[6:0], 7'b001x011});
         Check1({ns[3:0], 4'b01_11});
         #5
 
-        // Teste tipo-U-AUIPC
+        /* tipo U-AUIPC current state 11 para next state 7 */
         state[3:0] = 4'b10_11;
         op[6:0] = 7'b0010111;
         #5
-        $display("Test #16");
+        $display("Test wire16");
         Check1({state[3:0], 4'b10_11});
         Check2({op[6:0], 7'b0010111});
         Check1({ns[3:0], 4'b01_11});
         #5
+
+        /* tipo U-LUI  current state 1 para next state 15 */
+        state[3:0] = 4'b00_01;
+        op[6:0] = 7'b0110111;
+        #5
+        $display("Test wire18");
+        Check1({state[3:0], 4'b00_01});
+        Check2({op[6:0], 7'b0110111});
+        Check1({ns[3:0], 4'b11_11});
+        #5
+
+        /* tipo U-LUI  current state 15 para next state 7 0010111*/
+        state[3:0] = 4'b11_11;
+        op[6:0] = 7'b0110111;
+        #5
+        $display("Test wire19");
+        Check1({state[3:0], 4'b11_11});
+        Check2({op[6:0], 7'b0110111});
+        Check1({ns[3:0], 4'b01_11});
+        #5
+
 
         $display ("\nErrors: %d", errors);
         $finish;
