@@ -42,14 +42,6 @@ module outputs (
                      StateRegister[1], StateRegister[0]);
     and (WireState8, StateRegister[3], ~StateRegister[2],
                      ~StateRegister[1], ~StateRegister[0]);
-
-    //No state 9 atualmente, faremos um save do PC + 4 no RF[rd]
-    // memtoreg on -> permite salvar o result alu no registrador; -> vale 0.
-    //write register = padrão.
-    //ALUSRCA = 0;
-    //ALUSRCB1 = 0;
-    //ALUSRCB0 = 1;
-    //regwrite = 1
     and (WireState9, StateRegister[3], ~StateRegister[2],
                      ~StateRegister[1], StateRegister[0]);
     and (WireState10, StateRegister[3], ~StateRegister[2],
@@ -60,45 +52,12 @@ module outputs (
                      ~StateRegister[1], ~StateRegister[0]);
     and (WireState13, StateRegister[3], StateRegister[2],
                       ~StateRegister[1], StateRegister[0]);
-
     /* Correcao do tipo B */
     and (WireState14, StateRegister[3], StateRegister[2],
                       StateRegister[1], ~StateRegister[0]);
-
     /* Correcao do tipo lui */
     and (WireState15, StateRegister[3], StateRegister[2],
                       StateRegister[1], StateRegister[0]);
-
-    //MemtoReg
-    //PCSourceO 00 ou 01
-    //PCsource1 
-    //ALUSRCA = 0 -> PC, 1 -> readData1;
-    //ALUSRCB = 0 -> readData2, 1 -> 4 , 2 -> immediateGenerator;
-    
-
-
-    //State 10: PC = PC + {imm, 1'b0};
-    //memtoreg = 0
-    //PCwrite = 1
-    //ALUSRCA = 0
-    //ALUSRCB1 = 1
-    //ALUSRCB0 = 0
-
-
-
-    //State 11: RF[rd] = PC + imm,12'b0
-    //ALUSRCA = 0
-    //ALUSRCB1 = 1
-    //ALUSRCB0 = 0
-    //regwrite = 1
-
-
-    //State 12: PC = RF[rd] + imm
-    //ALUSRCA = 1
-    //ALUSRCB1 = 1
-    //ALUSRCB0 = 0
-    //PCwrite = 1
-    //memtoreg = 0
 
     or (PCWrite, WireState0, WireState10, WireState12);
     assign PCWriteCond = WireState14;
@@ -109,15 +68,12 @@ module outputs (
     assign MemtoReg = WireState4;
     assign PCSource1 = WireState9;
     assign PCSource0 = WireState14;
-    
     or (ALUOp1, WireState6, WireState13);
     assign ALUOp0 = WireState8;
     or (ALUSrcB1, WireState2, WireState1, WireState10, WireState8, WireState9, WireState11, WireState12, WireState13, WireState15);
     or (ALUSrcB0, WireState0, WireState1, WireState9);
-
     assign ALUSrcA[1] = WireState15;
     or (ALUSrcA[0], WireState2, WireState6, WireState14, WireState12, WireState13);
-
     or (RegWrite, WireState4, WireState7, WireState9);
     assign RegDst = WireState7;
 
