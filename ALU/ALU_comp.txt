@@ -1,0 +1,9 @@
+ALU.v
+ALU_tb.v
+../Mux/mux_15x1_64bit_ALU.v
+operations/and.v
+operations/CLAAdder8b_mod.v
+operations/PartialFullAdder1b_mod.v
+operations/Adder64b_mod.v
+operations/or.v
+operations/xor.v
