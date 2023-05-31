@@ -4,7 +4,7 @@ module Memory_TB ();
     reg clk;
     reg mem_read;
     reg mem_write;
-    reg [7:0] endereco;
+    reg [63:0] endereco;
     reg [63:0] write_data;
     wire [63:0] read_data;
 

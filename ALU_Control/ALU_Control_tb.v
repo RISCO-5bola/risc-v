@@ -2,7 +2,7 @@
 module testbench () ;
     reg ALUOp1;
     reg ALUOp0;
-    reg [3:0] funct;
+    reg [4:0] funct;
 
     wire [3:0] operation;
 
@@ -15,7 +15,7 @@ module testbench () ;
         end
     endtask
 
-    ALU_Control UUT (.ALUOp1(ALUOp1), .ALUOp0(ALUOp0), .funct (funct), .operation(operation));
+    ALU_Control UUT (.ALUOp1(ALUOp1), .ALUOp0(ALUOp0), .funct(funct), .operation(operation));
 
         initial begin
         errors = 0;

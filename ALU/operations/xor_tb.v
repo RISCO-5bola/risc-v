@@ -1,4 +1,4 @@
-module and_tb ();
+module xor_tb ();
     reg [63:0] A, B;
     wire [63:0] result;
     

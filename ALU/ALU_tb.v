@@ -7,7 +7,7 @@ module testbench ();
 
     wire [63:0] result;
     
-    ALU UUT (.A(A), .B(B), .ALUOp(ALUOp), .result(result), .zero(zero));
+    ALU UUT (.A(A), .B(B), .ALUOp(ALUOp), .result(result));
 
     integer i, errors = 0;
     task Check ;
