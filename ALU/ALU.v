@@ -1,8 +1,8 @@
-`include "./ALU/operations/and.v"
-`include "./ALU/operations/Adder64b_mod.v"
-`include "./ALU/operations/or.v"
-`include "./ALU/operations/xor.v"
-`include "./ALU/mux_15x1_64bit_ALU.v"
+//`include "./ALU/operations/and.v"
+//`include "./ALU/operations/Adder64b_mod.v"
+//`include "./ALU/operations/or.v"
+//`include "./ALU/operations/xor.v"
+//`include "./ALU/mux_15x1_64bit_ALU.v"
 
 module ALU (
     input signed [63:0] A,
@@ -57,8 +57,8 @@ module ALU (
     wire signed [31:0] lowerA;
     wire signed [31:0] lowerB;
 
-    assign signed lowerA = A[31:0];
-    assign signed lowerB = B[31:0];
+    assign lowerA = A[31:0];
+    assign lowerB = B[31:0];
 
     assign resSLT = {63'd0, lesser_than};
     assign resSLTU = {63'd0, unsigned_lesser};

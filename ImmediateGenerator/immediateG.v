@@ -1,4 +1,4 @@
-`include "./ImmediateGenerator/mux_7x1_64bit.v"
+// `include "./ImmediateGenerator/mux_7x1_64bit.v"
 // `include "../ALU/operations/Adder64b_mod.v"
 module immediateG (instruction, immediate);
 
