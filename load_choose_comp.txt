@@ -1,0 +1,6 @@
+load_choose.v
+load_choose_tb.v
+Mux/mux_3x1_32bit.v
+Mux/mux_3x1_16bit.v
+Mux/mux_3x1_8bit.v
+Mux/mux_3x1_1bit.v

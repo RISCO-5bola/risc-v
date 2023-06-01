@@ -1,0 +1,3 @@
+Registers.v
+Registers_tb.v
+reg_parametrizado.v
