@@ -17,7 +17,6 @@ module mux_3x1_1bit_tb ();
     initial begin
        #10
        S <= 2'b00; 
-       #10
        A <= 1'b1; B <= 1'b0; C <= 1'b1;
        #10
 

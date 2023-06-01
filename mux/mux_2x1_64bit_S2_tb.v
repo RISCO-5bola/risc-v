@@ -18,10 +18,7 @@ module mux_7x1_64bit_tb ();
     initial begin
        #10
        S <= 2'b00; 
-       A <= 64'd0;
-       #10
        A <= 64'd1; B <= 64'd2; 
-       
        #10
 
        $display("Test saida A");

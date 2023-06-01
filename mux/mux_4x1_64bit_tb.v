@@ -19,7 +19,6 @@ module mux_4x1_64bit_tb ();
        #10
        S <= 2'b00; 
        A <= 64'd1; B <= 64'd2; C <= 64'd3; D <= 64'd4;
-       
        #10
 
        $display("Test saida A");
