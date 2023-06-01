@@ -1,5 +1,5 @@
-`include "./utils/cu/outputs.v"
-`include "./utils/cu/next_state.v"
+//`include "./utils/cu/outputs.v"
+//`include "./utils/cu/next_state.v"
 module ControlUnit (
     input [6:0] op, input clk, input reset,
     output PCWrite, output PCWriteCond, output IorD,

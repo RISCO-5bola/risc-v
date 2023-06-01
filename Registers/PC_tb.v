@@ -6,7 +6,7 @@ module testbench();
     parameter sete = 64'd7,
              oito = 64'd8;
 	integer i = 0;
-    PC uut (.datain(datain_tb), .dataout(dataout_tb), .enable(enable_tb), .reset(reset_tb), .clk(clk_tb));
+    PC uut (.in_data(datain_tb), .out_data(dataout_tb), .load(enable_tb), .reset(reset_tb), .clk(clk_tb));
 	
     always #5 clk_tb = ~clk_tb; /*Definindo a onda de clock*/
 
@@ -21,12 +21,12 @@ module testbench();
         datain_tb = sete;
         i = i + 1;
         #10 /*Intervalo de tempo para os bits serem atualizados corretamente*/
-        if(dataout_tb == 0) begin
-            $display("TESTE %b CORRETO\nreset = %b\nenable = %b\n->entrada = %b; saida = %b\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
+        if(dataout_tb == 1023) begin
+            $display("TESTE %d CORRETO\nreset = %b\nenable = %b\n->entrada = %d;\n saida = %d\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
             $display("\n");
         end
         else begin
-            $display("TESTE %b INCORRETO\nreset = %b\nenable = %b\n->entrada = %b; saida = %b\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
+            $display("TESTE %d INCORRETO\nreset = %b\nenable = %b\n->entrada = %d;\n saida = %d\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
         end
         #50
 	/*Segundo teste: o valor eh resetado para zero*/
@@ -35,12 +35,12 @@ module testbench();
         datain_tb = sete;
         i = i + 1;
         #10
-        if(dataout_tb == 0) begin
-            $display("TESTE %b CORRETO\nreset = %b\nenable = %b\n->entrada = %b; saida = %b\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
+        if(dataout_tb == 1023) begin
+            $display("TESTE %d CORRETO\nreset = %b\nenable = %b\n->entrada = %d;\n saida = %d\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
             $display("\n");
         end
         else begin
-            $display("TESTE %b INCORRETO\nreset = %b\nenable = %b\n->entrada = %b; saida = %b\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
+            $display("TESTE %d INCORRETO\nreset = %b\nenable = %b\n->entrada = %d;\n saida = %d\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
             $display("\n");
         end
         #50
@@ -51,11 +51,11 @@ module testbench();
         i = i + 1;
         #10
         if(dataout_tb == sete) begin
-            $display("TESTE %b CORRETO\nreset = %b\nenable = %b\n->entrada = %b; saida = %b\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
+            $display("TESTE %d CORRETO\nreset = %b\nenable = %b\n->entrada = %d;\n saida = %d\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
             $display("\n");
         end
         else begin
-            $display("TESTE %b INCORRETO\nreset = %b\nenable = %b\n->entrada = %b; saida = %b\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
+            $display("TESTE %d INCORRETO\nreset = %b\nenable = %b\n->entrada = %d;\n saida = %d\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
             $display("\n");
         end
         #50
@@ -66,11 +66,11 @@ module testbench();
         i = i + 1;
         #10
         if(dataout_tb == oito) begin
-            $display("TESTE %b CORRETO\nreset = %b\nenable = %b\n->entrada = %b; saida = %b\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
+            $display("TESTE %d CORRETO\nreset = %b\nenable = %b\n->entrada = %d;\n saida = %d\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
             $display("\n");
         end
         else begin
-            $display("TESTE %b INCORRETO\nreset = %b\nenable = %b\n->entrada = %b; saida = %b\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
+            $display("TESTE %d INCORRETO\nreset = %b\nenable = %b\n->entrada = %d;\n saida = %d\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
             $display("\n");
         end
         #50
@@ -81,11 +81,11 @@ module testbench();
         i = i + 1;
         #10
         if(dataout_tb == oito) begin
-            $display("TESTE %b CORRETO\nreset = %b\nenable = %b\n->entrada = %b; saida = %b\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
+            $display("TESTE %d CORRETO\nreset = %b\nenable = %b\n->entrada = %d;\n saida = %d\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
             $display("\n");
         end
         else begin
-            $display("TESTE %b INCORRETO\nreset = %b\nenable = %b\n->entrada = %b; saida = %b\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
+            $display("TESTE %d INCORRETO\nreset = %b\nenable = %b\n->entrada = %d;\n saida = %d\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
             $display("\n");
         end
         #50
@@ -95,12 +95,12 @@ module testbench();
         datain_tb = sete;
         i = i + 1;
         #10
-        if(dataout_tb == 0) begin
-            $display("TESTE %b CORRETO\nreset = %b\nenable = %b\n->entrada = %b; saida = %b\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
+        if(dataout_tb == 1023) begin
+            $display("TESTE %d CORRETO\nreset = %b\nenable = %b\n->entrada = %d;\n saida = %d\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
             $display("\n");
         end
         else begin
-            $display("TESTE %b INCORRETO\nreset = %b\nenable = %b\n->entrada = %b; saida = %b\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
+            $display("TESTE %d INCORRETO\nreset = %b\nenable = %b\n->entrada = %d;\n saida = %d\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
             $display("\n");
         end
         #50
@@ -110,12 +110,12 @@ module testbench();
         datain_tb = sete;
         i = i + 1;
         #10
-        if(dataout_tb == 0) begin
-            $display("TESTE %b CORRETO\nreset = %b\nenable = %b\n->entrada = %b; saida = %b\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
+        if(dataout_tb == 1023) begin
+            $display("TESTE %d CORRETO\nreset = %b\nenable = %b\n->entrada = %d;\n saida = %d\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
             $display("\n");
         end
         else begin
-            $display("TESTE %b INCORRETO\nreset = %b\nenable = %b\n->entrada = %b; saida = %b\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
+            $display("TESTE %d INCORRETO\nreset = %b\nenable = %b\n->entrada = %d;\n saida = %d\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
             $display("\n");
         end
         #50
@@ -125,12 +125,12 @@ module testbench();
         datain_tb = oito;
         i = i + 1;
         #10
-        if(dataout_tb == 0) begin
-            $display("TESTE %b CORRETO\nreset = %b\nenable = %b\n->entrada = %b; saida = %b\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
+        if(dataout_tb == 1023) begin
+            $display("TESTE %d CORRETO\nreset = %b\nenable = %b\n->entrada = %d;\n saida = %d\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
             $display("\n");
         end
         else begin
-            $display("TESTE %b INCORRETO\nreset = %b\nenable = %b\n->entrada = %b; saida = %b\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
+            $display("TESTE %d INCORRETO\nreset = %b\nenable = %b\n->entrada = %d;\n saida = %d\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
             $display("\n");
         end
         #50
@@ -141,11 +141,11 @@ module testbench();
         i = i + 1;
         #10
         if(dataout_tb == sete) begin
-            $display("TESTE %b CORRETO\nreset = %b\nenable = %b\n->entrada = %b; saida = %b\n", i,reset_tb, enable_tb, datain_tb, dataout_tb);
+            $display("TESTE %d CORRETO\nreset = %b\nenable = %b\n->entrada = %d;\n saida = %d\n", i,reset_tb, enable_tb, datain_tb, dataout_tb);
             $display("\n");
         end
         else begin
-            $display("TESTE %b INCORRETO\nreset = %b\nenable = %b\n->entrada = %b; saida = %b\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
+            $display("TESTE %d INCORRETO\nreset = %b\nenable = %b\n->entrada = %d;\n saida = %d\n", i, reset_tb, enable_tb, datain_tb, dataout_tb);
             $display("\n");
         end
         $finish;

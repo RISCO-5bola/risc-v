@@ -1,7 +1,7 @@
-`include "./mux/mux_3x1_32bit.v"
-`include "./mux/mux_3x1_16bit.v"
-`include "./mux/mux_3x1_8bit.v"
-`include "./mux/mux_3x1_1bit.v"
+//`include "./mux/mux_3x1_32bit.v"
+//`include "./mux/mux_3x1_16bit.v"
+//`include "./mux/mux_3x1_8bit.v"
+//`include "./mux/mux_3x1_1bit.v"
 
 module load_choose (
     input [63:0] dataReadFromMemory,
@@ -79,4 +79,5 @@ module load_choose (
  /* mux2 */
  and (mux2[1], isLType, ~funct3[2], ~funct3[1], ~funct3[0]);
  and (mux2[0], isLType, funct3[2], ~funct3[1], ~funct3[0]);
+ 
 endmodule
