@@ -1,6 +1,6 @@
-module mux_7x1_64bit_tb ();
-    reg [2:0] S;
-    reg [63:0] A, B, C, D, E, F, G;
+module mux_4x1_64bit_tb ();
+    reg [1:0] S;
+    reg [63:0] A, B, C, D;
     wire [63:0] X;
     
     integer errors = 0;
@@ -13,58 +13,37 @@ module mux_7x1_64bit_tb ();
         end
     endtask
 
-    mux_7x1_64bit UUT (.A(A), .B(B), .C(C), .D(D), .E(E), .F(F), 
-                            .G(G), .X(X), .S(S));
+    mux_4x1_64bit UUT (.A(A), .B(B), .C(C), .D(D), .X(X), .S(S));
 
     initial begin
        #10
-       S <= 3'b000; 
-       #10
-       A <= 64'd1; B <= 64'd2; C <= 64'd3; D <= 64'd4; 
-       E <= 64'd5; F <= 64'd6; G <= 64'd7; 
+       S <= 2'b00; 
+       A <= 64'd1; B <= 64'd2; C <= 64'd3; D <= 64'd4;
        
        #10
 
        $display("Test saida A");
-       S <= 3'b000;
+       S <= 2'b00;
        #10
        Check({X, A});
        #10
 
        $display("Test saida B");
-       S = 3'b001;
+       S = 2'b01;
        #10
        Check({X, B});
        #10
-       
+
        $display("Test saida C");
-       S = 3'b010;
+       S = 2'b10;
        #10
        Check({X, C});
        #10
 
        $display("Test saida D");
-       S = 3'b011;
+       S = 2'b11;
        #10
        Check({X, D});
-       #10
-
-       $display("Test saida E");
-       S = 3'b100;
-       #10
-       Check({X, E});
-       #10
-
-       $display("Test saida F");
-       S = 3'b101;
-       #10
-       Check({X, F});
-       #10
-
-       $display("Test saida G");
-       S = 3'b110;
-       #10
-       Check({X, G});
        #10
 
        $display("Errors: %d", errors);
