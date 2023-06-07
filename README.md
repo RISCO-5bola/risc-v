@@ -164,6 +164,7 @@ Abaixo está o datapath dessa entrega (baseado no livro Computer Organization an
  Optamos por fazer as funções de próximo estado e de saídas de forma estrutural e em módulos separados, buscando evitar bugs de atraso de clock usando o bloco always. Por outro lado, deixamos tudo comentado para que, cada vez que adicionamos um estado novo, possamos alterar tudo sem muitos problemas.
 
  Abaixo, está a representação da máquina de estados da Unidade de Controle multiciclo.
+ 
  Obs: atualmente essa maquina de estado representada pela imagem está desatualizada, pois alguns estados a mais foram adicionados.
  ![estados](https://raw.githubusercontent.com/RISCO-5bola/risc-v/main/estados_uc.png)
  
