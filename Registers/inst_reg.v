@@ -1,4 +1,4 @@
-
+//instruction memory
 module inst_reg (
   clk, // sinal de clock
   load, // sinal de carga

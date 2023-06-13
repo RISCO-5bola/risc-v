@@ -30,3 +30,8 @@ ALU/operations/Adder64b_mod.v
 ALU/operations/and.v
 ALU/operations/or.v
 ALU/operations/xor.v
+
+
+
+
+risc-v.v risc-v_tb.v Memory/Memory.v Registers/PC.v ControlUnit.v Registers/Registers.v  Registers/reg_parametrizado.v  ImmediateGenerator/immediateG.v ALU_Control/ALU_Control.v ALU/ALU.v Mux/mux_2x1_64bit.v Mux/mux_3x1_64bit.v Mux/mux_4x1_64bit.v Mux/mux_2x1_64bit_S2.v  Mux/mux_15x1_64bit_ALU.v Mux/mux_3x1_16bit.v Mux/mux_3x1_1bit.v Mux/mux_3x1_32bit.v Mux/mux_3x1_8bit.v Mux/mux_7x1_64bit.v Mux/mux_6x1_1bit.v utils/cu/next_state.v utils/cu/outputs.v Registers/inst_reg.v load_choose.v storage_choose.v ALU/operations/CLAAdder8b_mod.v ALU/operations/PartialFullAdder1b_mod.v ALU/operations/Adder64b_mod.v ALU/operations/and.v ALU/operations/or.v ALU/operations/xor.v

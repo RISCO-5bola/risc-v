@@ -26,9 +26,7 @@ module riscv (
 
     initial begin
         $dumpfile("wave.vcd");
-
         $dumpvars(0, riscv);
-
     end
     /* 
         Wires especificados. Para localizar exatamente

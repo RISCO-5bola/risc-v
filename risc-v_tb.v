@@ -16,7 +16,7 @@ module riscv_tb ();
         reset = 1'b1;
         #3
         reset = 1'b0;
-        #6000
+        #5500
         $finish;
     end
 endmodule

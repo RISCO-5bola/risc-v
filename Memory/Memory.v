@@ -131,7 +131,7 @@ module Memory(input clk,
 
      /* Nos testes do tipo B, faz-se as comparacoes desejadas e saltam 8 posicoes
         na memoria */
-     // x imm[12|10:5] x4 x2 000 imm[4:1|11] 1100011 BEQ imm = 8
+     // x imm[12|10:5] x4 x2 000 imm[4:1|11] 1100011 BEQ imm = 8 -> PC + 8 caso igual
      Memory[1050] = 8'b0_1100011; 
      Memory[1049] = 8'b0_000_0100;
      Memory[1048] = 8'b0100_0001;
@@ -644,146 +644,45 @@ module Memory(input clk,
       Memory[1352] = 8'b00000000;
       Memory[1351] = 8'b00000000;
       
-      /*
-         Simulando código em C:
-         int main () {
-            int a = 2;
-            int b = 1;
-            int c = a + b;
-            return 0;
-         }
 
-         Assembly gerado sem pseudo instrucoes:
-         0000000000000000 <main>:
-            0:	fe010113          	addi	sp,sp,-32
-            4:	00813c23          	sd	s0,24(sp)
-            8:	02010413          	addi	s0,sp,32
-            c:	00200793          	addi	a5,zero,2
-         10:	fef42223          	sw	a5,-28(s0)
-         14:	00100793          	addi	a5,zero,1
-         18:	fef42423          	sw	a5,-24(s0)
-         1c:	fe442783          	lw	a5,-28(s0)
-         20:	00078713          	addi	a4,a5,0
-         24:	fe842783          	lw	a5,-24(s0)
-         28:	00f707bb          	addw	a5,a4,a5
-         2c:	fef42623          	sw	a5,-20(s0)
-         30:	00000793          	addi	a5,zero,0
-         34:	00078513          	addi	a0,a5,0
-         38:	01813403          	ld	s0,24(sp)
-         3c:	02010113          	addi	sp,sp,32
-         40:	00008067          	jalr	zero,0(ra)
+   // x imm[12|10:5] x1 x0 001 imm[4:1|11] 1100011 BNE imm = 24
 
-         Assembly compilado para rodar aqui no RISC-V com sp = x1
-         
-         addi x1,x1,-32
-         sd	x0,24(x1)
-         addi x0,x1,32
-         addi x5,x0,2
-         sw	x5,-28(x0)
-         addi x5,x0,1
-         sw	x5,-24(x0)
-         lw	x5,-28(x0)
-         addi x4,x5,0
-         lw	x5,-24(x0)
-         addw x5,x4,x5
-         sw	x5,-20(x0)
-         addi x5,x0,0
-         addi x0,x5,0
-         ld x0,24(x1)
-         addi x1,x1,32
-         jalr x0,0(ra)
+     Memory[1358] = 8'b0_1100011; //opcode (last 6)
+     Memory[1357] = 8'b0_001_1100; //ultimos 5
+     Memory[1356] = 8'b0001_0000; //n tem immediate
+     Memory[1355] = 8'b0000000_0; //OK
 
-      */
-
-      Memory[1358] = 8'b10010011;
-      Memory[1357] = 8'b10000000;
-      Memory[1356] = 8'b00000000;
-      Memory[1355] = 8'b11111110;
-
-      Memory[1362] = 8'b00100011;
-      Memory[1361] = 8'b10111000;
-      Memory[1360] = 8'b00000000;
-      Memory[1359] = 8'b00000010;
-
-      Memory[1366] = 8'b00010011;
-      Memory[1365] = 8'b10000000;
-      Memory[1364] = 8'b00000000;
-      Memory[1363] = 8'b00000010;
-
-      Memory[1370] = 8'b10010011;
-      Memory[1369] = 8'b00000010;
-      Memory[1368] = 8'b00100000;
-      Memory[1367] = 8'b00000000;
-
-      Memory[1374] = 8'b10100011;
-      Memory[1373] = 8'b00100100;
-      Memory[1372] = 8'b01010000;
-      Memory[1371] = 8'b11111100;
-
-      Memory[1378] = 8'b10100011;
-      Memory[1377] = 8'b00100100;
-      Memory[1376] = 8'b01010000;
-      Memory[1375] = 8'b11111100;
-
-      Memory[1382] = 8'b00000000;
-      Memory[1381] = 8'b00010000;
-      Memory[1380] = 8'b00000010;
-      Memory[1379] = 8'b10010011;
-
-      Memory[1386] = 8'b11111100;
-      Memory[1385] = 8'b01010000;
-      Memory[1384] = 8'b00101000;
-      Memory[1383] = 8'b10100011;
-
-      Memory[1390] = 8'b11111110;
-      Memory[1389] = 8'b01000000;
-      Memory[1388] = 8'b00100010;
-      Memory[1387] = 8'b10000011;
-
-      Memory[1394] = 8'b00000000;
-      Memory[1393] = 8'b00000010;
-      Memory[1392] = 8'b10000010;
-      Memory[1391] = 8'b00010011;
-
-      Memory[1398] = 8'b11111110;
-      Memory[1397] = 8'b10000000;
-      Memory[1396] = 8'b00100010;
-      Memory[1395] = 8'b10000011;
-
-      Memory[1402] = 8'b00000000;
-      Memory[1401] = 8'b01010010;
-      Memory[1400] = 8'b00000010;
-      Memory[1399] = 8'b10111011;
-
-      Memory[1406] = 8'b11111100;
-      Memory[1405] = 8'b01010000;
-      Memory[1404] = 8'b00101100;
-      Memory[1403] = 8'b10100011;
-
-      Memory[1410] = 8'b00000000;
-      Memory[1409] = 8'b00000000;
-      Memory[1408] = 8'b00000010;
-      Memory[1407] = 8'b10010011;
-
-      Memory[1414] = 8'b00000000;
-      Memory[1413] = 8'b00000010;
-      Memory[1412] = 8'b10000000;
-      Memory[1411] = 8'b00010011;
-
-      Memory[1418] = 8'b00000001;
-      Memory[1417] = 8'b10000000;
-      Memory[1416] = 8'b10110000;
-      Memory[1415] = 8'b00000011;
-
-      Memory[1422] = 8'b00000010;
-      Memory[1421] = 8'b00000000;
-      Memory[1420] = 8'b10000000;
-      Memory[1419] = 8'b10010011;
-
-      Memory[1426] = 8'b00000000;
-      Memory[1425] = 8'b00000000;
-      Memory[1424] = 8'b00000000;
-      Memory[1423] = 8'b11100111;
+     //55+24 = 1379
+     // imm[12|10:5] x1 x0 100 imm[4:1|11] 1100011 BLT imm = 20
+     Memory[1382] = 8'b0_1100011;
+     Memory[1381] = 8'b0_100_1010; //OK
+     Memory[1380] = 8'b0001_0000;
+     Memory[1379] = 8'b0000000_0;
+   //79+20 = 1399
+   // x imm[12|10:5] x0 x1 101 imm[4:1|11] 1100011 BGE imm = 40
+     Memory[1402] = 8'b0_1100011;
+     Memory[1401] = 8'b1_101_0100;
+     Memory[1400] = 8'b0000_0000;
+     Memory[1399] = 8'b0000001_0; //OK
+   //99+40 = 1439
+   // x imm[12|10:5] x1 x0 110 imm[4:1|11] 1100011 BLTU imm = 64
+     Memory[1442] = 8'b0_1100011;
+     Memory[1441] = 8'b0_110_0000;
+     Memory[1440] = 8'b0001_0000;
+     Memory[1439] = 8'b0000010_0; //OK
+      //39 + 64 = 1503
+      // x imm[12|10:5] x0 x1 111 imm[4:1|11] 1100011 BGEU imm = -24
+     Memory[1506] = 8'b1_1100011; 
+     Memory[1505] = 8'b1_111_0100; 
+     Memory[1504] = 8'b0000_0000;
+     Memory[1503] = 8'b1111111_0;
+   //1503 - 24 = 1479
+     // x imm[12|10:5] x4 x2 000 imm[4:1|11] 1100011 BEQ imm = -100
+     Memory[1482] = 8'b1_1100011; 
+     Memory[1481] = 8'b0_000_1110;
+     Memory[1480] = 8'b0100_0001;
+     Memory[1479] = 8'b1111100_0;
+   //1479 - 100 = 1379
 
 
    end
