@@ -14,7 +14,7 @@ module Memory(input clk,
    */
    initial begin
      /*
-      Data Memory
+      Data Memory -> Valores que serão adicionados no banco de registradores
      */
      Memory[0] = 8'd0;
      Memory[1] = 8'd0;
@@ -83,7 +83,7 @@ module Memory(input clk,
      Memory[55] = 8'b10000001;
     
      /* 
-      Instruction Memory
+      Instruction Memory -> valores que irão para a memoria de intrucoes.
       */
       /* teste load da memoria, reg x1 deve valer 8  */
      // ld x1, 0(x0)

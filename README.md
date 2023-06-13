@@ -9,8 +9,59 @@
 Até o presente momento, a maioria das as instruções básica do RISC-VI estão implementadas, como pode ser verificado na lista de instruções implementadas abaixo.
 
  - Situação do processador: está sendo estudada a implementação da serial e de ponto flutuante.
- 
-## Como rodar
+
+
+## Como rodar o seu código no nosso processador
+
+1 - Vá até o arquivo Memory/Memory.v -> Esse arquivo representa a data memory, e os valores a serem observados na instruction memory primeiro devem ser adicionados aqui.
+
+2 - Você vai codar as instruções na memória, seguindo o padrão abaixo:
+*Detalhes:
+
+ - os valores devem ser salvos a cada byte na memory, isso fica mais claro nos exemplos:
+
+ - usamos apenas uma memory, e certas posições serão dedicadas a fazer o papel de Data Memory e as demais, para a Instruction Memory, como fica claro adiante.
+
+a - Na seção "data memory" você adicionará os valores de 64 bits, que você deseja deixar na data memory do processador. Para esses valores serem armazenados no registrador, você deverá usar o store, não esqueça desse detalhe.
+
+*Importante: A Data Memory representa a parcela que vai da Memory[0] até a Memory[1023].
+
+Ex:
+     Memory[0] = 8'd0;
+     Memory[1] = 8'd0;
+     Memory[2] = 8'd0;
+     Memory[3] = 8'd0;
+     Memory[4] = 8'd0;
+     Memory[5] = 8'd0;
+     Memory[6] = 8'd0;
+     Memory[7] = 8'd8;
+
+Armazena a palavra
+
+"00000000_00000000_00000000_00000000_00000000_00000000_00000000_00001000"
+
+Na DM.
+
+b - Na seção "instruction memory" você adicionará os valores de 32 bits que você deseja colocar na memória de instruções.
+
+*Importante: Note que a Instruction memory começa na posição definida de Memory[1024].
+
+- A parte do controle da memória é setado para começar no 1024 para as instruções. Então não há erros em termos da passagem das instruções e da contagem do program counter. Isto é, a ordem do program counter será respeitada devidamente.
+
+- Assim, a instrução representada na memoria de Memory[1026] a Memory[1023] reconhecida como a primeira instrução de fato.
+
+Ex:
+     // ld x1, 0(x0)
+     Memory[1026] = 8'b1_0000011;
+     Memory[1025] = 8'b0_011_0000;
+     Memory[1024] = 8'b0000_0000;
+     Memory[1023] = 8'b00000000;
+
+    Representa uma primeira instrução, aqui no caso, se trata de um load, que salva o primeiro valor salvo na dm lá no primeiro registrador do banco de registradores. 
+
+c - Setados os valores desejados na data memory e na instruction memory devidamente, agora basta compilar e observar os resultados, segue abaixo:
+
+## Compilando e rodando
  Comando para compilar:
  ``iverilog -c risc-v_comp.txt``
  
@@ -21,6 +72,7 @@ Até o presente momento, a maioria das as instruções básica do RISC-VI estão
  ``gtkwave wave.vcd``
  
  Sistema operacional usado: Linux Mint (Debian/Ubuntu).
+
 
 ## Instruções implementadas
 As seguintes instruções foram implementadas:
