@@ -57,7 +57,7 @@ Ex:
      Memory[1024] = 8'b0000_0000;
      Memory[1023] = 8'b00000000;
 
-    Representa uma primeira instrução, aqui no caso, se trata de um load, que salva o primeiro valor salvo na dm lá no primeiro registrador do banco de registradores. 
+Representa uma primeira instrução, aqui no caso, se trata de um load, que salva o primeiro valor salvo na dm lá no primeiro registrador do banco de registradores. 
 
 c - Setados os valores desejados na data memory e na instruction memory devidamente, agora basta compilar e observar os resultados, segue abaixo:
 
