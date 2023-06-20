@@ -123,9 +123,25 @@ module testbench ();
         loadRegA = 1;
         loadRegB = 1;
         ALUOp = 4'b0000;
-        #10
+        #10 
         Check(22'd30);
-        Check2(1'b0); 
+        Check2(1'b0);
+
+        //Teste4: checar se a multiplicação por 1 funciona
+
+        valor1 = 23'd40;
+        valor2 = 23'd1;
+        muxA = 0;
+        muxB = 0;
+        muxC = 0;
+        sumOrMultiplication = 0;
+        loadRegA = 1;
+        loadRegB = 1;
+        ALUOp = 4'b0000;
+        #10
+        Check(22'd40);
+        Check2(1'b1);
+        #20
 
         $display("Test finished. Erros: %d", errors);
         $finish;
