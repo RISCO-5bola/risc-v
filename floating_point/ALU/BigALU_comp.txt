@@ -1,0 +1,1 @@
+BigALU.v BigALU_tb.v ALU.v ../mux_2x1_64bit.v ../reg_parametrizado_64b.v ../ALU/operations/CLAAdder8b_mod.v ../ALU/operations/PartialFullAdder1b_mod.v ../ALU/operations/Adder64b_mod.v ../ALU/operations/and.v ../ALU/operations/or.v ../ALU/operations/xor.v ../mux_15x1_64bit_ALU.v
