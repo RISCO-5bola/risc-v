@@ -6,9 +6,9 @@ module testbench ();
     reg clk;
     wire [22:0] result;
     wire endMultiplication;
-    reg muxA, muxB, muxC, loadRegA, loadRegB;
+    reg muxA, muxB, muxC, sumOrMultiplication, loadRegA, loadRegB;
 
-    BigALU UUT (.clk(clk), .muxA(muxA), .muxB(muxB), .muxC(muxC), .valor1(valor1), .valor2(valor2),
+    BigALU UUT (.clk(clk),.sumOrMultiplication(sumOrMultiplication), .muxA(muxA), .muxB(muxB), .muxC(muxC), .valor1(valor1), .valor2(valor2),
                   .result(result), .loadRegA(loadRegA), .loadRegB(loadRegB), .endMultiplication(endMultiplication));
 
     integer i, errors = 0;
@@ -40,6 +40,7 @@ module testbench ();
         muxA = 0;
         muxB = 0;
         muxC = 0;
+        sumOrMultiplication = 0;
         loadRegA = 1;
         loadRegB = 1;
         #10
@@ -51,6 +52,7 @@ module testbench ();
         muxA = 0;
         muxB = 1;
         muxC = 1;
+        sumOrMultiplication = 0;
         loadRegA = 1;
         loadRegB = 1;
         #10
@@ -62,6 +64,7 @@ module testbench ();
         muxA = 0;
         muxB = 1;
         muxC = 1;
+        sumOrMultiplication = 0;
         loadRegA = 1;
         loadRegB = 1;
         #10
@@ -73,6 +76,7 @@ module testbench ();
         muxA = 0;
         muxB = 1;
         muxC = 1;
+        sumOrMultiplication = 0;
         loadRegA = 1;
         loadRegB = 1;
         #10
@@ -84,12 +88,36 @@ module testbench ();
         muxA = 0;
         muxB = 1;
         muxC = 1;
+        sumOrMultiplication = 0;
         loadRegA = 0;
         loadRegB = 1;
         #10
         Check(22'd100);
         Check2(1'b0);
-        #50
+        //TESTE2 = Checar se a multiplicação por zero devolve zero
+        valor1 = 23'd20;
+        valor2 = 23'd0;
+        muxA = 0;
+        muxB = 1;
+        muxC = 1;
+        sumOrMultiplication = 0;
+        loadRegA = 1;
+        loadRegB = 1;
+        #10
+        Check(22'd0);
+        Check2(1'b0); 
+        //TESTE3: Checar se a soma entre valores normais, maiores que zero, funcionam adequadamente.
+        valor1 = 23'd20;
+        valor2 = 23'd10;
+        muxA = 1;
+        muxB = 0;
+        muxC = 1;
+        sumOrMultiplication = 1;
+        loadRegA = 1;
+        loadRegB = 1;
+        #10
+        Check(22'd30);
+        Check2(1'b0); 
 
         $display("Test finished. Erros: %d", errors);
         $finish;
