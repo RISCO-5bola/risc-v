@@ -22,6 +22,7 @@ module BigALU(
     input [22:0] valor1, valor2,
     input clk,
     input sumOrMultiplication, 
+    input [3:0] ALUOp,
     output [22:0] result,
     output endMultiplication,
     input muxA, muxB, muxC, loadRegA, loadRegB
@@ -85,7 +86,7 @@ module BigALU(
     mux_2x1_64bit muxFinal (.A(resultadoDaSoma), .B(zero), 
                          .S(ZeroResult), .X(muxFinalResult));
     //Instanciação dos somadores e demais coisas: 
-    ALU adder (.A(valor1_64bits), .B(muxAResult), .ALUOp(4'b0000), 
+    ALU adder (.A(valor1_64bits), .B(muxAResult), .ALUOp(ALUOp), 
                   .result(resultadoDaSoma));
                   
     ALU subtractor (.A(regBtoSubtractor), .B(64'b1), .ALUOp(4'b0011), .result(resultadoDaSubtracao));

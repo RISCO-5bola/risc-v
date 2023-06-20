@@ -4,11 +4,12 @@ module testbench ();
 
     reg [22:0] valor1, valor2;
     reg clk;
+    reg [3:0] ALUOp;
     wire [22:0] result;
     wire endMultiplication;
     reg muxA, muxB, muxC, sumOrMultiplication, loadRegA, loadRegB;
 
-    BigALU UUT (.clk(clk),.sumOrMultiplication(sumOrMultiplication), .muxA(muxA), .muxB(muxB), .muxC(muxC), .valor1(valor1), .valor2(valor2),
+    BigALU UUT (.clk(clk),.ALUOp(ALUOp),.sumOrMultiplication(sumOrMultiplication), .muxA(muxA), .muxB(muxB), .muxC(muxC), .valor1(valor1), .valor2(valor2),
                   .result(result), .loadRegA(loadRegA), .loadRegB(loadRegB), .endMultiplication(endMultiplication));
 
     integer i, errors = 0;
@@ -43,6 +44,7 @@ module testbench ();
         sumOrMultiplication = 0;
         loadRegA = 1;
         loadRegB = 1;
+        ALUOp = 4'b0000;
         #10
         Check(22'd40);
         Check2(1'b0);
@@ -55,6 +57,7 @@ module testbench ();
         sumOrMultiplication = 0;
         loadRegA = 1;
         loadRegB = 1;
+        ALUOp = 4'b0000;
         #10
         Check(22'd60);
         Check2(1'b0);
@@ -67,6 +70,7 @@ module testbench ();
         sumOrMultiplication = 0;
         loadRegA = 1;
         loadRegB = 1;
+        ALUOp = 4'b0000;
         #10
         Check(22'd80);
         Check2(1'b0);
@@ -79,6 +83,7 @@ module testbench ();
         sumOrMultiplication = 0;
         loadRegA = 1;
         loadRegB = 1;
+        ALUOp = 4'b0000;
         #10
         Check(22'd100);
         Check2(1'b1);
@@ -91,6 +96,7 @@ module testbench ();
         sumOrMultiplication = 0;
         loadRegA = 0;
         loadRegB = 1;
+        ALUOp = 4'b0000;
         #10
         Check(22'd100);
         Check2(1'b0);
@@ -103,6 +109,7 @@ module testbench ();
         sumOrMultiplication = 0;
         loadRegA = 1;
         loadRegB = 1;
+        ALUOp = 4'b0000;
         #10
         Check(22'd0);
         Check2(1'b0); 
@@ -115,6 +122,7 @@ module testbench ();
         sumOrMultiplication = 1;
         loadRegA = 1;
         loadRegB = 1;
+        ALUOp = 4'b0000;
         #10
         Check(22'd30);
         Check2(1'b0); 
