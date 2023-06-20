@@ -1,4 +1,4 @@
-`timescale 1ns/100ps
+`timescale 1ns/1ps
 
 module testbench ();
 
@@ -34,16 +34,16 @@ module testbench ();
         muxA = 0;
         muxB = 0;
         loadReg = 1;
+        #10
         Check(8'd245);
         #10
-        valor1 = 8'd120;
-        valor2 = 8'd125;
         ALUOp = 4'b0011;
         muxA = 1;
         muxB = 1;
-        loadReg = 0;
+        loadReg = 1;
         #10
         Check(8'd118);
         $display("Test finished. Erros: %d", errors);
+        $finish;
     end
 endmodule

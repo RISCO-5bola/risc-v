@@ -37,7 +37,7 @@ module SmallAlu(
     mux_2x1_64bit muxB1 (.A(valor2_64b), .B(resultado), 
                          .S(muxB), .X(muxBResult));
 
-    ALU small1 (.A(muxAResult), .B(muxBResult), .ALUOp(ALUOp), 
+    ALU small1 (.A(muxBResult), .B(muxAResult), .ALUOp(ALUOp), 
                   .result(resultado1));
 
     reg_parametrizado_64b regSmallALUInterno (.clk(clk), .load(loadReg), .in_data(resultado1), 
