@@ -27,7 +27,9 @@ module floating_point(
                 $dumpfile("wave.vcd");
                 $dumpvars(0, floating_point);
             end
-
+            
+    /* wires do sinal para multiplicacao */
+    wire wire0, sign;
     /* wires de 8 bits */
     wire [7:0] mux01ToMux02, Mux06ToMux02, mux02ToIncreaseOrDecrease,
                smallALUToRegSmallAlu, regSmallALUToControl, 
@@ -59,7 +61,11 @@ module floating_point(
    wire [31:0] regFAOUT, regFBOUT;
    assign regFinalInput[30:23] = mux06ToRegFinal;
    assign regFinalInput[22:0] = rounderToRegFinal;
-   assign regFinalInput[31] = 1'b0;
+
+   xor(wire0, floatingPoint1[31], floatingPoint2[31]);
+   and(sign, wire0, ~sumOrMultiplication);
+   assign regFinalInput[31] = sign;
+
    assign Mux06ToMux02 = mux06ToRegFinal;
    /*registradores para salvar os valores de entrada para operar -> 64bits*/ 
    register_32bits regFA (.clk(clk), .load(1'b1), .in_data(floatingPoint1), 
@@ -139,6 +145,7 @@ module floating_point(
    /*Rounder */
    rounder rounder(.mantissa(shiftLeftOrRightToRound), .mantissaRounded(rounderOut), 
                    .notNormalized(finalizeOperation), .clk(clk));
+      
    assign rounderToRegFinal = rounderOut;
 
 endmodule
