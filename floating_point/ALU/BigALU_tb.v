@@ -2,10 +2,10 @@
 
 module testbench ();
 
-    reg [22:0] valor1, valor2;
+    reg [23:0] valor1, valor2;
     reg clk;
     reg [3:0] ALUOp;
-    wire [22:0] result;
+    wire [23:0] result;
     wire endMultiplication;
     reg muxA, muxB, muxC, sumOrMultiplication, loadRegA, loadRegB;
 
@@ -14,7 +14,7 @@ module testbench ();
 
     integer i, errors = 0;
     task Check;
-        input [22:0] expect;
+        input [23:0] expect;
         if (result !== expect) begin
                 $display ("Error : A: %d B: %d expect: %d got: %d", valor1, valor2, expect, result);
                 errors = errors + 1;
@@ -36,8 +36,8 @@ module testbench ();
 
     initial begin
         #10
-        valor1 = 23'd20;
-        valor2 = 23'd5;
+        valor1 = 24'd20;
+        valor2 = 24'd5;
         muxA = 0;
         muxB = 0;
         muxC = 0;
@@ -46,11 +46,11 @@ module testbench ();
         loadRegB = 1;
         ALUOp = 4'b0000;
         #10
-        Check(22'd40);
+        Check(24'd40);
         Check2(1'b0);
 
-        valor1 = 23'd20;
-        valor2 = 23'd5;
+        valor1 = 24'd20;
+        valor2 = 24'd5;
         muxA = 0;
         muxB = 1;
         muxC = 1;
@@ -59,11 +59,11 @@ module testbench ();
         loadRegB = 1;
         ALUOp = 4'b0000;
         #10
-        Check(22'd60);
+        Check(24'd60);
         Check2(1'b0);
         
-        valor1 = 23'd20;
-        valor2 = 23'd5;
+        valor1 = 24'd20;
+        valor2 = 24'd5;
         muxA = 0;
         muxB = 1;
         muxC = 1;
@@ -72,11 +72,11 @@ module testbench ();
         loadRegB = 1;
         ALUOp = 4'b0000;
         #10
-        Check(22'd80);
+        Check(24'd80);
         Check2(1'b0);
         
-        valor1 = 23'd20;
-        valor2 = 23'd5;
+        valor1 = 24'd20;
+        valor2 = 24'd5;
         muxA = 0;
         muxB = 1;
         muxC = 1;
@@ -85,11 +85,11 @@ module testbench ();
         loadRegB = 1;
         ALUOp = 4'b0000;
         #10
-        Check(22'd100);
+        Check(24'd100);
         Check2(1'b1);
 
-        valor1 = 23'd20;
-        valor2 = 23'd5;
+        valor1 = 24'd20;
+        valor2 = 24'd5;
         muxA = 0;
         muxB = 1;
         muxC = 1;
@@ -98,11 +98,11 @@ module testbench ();
         loadRegB = 1;
         ALUOp = 4'b0000;
         #10
-        Check(22'd100);
+        Check(24'd100);
         Check2(1'b0);
         //TESTE2 = Checar se a multiplicação por zero devolve zero
-        valor1 = 23'd20;
-        valor2 = 23'd0;
+        valor1 = 24'd20;
+        valor2 = 24'd0;
         muxA = 0;
         muxB = 1;
         muxC = 1;
@@ -111,11 +111,11 @@ module testbench ();
         loadRegB = 1;
         ALUOp = 4'b0000;
         #10
-        Check(22'd0);
+        Check(24'd0);
         Check2(1'b0); 
         //TESTE3: Checar se a soma entre valores normais, maiores que zero, funcionam adequadamente.
-        valor1 = 23'd20;
-        valor2 = 23'd10;
+        valor1 = 24'd20;
+        valor2 = 24'd10;
         muxA = 1;
         muxB = 0;
         muxC = 1;
@@ -124,13 +124,13 @@ module testbench ();
         loadRegB = 1;
         ALUOp = 4'b0000;
         #10 
-        Check(22'd30);
+        Check(24'd30);
         Check2(1'b0);
 
         //Teste4: checar se a multiplicação por 1 funciona
 
-        valor1 = 23'd40;
-        valor2 = 23'd1;
+        valor1 = 24'd40;
+        valor2 = 24'd1;
         muxA = 0;
         muxB = 0;
         muxC = 0;
@@ -139,7 +139,7 @@ module testbench ();
         loadRegB = 1;
         ALUOp = 4'b0000;
         #10
-        Check(22'd40);
+        Check(24'd40);
         Check2(1'b1);
         #20
 

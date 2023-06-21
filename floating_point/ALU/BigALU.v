@@ -19,19 +19,19 @@ MinorALU - para retirar 1 do valor salvo no registrador 2;
 
 //sumOrMultiplication: 0 para multiplicação, 1 para soma; (economiza 1 not)
 module BigALU(
-    input [22:0] valor1, valor2,
+    input [23:0] valor1, valor2,
     input clk,
     input sumOrMultiplication, 
     input [3:0] ALUOp,
-    output [22:0] result,
+    output [23:0] result,
     output endMultiplication,
     input muxA, muxB, muxC, loadRegA, loadRegB
 );
 
-    initial begin
-        $dumpfile("BigALU.vcd");
-        $dumpvars(0, BigALU);
-    end
+    // initial begin
+    //     $dumpfile("BigALU.vcd");
+    //     $dumpvars(0, BigALU);
+    // end
 
     //wires:
     wire [63:0] resultadoDaSoma;
@@ -39,14 +39,14 @@ module BigALU(
     wire [63:0] muxAResult, muxBResult, muxCResult, muxFinalResult;
     wire [63:0] regAtoALU, regAtoMux, regBtoSubtractor, subtractorToMux;
     wire [63:0] valor1_64bits, valor2_64bits;
-    wire [22:0] checkIfRegBisZero;
+    wire [23:0] checkIfRegBisZero;
     wire [63:0] regBtoChecker;
     wire subtractionIsOne;
     wire regBIsOne;
     //lógica do decisor de resultado zero ou somador.
     wire [63:0] zero;
     wire muxAdderOrZero;
-    wire [7:0]checkerFirst, checkerSecond;
+    wire [23:0]checkerFirst, checkerSecond;
     wire firstIsZero, secondIsZero;
     wire ZeroResult;
     //Multiplicação identidade
@@ -60,23 +60,26 @@ module BigALU(
     assign muxAdderOrZero = ZeroResult;
 
     //Zero result = 0 caso o valor 1 ou o 2 sejam zero e a operação seja de multiplicacao.
-    assign firstIsZero = ~(checkerFirst[7] | checkerFirst[6] | checkerFirst[5] | checkerFirst[4]
+    assign firstIsZero = ~(checkerFirst[23] | checkerFirst[22] | checkerFirst[21] | checkerFirst[20] | checkerFirst[19] | checkerFirst[18] | checkerFirst[17] | checkerFirst[16] | 
+                checkerFirst[15] | checkerFirst[14] | checkerFirst[13] | checkerFirst[12] | checkerFirst[11] | checkerFirst[10] | checkerFirst[9] | checkerFirst[8] | checkerFirst[7] | checkerFirst[6] | checkerFirst[5] | checkerFirst[4]
     | checkerFirst[3] | checkerFirst[2] | checkerFirst[1] | checkerFirst[0] | sumOrMultiplication);
 
-    assign secondIsZero = ~(checkerSecond[7] | checkerSecond[6] | checkerSecond[5] | checkerSecond[4]
+    assign secondIsZero = ~(checkerSecond[23] | checkerSecond[22] | checkerSecond[21] | checkerSecond[20] | checkerSecond[19] | checkerSecond[18] | checkerSecond[17] | checkerSecond[16] | 
+                checkerSecond[15] | checkerSecond[14] | checkerSecond[13] | checkerSecond[12] | checkerSecond[11] | checkerSecond[10] | checkerSecond[9] | checkerSecond[8] | checkerSecond[7] | checkerSecond[6] | checkerSecond[5] | checkerSecond[4]
     | checkerSecond[3] | checkerSecond[2] | checkerSecond[1] | checkerSecond[0] | sumOrMultiplication);
     
     or(ZeroResult, firstIsZero, secondIsZero);
     
     //Identificar que o segundo vale 1;
-    assign multiplicaPorUm = ~(checkerSecond[7] | checkerSecond[6] | checkerSecond[5] | checkerSecond[4]
+    assign multiplicaPorUm = ~(checkerSecond[23] | checkerSecond[22] | checkerSecond[21] | checkerSecond[20] | checkerSecond[19] | checkerSecond[18] | checkerSecond[17] | checkerSecond[16] | 
+                checkerSecond[15] | checkerSecond[14] | checkerSecond[13] | checkerSecond[12] | checkerSecond[11] | checkerSecond[10] | checkerSecond[9] | checkerSecond[8] |checkerSecond[7] | checkerSecond[6] | checkerSecond[5] | checkerSecond[4]
     | checkerSecond[3] | checkerSecond[2] | checkerSecond[1] | ~checkerSecond[0] | sumOrMultiplication);
 
     //preencher de zeros antes de somar ou subtrair
-    assign valor1_64bits[22:0] = valor1;
-    assign valor2_64bits[22:0] = valor2;
-    assign valor1_64bits[63:23] = 40'b0;
-    assign valor2_64bits[63:23] = 40'b0;
+    assign valor1_64bits[23:0] = valor1;
+    assign valor2_64bits[23:0] = valor2;
+    assign valor1_64bits[63:24] = 39'b0;
+    assign valor2_64bits[63:24] = 39'b0;
     
     assign valor1_64bitsParaMuxIdentidade = valor1_64bits;
     //MULTIPLICACAO:
@@ -120,18 +123,18 @@ module BigALU(
     reg_parametrizado_64b regB (.clk(clk), .load(loadRegB), .in_data(muxCResult), 
                                    .out_data(regBtoSubtractor));
     //logica de checagem se o regB vale zero, finalizando a multiplicacao com uma flag
-    assign checkIfRegBisZero = resultadoDaSubtracao[22:0];
+    assign checkIfRegBisZero = resultadoDaSubtracao[23:0];
     assign regBtoChecker = regBtoSubtractor;
 
-    assign regBIsOne = ~(regBtoChecker[22] | regBtoChecker[21] | regBtoChecker[20] | regBtoChecker[19] | regBtoChecker[18] | regBtoChecker[17] | regBtoChecker[16] | 
+    assign regBIsOne = ~(regBtoChecker[23] | regBtoChecker[22] | regBtoChecker[21] | regBtoChecker[20] | regBtoChecker[19] | regBtoChecker[18] | regBtoChecker[17] | regBtoChecker[16] | 
                 regBtoChecker[15] | regBtoChecker[14] | regBtoChecker[13] | regBtoChecker[12] | regBtoChecker[11] | regBtoChecker[10] | regBtoChecker[9] | regBtoChecker[8] | 
                 regBtoChecker[7] | regBtoChecker[6] | regBtoChecker[5] | regBtoChecker[4] | regBtoChecker[3] | regBtoChecker[2] | regBtoChecker[1] | ~regBtoChecker[0] | ~multiplicaPorUm);
-    assign subtractionIsOne = ~(checkIfRegBisZero[22] | checkIfRegBisZero[21] | checkIfRegBisZero[20] | checkIfRegBisZero[19] | checkIfRegBisZero[18] | checkIfRegBisZero[17] | checkIfRegBisZero[16] | 
+    assign subtractionIsOne = ~(checkIfRegBisZero[23] | checkIfRegBisZero[22] | checkIfRegBisZero[21] | checkIfRegBisZero[20] | checkIfRegBisZero[19] | checkIfRegBisZero[18] | checkIfRegBisZero[17] | checkIfRegBisZero[16] | 
                 checkIfRegBisZero[15] | checkIfRegBisZero[14] | checkIfRegBisZero[13] | checkIfRegBisZero[12] | checkIfRegBisZero[11] | checkIfRegBisZero[10] | checkIfRegBisZero[9] | checkIfRegBisZero[8] | 
                 checkIfRegBisZero[7] | checkIfRegBisZero[6] | checkIfRegBisZero[5] | checkIfRegBisZero[4] | checkIfRegBisZero[3] | checkIfRegBisZero[2] | checkIfRegBisZero[1] | ~checkIfRegBisZero[0]);
     
     assign endMultiplication = (regBIsOne | subtractionIsOne);
 
-    assign result = muxFinalResult[22:0];//MUDAR para resultado do muxFinal
+    assign result = muxFinalResult[23:0];//MUDAR para resultado do muxFinal
 
 endmodule

@@ -1,6 +1,6 @@
 /*
     Módulo usado para arredondar a mantissa de um
-    número de ponto flutuante com representação IEEE 753.
+    número de ponto flutuante com representação IEEE 754.
     Sinais: 
         -> mantissa
         -> mantissaRounded: Resultado do arredondamento segundo as expecificações.
@@ -12,11 +12,14 @@
 */
 module rounder (
     input [22:0] mantissa,
-    output [22:0] mantissaRounded,
-    output notNormalized 
+    input clk,
+    output reg [22:0] mantissaRounded,
+    output notNormalized
 );
+    wire [22:0] mantissaRoundedWire;
     wire [3:0] lastFourBitsMantissa;
     wire lastThreeBitsMantissaEqualToZero;
+    /*precisa de um registrador*/
 
     /* instanciacao de cada um dos casos do arredondamento 
              Casos   Últimos 4 bits
@@ -45,9 +48,9 @@ module rounder (
     assign lastFourBitsMantissa = mantissa[3:0];
 
     /* Sinal de que resultado não está normalizado
-       -> Somente no caso que mantissa[22] == 1, mantissaRounded[22] == 0
+       -> Somente no caso que mantissa[22] == 1, mantissaRoundedWire[22] == 0
           e caseLastBitsGreaterThanHalf == 1 or mantissaCaseLastBitsEqualToHalf1 == 1  */
-    and (notNormalized, mantissa[22], ~mantissaRounded[22]);
+    and (notNormalized, mantissa[22], ~mantissaRoundedWire[22]);
 
     /* Lógica dos sinais para identificar cada um dos casos citados anteriormente */
     assign caseLastBitsLessThanHalf = ~lastFourBitsMantissa[3];
@@ -69,5 +72,10 @@ module rounder (
                                             .D(mantissaCaseLastBitsEqualToHalf0),
                                             .S({caseLastBitsEqualToHalf0, caseLastBitsEqualToHalf1,
                                                 caseLastBitsGreaterThanHalf, caseLastBitsLessThanHalf}),
-                                            .X(mantissaRounded));
+                                            .X(mantissaRoundedWire));
+
+    /* Seta output como reg */
+    always @(posedge clk) begin 
+        mantissaRounded <= mantissaRoundedWire;
+    end
 endmodule

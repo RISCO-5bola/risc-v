@@ -6,10 +6,10 @@ module SmallAlu(
     input muxA, muxB, loadReg
 );
 
-    initial begin
-        $dumpfile("SmallAlu.vcd");
-        $dumpvars(0, SmallAlu);
-    end
+    // initial begin
+    //     $dumpfile("SmallAlu.vcd");
+    //     $dumpvars(0, SmallAlu);
+    // end
     
     wire [63:0] complemento;
     wire [63:0] resultado;

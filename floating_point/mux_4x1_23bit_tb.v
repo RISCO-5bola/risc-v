@@ -1,7 +1,7 @@
-module mux_2x1_23bit_tb ();
+module mux_4x1_23bit_tb ();
     reg S;
-    reg [22:0] A, B, C;
-    wire [22:0] X;
+    reg [23:0] A, B, C;
+    wire [23:0] X;
     
     integer errors = 0;
 
@@ -13,11 +13,11 @@ module mux_2x1_23bit_tb ();
         end
     endtask
 
-    mux_2x1_23bit UUT (.A(A), .B(B), .X(X), .S(S));
+    mux_2x1_24bit UUT (.A(A), .B(B), .X(X), .S(S));
 
     initial begin
        #10
-       S <= 2'b0; 
+       S <= 2'b00; 
        A <= 7'd1; B <= 7'd2; 
        
        #10
