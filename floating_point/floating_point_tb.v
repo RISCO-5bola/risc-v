@@ -114,6 +114,55 @@ module floating_point_tb ();
        #100
 
        Check1({resultadoFinal, 32'b01000000010000000000000000000000});
+
+       /* TESTE 2 */
+       #10
+       /* multiplicacao 1.5 * 2 = 3 */
+       floatingPoint1 = 32'b0_01111111_10000000000000000000000;
+       floatingPoint2 = 32'b0_10000000_00000000000000000000000;
+       muxAControlSmall = 1'b1; 
+       muxBControlSmall = 1'b1;
+       #10      
+
+       controlToMux01 = 1'b1; 
+       controlToMux02 = 1'b0; 
+       controlToMux03 = 1'b0;
+       controlToMux04 = 1'b1;
+       controlToMux05 = 1'b0;
+       controlToMux06 = 1'b0;
+
+       controlShiftRight = 8'b0000_0001;
+       controlToIncreaseOrDecrease = 4'b0000;
+       IncreaseOrDecreaseEnable = 1'b0;
+       controlShiftLeftOrRight = 22'd0;
+       
+       /* big ALU */
+       muxAControl = 1'b0;
+       muxBControl = 1'b0;
+       muxControl = 1'b0;
+       sumOrMultiplication = 1'b0;
+       loadRegA = 1'b1;
+       loadRegB = 1'b1;
+       bigALUOperation = 4'b0000;
+
+       /* small ALU */
+       smallALUOperation = 4'b0000;
+       muxAControlSmall = 1'b1; 
+       muxBControlSmall = 1'b1;
+       loadRegSmall = 1'b1;
+       #10
+
+       /* big ALU */
+       muxAControl = 1'b0;
+       muxBControl = 1'b1;
+       muxControl = 1'b1;
+       sumOrMultiplication = 1'b0;
+       loadRegA = 1'b1;
+       loadRegB = 1'b1;
+       bigALUOperation = 4'b0000;
+       #100
+
+       Check1({resultadoFinal, 32'b01000000010000000000000000000000});
     
        $display("Errors: %d", errors);
        $finish;

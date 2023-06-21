@@ -10,6 +10,7 @@ module fp_control(
 
     /* OPCode:
        0000 = soma
+       1111 = multiplicacao
         */
     wire wire0;
 

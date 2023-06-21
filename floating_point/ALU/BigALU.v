@@ -109,7 +109,7 @@ module BigALU(
 
     //Instanciação dos somadores e demais coisas: 
     ALU adder (.A(valor1_64bits), .B(muxAResult), .ALUOp(ALUOp), 
-                  .result(resultadoDaSoma));
+               .result(resultadoDaSoma));
                   
     ALU subtractor (.A(regBtoSubtractor), .B(64'b1), .ALUOp(4'b0011), .result(resultadoDaSubtracao));
     

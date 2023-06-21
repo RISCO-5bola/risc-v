@@ -1,6 +1,6 @@
 module floating_point(
       input [31:0] floatingPoint1, floatingPoint2,
-      input loadFA, loadFB, loadFinal, loadRegSmall,
+      input loadFinal, loadRegSmall,
       input clk,
       output [31:0] resultadoFinal,
       input controlToMux01, controlToMux02, controlToMux03, controlToMux04, controlToMux05, controlToMux06,
@@ -75,14 +75,14 @@ module floating_point(
    assign regFBToSmallALU = regFBOUT[30:23];
 
    SmallAlu SmallAlu (.valor1(regFAToSmallALU), .valor2(regFBToSmallALU), .clk(clk), 
-                  .result(smallALUToRegSmallAlu), .muxA(muxAControlSmall), .muxB(muxBControlSmall), .loadReg(loadRegSmall),
-                  .ALUOp(smallALUOperation));
+                      .result(smallALUToRegSmallAlu), .muxA(muxAControlSmall), .muxB(muxBControlSmall), .loadReg(loadRegSmall),
+                      .ALUOp(smallALUOperation));
 
    /* ALU que faz a soma das mantissas */
    BigALU BigALU (.clk(clk), .valor1(rightShiftOUTToBigALU), .valor2(mux04ToBigALU), .ALUOp(bigALUOperation), 
-                .result(bigALUtoMux05), .endMultiplication(endMultiplication), .muxA(muxAControl), .muxB(muxBControl),
-               .muxC(muxControl), .sumOrMultiplication(sumOrMultiplication),
-                .loadRegA(loadRegA), .loadRegB(loadRegB));
+                  .result(bigALUtoMux05), .endMultiplication(endMultiplication), .muxA(muxAControl), .muxB(muxBControl),
+                  .muxC(muxControl), .sumOrMultiplication(sumOrMultiplication),
+                  .loadRegA(loadRegA), .loadRegB(loadRegB));
 
    /*Increase or decrease*/
    IncreaseOrDecrease IncreaseOrDecrease(.clk(clk),.enable(IncreaseOrDecreaseEnable), .valor1(mux02ToIncreaseOrDecrease), .result(IncreaseOrDecreaseToMux06),
