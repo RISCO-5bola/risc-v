@@ -1,149 +1,100 @@
-`timescale 1ns/1ns
-
-module testbench ();
-
-    reg [23:0] valor1, valor2;
+module BigALU_tb ();
+    reg isSum;
+    reg sum_sub;
+    reg reset;
     reg clk;
-    reg [3:0] ALUOp;
-    wire [23:0] result;
-    wire endMultiplication;
-    reg muxA, muxB, muxC, sumOrMultiplication, loadRegA, loadRegB;
+    reg muxDataRegValor2;
+    reg [27:0] valor1;
+    reg [27:0] valor2;
+    wire finishedMult;
+    wire [28:0] result;
 
-    BigALU UUT (.clk(clk),.ALUOp(ALUOp),.sumOrMultiplication(sumOrMultiplication), .muxA(muxA), .muxB(muxB), .muxC(muxC), .valor1(valor1), .valor2(valor2),
-                  .result(result), .loadRegA(loadRegA), .loadRegB(loadRegB), .endMultiplication(endMultiplication));
+    BigALU UUT(.isSum(isSum), .sum_sub(sum_sub), .reset, .clk(clk),
+               .muxDataRegValor2(muxDataRegValor2), .valor1(valor1),
+               .valor2(valor2), .finishedMult(finishedMult), .result(result));
 
-    integer i, errors = 0;
+    integer errors;
+
     task Check;
-        input [23:0] expect;
-        if (result !== expect) begin
-                $display ("Error : A: %d B: %d expect: %d got: %d", valor1, valor2, expect, result);
-                errors = errors + 1;
+        input [28:0] check;
+        if (check !== result) begin
+            $display("Error ocurred! Expected %b, got %b", check, result);
+            errors = errors + 1;
         end
-    endtask
-        task Check2;
-        input expect2;
-        if (endMultiplication !== expect2) begin
-                $display("endMultiplication: %b", endMultiplication);
-                errors = errors + 1;
-        end
-
     endtask
 
     initial begin
-        clk = 0;
+        clk = 1'b0;
+        errors = 0;
         forever #5 clk = ~clk;
     end
 
     initial begin
-        #10
-        valor1 = 24'd20;
-        valor2 = 24'd5;
-        muxA = 0;
-        muxB = 0;
-        muxC = 0;
-        sumOrMultiplication = 0;
-        loadRegA = 1;
-        loadRegB = 1;
-        ALUOp = 4'b0000;
-        #10
-        Check(24'd40);
-        Check2(1'b0);
+        /* teste soma - genérica */
+        isSum = 1'b1;
+        sum_sub = 1'b0;
+        reset = 1'b0;
+        muxDataRegValor2 = 1'b0;
+        valor1 = 28'd30;
+        valor2 = 28'd12;
 
-        valor1 = 24'd20;
-        valor2 = 24'd5;
-        muxA = 0;
-        muxB = 1;
-        muxC = 1;
-        sumOrMultiplication = 0;
-        loadRegA = 1;
-        loadRegB = 1;
-        ALUOp = 4'b0000;
-        #10
-        Check(24'd60);
-        Check2(1'b0);
-        
-        valor1 = 24'd20;
-        valor2 = 24'd5;
-        muxA = 0;
-        muxB = 1;
-        muxC = 1;
-        sumOrMultiplication = 0;
-        loadRegA = 1;
-        loadRegB = 1;
-        ALUOp = 4'b0000;
-        #10
-        Check(24'd80);
-        Check2(1'b0);
-        
-        valor1 = 24'd20;
-        valor2 = 24'd5;
-        muxA = 0;
-        muxB = 1;
-        muxC = 1;
-        sumOrMultiplication = 0;
-        loadRegA = 1;
-        loadRegB = 1;
-        ALUOp = 4'b0000;
-        #10
-        Check(24'd100);
-        Check2(1'b1);
-
-        valor1 = 24'd20;
-        valor2 = 24'd5;
-        muxA = 0;
-        muxB = 1;
-        muxC = 1;
-        sumOrMultiplication = 0;
-        loadRegA = 0;
-        loadRegB = 1;
-        ALUOp = 4'b0000;
-        #10
-        Check(24'd100);
-        Check2(1'b0);
-        //TESTE2 = Checar se a multiplicação por zero devolve zero
-        valor1 = 24'd20;
-        valor2 = 24'd0;
-        muxA = 0;
-        muxB = 1;
-        muxC = 1;
-        sumOrMultiplication = 0;
-        loadRegA = 1;
-        loadRegB = 1;
-        ALUOp = 4'b0000;
-        #10
-        Check(24'd0);
-        Check2(1'b0); 
-        //TESTE3: Checar se a soma entre valores normais, maiores que zero, funcionam adequadamente.
-        valor1 = 24'd20;
-        valor2 = 24'd10;
-        muxA = 1;
-        muxB = 0;
-        muxC = 1;
-        sumOrMultiplication = 1;
-        loadRegA = 1;
-        loadRegB = 1;
-        ALUOp = 4'b0000;
-        #10 
-        Check(24'd30);
-        Check2(1'b0);
-
-        //Teste4: checar se a multiplicação por 1 funciona
-
-        valor1 = 24'd40;
-        valor2 = 24'd1;
-        muxA = 0;
-        muxB = 0;
-        muxC = 0;
-        sumOrMultiplication = 0;
-        loadRegA = 1;
-        loadRegB = 1;
-        ALUOp = 4'b0000;
-        #10
-        Check(24'd40);
-        Check2(1'b1);
         #20
+        Check(29'd42);
 
-        $display("Test finished. Erros: %d", errors);
+        isSum = 1'b1;
+        sum_sub = 1'b1;
+        reset = 1'b0;
+        muxDataRegValor2 = 1'b0;
+        valor1 = 28'd30;
+        valor2 = 28'd12;
+
+        #20
+        Check(29'd18);
+
+        /* teste multiplicacao - teste genérico */
+        isSum = 1'b0;
+        sum_sub = 1'b0;
+        
+        valor1 = 28'b1000_0000_0000_0000_0000_0000_0000;
+        valor2 = 28'b1010_0000_0000_0000_0000_0000_0000;
+        reset = 1'b1;
+        muxDataRegValor2 = 1'b0;
+        #10
+        reset = 1'b0;
+        muxDataRegValor2 = 1'b1;
+        #280
+        Check(29'b01010000000000000000000000000);
+
+        /* primeiro boss dos testes 3.34543*0.38 */
+        isSum = 1'b0;
+        sum_sub = 1'b0;
+        
+        valor1 = 28'b1101011000011011100001100000;
+        valor2 = 28'b0001100001010001111010111000;
+        reset = 1'b1;
+        muxDataRegValor2 = 1'b0;
+        #10
+        reset = 1'b0;
+        muxDataRegValor2 = 1'b1;
+        #280
+        Check(29'b10100010101110001100000111011);
+
+        /* boss final dos testes 0.38*3.34543 */
+        isSum = 1'b0;
+        sum_sub = 1'b0;
+        
+        valor1 = 28'b0001100001010001111010111000;
+        valor2 = 28'b1101011000011011100001100000;
+        reset = 1'b1;
+        muxDataRegValor2 = 1'b0;
+        #10
+        reset = 1'b0;
+        muxDataRegValor2 = 1'b1;
+        #280
+        Check(29'b00010100010101110001100000111);
+
+        $display("Test finished with %d errors", errors);
         $finish;
     end
+    
 endmodule

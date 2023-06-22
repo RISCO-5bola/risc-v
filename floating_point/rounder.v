@@ -11,7 +11,7 @@
         [2] https://github.com/chadtopaz/computational-linear-algebra
 */
 module rounder (
-    input [22:0] mantissa,
+    input [26:0] mantissa,
     input clk,
     output reg [22:0] mantissaRounded,
     output notNormalized
@@ -38,12 +38,12 @@ module rounder (
     wire [22:0] mantissaCaseLastBitsEqualToHalf0;
 
     wire [63:0] resultAlu;
-    wire [18:0] mantissa22to4AddedOne;
+    wire [22:0] mantissa26to4AddedOne;
 
 
-    assign mantissa22to4AddedOne = resultAlu[18:0];
+    assign mantissa26to4AddedOne = resultAlu[22:0];
 
-    Adder64b_mod adder (.A({45'd0, mantissa[22:4]}), .B(64'd1), .SUB(1'b0), .S(resultAlu));
+    Adder64b_mod adder (.A({41'd0, mantissa[26:4]}), .B(64'd1), .SUB(1'b0), .S(resultAlu));
 
     assign lastFourBitsMantissa = mantissa[3:0];
 
@@ -60,10 +60,10 @@ module rounder (
     and (caseLastBitsEqualToHalf0, ~mantissa[4], lastFourBitsMantissa[3], lastThreeBitsMantissaEqualToZero);
     
     /* Possiveis arredondamentos para cada um dos casos */
-    assign mantissaCaseLastBitsLessThanHalf = {mantissa[22:4], 4'b0000};
-    assign mantissaCaseLastBitsGreaterThanHalf = {mantissa22to4AddedOne, 4'b0000};
-    assign mantissaCaseLastBitsEqualToHalf1 = {mantissa22to4AddedOne, 4'b0000};
-    assign mantissaCaseLastBitsEqualToHalf0 = {mantissa[22:4], 4'b0000};
+    assign mantissaCaseLastBitsLessThanHalf = mantissa[26:4];
+    assign mantissaCaseLastBitsGreaterThanHalf = mantissa26to4AddedOne;
+    assign mantissaCaseLastBitsEqualToHalf1 = mantissa26to4AddedOne;
+    assign mantissaCaseLastBitsEqualToHalf0 = mantissa[26:4];
 
     /* Mux que seleciona o resultado de acordo com o caso corrente de arredondamento */
     mux_4x1_23bit muxSelectRoundedMantissa (.A(mantissaCaseLastBitsLessThanHalf),

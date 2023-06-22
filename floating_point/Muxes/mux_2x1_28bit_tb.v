@@ -1,19 +1,19 @@
-module mux_2x1_24bit_tb ();
+module mux_2x1_28bit_tb ();
     reg S;
-    reg [23:0] A, B, C;
-    wire [23:0] X;
+    reg [28:0] A, B;
+    wire [28:0] X;
     
     integer errors = 0;
 
     task Check;
-        input [47:0] expect;
-        if (expect[47:24] != expect[23:0]) begin
-            $display("Got %d, expected %d", expect[47:24], expect[23:0]);
+        input [56:0] expect;
+        if (expect[56:28] != expect[27:0]) begin
+            $display("Got %d, expected %d", expect[56:28], expect[27:0]);
             errors = errors + 1;
         end
     endtask
 
-    mux_2x1_24bit UUT (.A(A), .B(B), .X(X), .S(S));
+    mux_2x1_28bit UUT (.A(A), .B(B), .X(X), .S(S));
 
     initial begin
        #10

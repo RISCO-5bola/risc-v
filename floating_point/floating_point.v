@@ -2,25 +2,27 @@ module floating_point(
       input [31:0] floatingPoint1, floatingPoint2,
       input loadFinal, loadRegSmall,
       input clk,
-      output [31:0] resultadoFinal,
-      input controlToMux01, controlToMux02, controlToMux03, controlToMux04, controlToMux05, controlToMux06,
+      input controlToMux01, controlToMux02, controlToMux03, 
+            controlToMux04, controlToMux05, controlToMux06,
+            IncreaseOrDecreaseEnable,
       input [7:0] controlShiftRight,
-      input signed [22:0] controlShiftLeftOrRight, //not certain
       input [3:0] smallALUOperation, controlToIncreaseOrDecrease,
       input regSmallALULoad, muxBControlSmall, muxAControlSmall,
       //inputs do bigALU:
-      input [3:0] bigALUOperation,
-      input muxAControl, muxBControl, muxControl, sumOrMultiplication,
-      input loadRegA, loadRegB,
-      input IncreaseOrDecreaseEnable,
-      output endMultiplication, finalizeOperation
+      input sum_sub, isSum, reset, muxDataRegValor2,
+      /* shift left or right */
+      input rightOrLeft,
+      input [22:0] howMany, 
+      /*increaseOrDecrease*/
+      input [7:0] howManyToIncreaseOrDecrease,
+      output [31:0] resultadoFinal
 
-    /*Lembrar de colocar todos os sinais de controle como inputs - E SÃO VÁRIOS*/
-    //Todos os muxes;
-    //Sinais Da SMALLALU;
-    //Sinais Da BIGALU;
-    //Sinais do shifter;
-    //Sinais do Rounder;
+      /*Lembrar de colocar todos os sinais de controle como inputs - E SÃO VÁRIOS*/
+      //Todos os muxes;
+      //Sinais Da SMALLALU;
+      //Sinais Da BIGALU;
+      //Sinais do shifter;
+      //Sinais do Rounder;
 );
 
     initial begin
@@ -39,20 +41,22 @@ module floating_point(
     /* wires de 23 bits */
    wire [22:0] regFAToMux03Mantissa, regFBToMux03Mantissa,
                regFAToMux04Mantissa, regFBToMux04Mantissa,
-               mux03OUTToRightShift, mux04OUTToBigALU, roundToMux05,  
+               mux03OUTToRightShift, mux04OUTToBigALU,  
                rounderToRegFinal, shiftRightToBigALU, rounderOut,
-               shiftLeftOrRightToRound;
+               mux04ToBigALU;
 
    /*os aumentados*/
-   wire [23:0] mux04ToBigALU, rightShiftToBigALU, mux05ToRightShiftOrLeftShift, bigALUtoMux05,
-   rightShiftOUTToBigALU;
+   wire [23:0] rightShiftToBigALU;
+   wire [26:0] shiftLeftOrRightToRound;
+   wire [27:0] rightShiftOUTToBigALU, roundToMux05, mux05ToRightShiftOrLeftShift; 
+   wire [28:0] bigALUtoMux05;
 
 //    assign mux03ToRightShift[22:0] = mux03OUTToRightShift;
 //    assign mux03ToRightShift[23] = 1'b1;
    assign mux04ToBigALU = {1'b1, mux04OUTToBigALU};
 
     /* valor shiftado para a direita que sai do mux 03 e vai para a big ALU */
-   assign rightShiftOUTToBigALU = {1'b1, mux03OUTToRightShift} >> controlShiftRight;
+   assign rightShiftOUTToBigALU = {1'b1, mux03OUTToRightShift, 4'b0000} >> controlShiftRight;
 
    /*Rounder*/
 
@@ -85,14 +89,14 @@ module floating_point(
                       .ALUOp(smallALUOperation));
 
    /* ALU que faz a soma das mantissas */
-   BigALU BigALU (.clk(clk), .valor1(rightShiftOUTToBigALU), .valor2(mux04ToBigALU), .ALUOp(bigALUOperation), 
-                  .result(bigALUtoMux05), .endMultiplication(endMultiplication), .muxA(muxAControl), .muxB(muxBControl),
-                  .muxC(muxControl), .sumOrMultiplication(sumOrMultiplication),
-                  .loadRegA(loadRegA), .loadRegB(loadRegB));
+   BigALU BigALU (.clk(clk), .valor1(rightShiftOUTToBigALU), .valor2({1'b1, mux04ToBigALU, 4'b0000}),
+                  .result(bigALUtoMux05), .finishedMult(endMultiplication), .isSum(isSum), 
+                  .sum_sub(sum_sub), .reset(reset), .muxDataRegValor2(muxDataRegValor2));
 
    /*Increase or decrease*/
-   IncreaseOrDecrease IncreaseOrDecrease(.clk(clk),.enable(IncreaseOrDecreaseEnable), .valor1(mux02ToIncreaseOrDecrease), .result(IncreaseOrDecreaseToMux06),
-   .ALUOp(controlToIncreaseOrDecrease));
+   IncreaseOrDecrease IncreaseOrDecrease(.clk(clk),.howManyToIncreaseOrDecrease(howManyToIncreaseOrDecrease), 
+                                         .enable(IncreaseOrDecreaseEnable), .valor1(mux02ToIncreaseOrDecrease), 
+                                         .result(IncreaseOrDecreaseToMux06), .ALUOp(controlToIncreaseOrDecrease));
 
    /*Instanciação dos muxes básicos da datapath*/
    /* mux que recebe os expoentes e seleciona o menor deles */
@@ -123,14 +127,19 @@ module floating_point(
     /* mux que recebe a soma das fracoes da big ALU e a fracao do rounder
        para verificar se precisa ser shiftado para a esquerda ou direita */
    
-
-   mux_2x1_24bit mux05 (.A(bigALUtoMux05), .B({1'b0, roundToMux05}), 
+   
+   /* esse mux tem o caso especial que ele ja corta o bit mais significativo vindo
+      da big ALU. Ja que estamos fazendo o papel da control nos que temos que ver 
+      quanto precisa ser shiftado por causa desse corte.
+      Para o sinal vindo do rounder (que entra pela porta B), esta sendo colocado
+      um zero na frente do numero, entao nao vai precisar dar shift */
+   assign roundToMux05 = {1'b0, rounderOut, 4'b0000};
+   mux_2x1_28bit mux05 (.A(bigALUtoMux05[27:0]), .B({roundToMux05}), 
                          .S(controlToMux05), .X(mux05ToRightShiftOrLeftShift));
    //FALTA PASSAR O MUX05 para 24 bits ou mais.
 
 
    /*mux recebe increase or decrease e o regSmallALU*/
-   
    mux_2x1_8bit mux06 (.A(IncreaseOrDecreaseToMux06), .B(regSmallALUToMux06), 
                          .S(controlToMux06), .X(mux06ToRegFinal));
 
@@ -140,7 +149,10 @@ module floating_point(
 
     /* valor shiftado para a esquerda ou direita que sai do mux 05 e vai
        para o rounder */
-   assign shiftLeftOrRightToRound = mux05ToRightShiftOrLeftShift << controlShiftLeftOrRight;
+   //assign shiftLeftOrRightToRound = mux05ToRightShiftOrLeftShift << controlShiftLeftOrRight;
+   shiftLeftOrRight shiftLeftOrRight(.mantissaToShift(mux05ToRightShiftOrLeftShift), 
+                                     .shifted(shiftLeftOrRightToRound), .howMany(howMany), 
+                                     .rightOrLeft(rightOrLeft));
 
    /*Rounder */
    rounder rounder(.mantissa(shiftLeftOrRightToRound), .mantissaRounded(rounderOut), 
