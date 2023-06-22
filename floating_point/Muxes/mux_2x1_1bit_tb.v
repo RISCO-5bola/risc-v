@@ -1,4 +1,4 @@
-module mux_2x1_8bit_tb ();
+module mux_2x1_1bit_tb ();
     reg S;
     reg [7:0] A, B;
     wire [7:0] X;

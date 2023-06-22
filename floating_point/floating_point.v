@@ -3,8 +3,7 @@ module floating_point(
       input loadFinal, loadRegSmall,
       input clk,
       input controlToMux01, controlToMux02, controlToMux03, 
-            controlToMux04, controlToMux05, controlToMux06,
-            IncreaseOrDecreaseEnable,
+            controlToMux04, controlToMux05, IncreaseOrDecreaseEnable,
       input [7:0] controlShiftRight,
       input [3:0] smallALUOperation, controlToIncreaseOrDecrease,
       input regSmallALULoad, muxBControlSmall, muxAControlSmall,
@@ -16,6 +15,7 @@ module floating_point(
       /*increaseOrDecrease*/
       input [7:0] howManyToIncreaseOrDecrease,
       output [31:0] resultadoFinal
+
 
       /*Lembrar de colocar todos os sinais de controle como inputs - E SÃO VÁRIOS*/
       //Todos os muxes;
@@ -31,7 +31,7 @@ module floating_point(
             end
             
     /* wires do sinal para multiplicacao */
-    wire wire0, sign;
+    wire sign;
     /* wires de 8 bits */
     wire [7:0] mux01ToMux02, Mux06ToMux02, mux02ToIncreaseOrDecrease,
                smallALUToRegSmallAlu, regSmallALUToControl, 
@@ -63,14 +63,35 @@ module floating_point(
    /*wires de 32 bits*/
    wire [31:0] regFinalInput;
    wire [31:0] regFAOUT, regFBOUT;
-   assign regFinalInput[30:23] = mux06ToRegFinal;
+   assign regFinalInput[30:23] = IncreaseOrDecreaseToMux06; // CUIDADO NA HORA DE TIRAR ESSE MUX06 DAQUI
    assign regFinalInput[22:0] = rounderToRegFinal;
+   assign regFinalInput[31] = finalSignal;
+/*
+AQUI ESTÃO OS SINAIS DO FELIPE E DO TADAKI PO, PARA O SINAL
+*/
 
-   xor(wire0, floatingPoint1[31], floatingPoint2[31]);
-   and(sign, wire0, ~sumOrMultiplication);
-   assign regFinalInput[31] = sign;
+   wire [7:0] regSmallALUToDefineSignal;
+   wire firstSignalToDefineSignal, secondSignalToDefineSignal;
+   wire sumOrMultiplicationToDefineSignal; //0 se soma;
+   wire [22:0] mantissaFirstToDefineSignal, mantissaSecondToDefineSignal;
+   wire finalSignal;
 
-   assign Mux06ToMux02 = mux06ToRegFinal;
+   assign firstSignalToDefineSignal = regFAOUT[31];
+   assign secondSignalToDefineSignal = regFBOUT[31];
+   assign sumOrMultiplicationToDefineSignal = ~isSum;
+   assign mantissaFirstToDefineSignal = regFAOUT[22:0];
+   assign mantissaSecondToDefineSignal = regFBOUT[22:0];
+
+   defineSignal defineSignal(.mantissaFirst(mantissaFirstToDefineSignal),
+                             .mantissaSecond(mantissaSecondToDefineSignal), 
+                             .signalFirst(firstSignalToDefineSignal),
+                             .signalSecond(secondSignalToDefineSignal), 
+                             .exponentDifference(regSmallALUToDefineSignal),
+                             .sumOrMultiplication(sumOrMultiplicationToDefineSignal), 
+                             .signalResult(finalSignal));
+   //final
+
+   assign Mux06ToMux02 = IncreaseOrDecreaseToMux06;
    /*registradores para salvar os valores de entrada para operar -> 64bits*/ 
    register_32bits regFA (.clk(clk), .load(1'b1), .in_data(floatingPoint1), 
                                    .out_data(regFAOUT));
@@ -107,8 +128,8 @@ module floating_point(
 
     /* mux que recebe o menor expoente dos inputs e o expoente do rounder 
        e verifica se precisa ser incrementado ou decrementado*/
-   mux_2x1_8bit mux02 (.A(mux01ToMux02), .B(Mux06ToMux02), 
-                        .S(controlToMux02), .X(mux02ToIncreaseOrDecrease));
+   mux_2x1_8bit mux02 (.A(mux01ToMux02), .B(resultadoFinal[30:23]), 
+                        .S(controlToMux02), .X(mux02ToIncreaseOrDecrease));//Mux06ToMux02 -> CORRIGIR
 
     /* mux que recebe as fracoes e seleciona a menor delas para ser 
        shiftada para a direita */
@@ -136,17 +157,12 @@ module floating_point(
    assign roundToMux05 = {1'b0, rounderOut, 4'b0000};
    mux_2x1_28bit mux05 (.A(bigALUtoMux05[27:0]), .B({roundToMux05}), 
                          .S(controlToMux05), .X(mux05ToRightShiftOrLeftShift));
-   //FALTA PASSAR O MUX05 para 24 bits ou mais.
-
-
-   /*mux recebe increase or decrease e o regSmallALU*/
-   mux_2x1_8bit mux06 (.A(IncreaseOrDecreaseToMux06), .B(regSmallALUToMux06), 
-                         .S(controlToMux06), .X(mux06ToRegFinal));
 
     /* registrador que recebe o valor da small ALU */
    reg_parametrizado regSmallALU (.clk(clk), .load(1'b1), .in_data(smallALUToRegSmallAlu), 
-                                   .out_data(regSmallALUToMux06));
-
+                                   .out_data(regSmallALUOUT));
+   wire [7:0] regSmallALUOUT;
+   assign regSmallALUToDefineSignal = regSmallALUOUT;
     /* valor shiftado para a esquerda ou direita que sai do mux 05 e vai
        para o rounder */
    //assign shiftLeftOrRightToRound = mux05ToRightShiftOrLeftShift << controlShiftLeftOrRight;

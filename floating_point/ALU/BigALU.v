@@ -21,6 +21,9 @@ module BigALU (
     wire [63:0] fromMux03ToRegValor2;
     wire [63:0] outputFromShiftRight;
 
+    wire [63:0] outputAdder1;
+    wire [63:0] outputAdder2;
+
     wire sumValor1orZero;
 
     reg [63:0] regValor2;
@@ -29,7 +32,11 @@ module BigALU (
     mux_2x1_64bit mux02BigAlu(.A(regValor2), .B({36'd0, fromRegResult[28:1]}), .S(~isSum), .X(input2Adder));
     mux_2x1_64bit mux03BigAlu(.A({36'd0, valor2}), .B(outputFromShiftRight), .S(muxDataRegValor2), .X(fromMux03ToRegValor2));
 
-    Adder64b_mod adder (.A(input1Adder), .B(input2Adder), .SUB(sum_sub), .S(resultFromAdder));
+    Adder64b_mod adderAdd (.A(input1Adder), .B(input2Adder), .SUB(sum_sub), .S(outputAdder1));
+    Adder64b_mod adderSub (.A(input2Adder), .B(input1Adder), .SUB(sum_sub), .S(outputAdder2));
+    
+    assign resultFromAdder = sum_sub ? outputAdder2 : outputAdder1;
+
     /* wire para retroalimentar o circuito com o resultado atual */
     wire [28:0] fromRegResult;
     assign fromRegResult = result;

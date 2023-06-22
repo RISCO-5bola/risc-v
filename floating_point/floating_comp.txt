@@ -1,5 +1,6 @@
 floating_point.v
 floating_point_tb.v
+defineSignal.v
 rounder.v
 shiftLeftOrRight.v
 ALU/ALU.v 
@@ -12,6 +13,7 @@ ALU/operations/Adder64b_mod.v
 ALU/operations/and.v 
 ALU/operations/or.v 
 ALU/operations/xor.v 
+Muxes/mux_2x1_1bit.v
 Muxes/mux_2x1_8bit.v
 Muxes/mux_2x1_23bit.v
 
