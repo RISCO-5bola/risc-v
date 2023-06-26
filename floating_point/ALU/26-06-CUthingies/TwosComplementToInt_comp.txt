@@ -1,0 +1,11 @@
+TwosComplementToInt.v
+TwosComplementToInt_tb.v
+../ALU.v
+../operations/CLAAdder8b_mod.v
+../operations/PartialFullAdder1b_mod.v
+../operations/Adder64b_mod.v
+../operations/and.v
+../operations/or.v
+../operations/xor.v
+../../Muxes/mux_15x1_64bit_ALU.v
+../../Muxes/mux_2x1_64bit.v

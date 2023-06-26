@@ -1,0 +1,66 @@
+$date
+	Mon Jun 26 16:57:52 2023
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ns
+$end
+$scope module Distancer_tb $end
+$scope module UUT $end
+$var wire 1 ! distanceIsNegative $end
+$var wire 64 " doubleWord [63:0] $end
+$var wire 64 # positiveDistanceFinale [63:0] $end
+$var wire 37 $ positiveDistance [36:0] $end
+$var wire 64 % negativeDistanceFinale [63:0] $end
+$var wire 28 & negativeDistance [27:0] $end
+$var wire 64 ' distance [63:0] $end
+$scope module muxA1 $end
+$var wire 64 ( A [63:0] $end
+$var wire 64 ) B [63:0] $end
+$var wire 1 ! S $end
+$var reg 64 * X [63:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+bx *
+b1111111111111111111111111111111111111111111111111111111111xxxxx )
+b0xxxxxxx (
+bx '
+bxz &
+b1111111111111111111111111111111111111111111111111111111111xxxxx %
+bxz $
+b0xxxxxxx #
+bx "
+x!
+$end
+#10
+b101 '
+b101 *
+b101 #
+b101 (
+0!
+b111111111111111111111111111111111111111111111111111111111100000 %
+b111111111111111111111111111111111111111111111111111111111100000 )
+b0z &
+b10000z $
+b100001000000000000000000000000000 "
+#30
+b111111111111111111111111111111111111111111111111111111111111011 '
+b111111111111111111111111111111111111111111111111111111111111011 *
+b0 #
+b0 (
+1!
+b111111111111111111111111111111111111111111111111111111111111011 %
+b111111111111111111111111111111111111111111111111111111111111011 )
+b0z $
+b10000z &
+b1000010000000000000000000000 "
+#50
