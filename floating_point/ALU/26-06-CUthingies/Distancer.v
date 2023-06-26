@@ -133,7 +133,7 @@ module Distancer (
 
     //distancia negativa:
     wire [63:0]negativeDistanceFinale;
-    assign negativeDistanceFinale[63:5] = 58'b11111111_11111111_11111111_11111111_11111111_11111111_11111111_11;
+    assign negativeDistanceFinale[63:5] = 59'b11111111_11111111_11111111_11111111_11111111_11111111_11111111_111;
     //0 to 4
     assign negativeDistanceFinale[0] = (
     negativeDistance[27] | negativeDistance[25] | negativeDistance[23] | negativeDistance[21] |
