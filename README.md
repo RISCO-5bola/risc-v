@@ -5,6 +5,8 @@
 
 ## Contextualização
  Na disciplina de SDII, o nosso grupo (03) aceitou o desafio de fazer entregas paralelas em relação aos demais grupos da sala. Nas nossas entregas, iremos avançar na codificação do RISC-V de 64 bits em verilog com as extensões de ponto flutuante e implementação em FPGA.
+ 
+ -> o diferencial do nosso projeto é o funcionamento do processador em multiciclo, implementando todas as instruções do 32I e 64I, incluindo o funcionamento de operações com ponto flutuante integrado.
 
 Até o presente momento, a maioria das as instruções básica do RISC-VI estão implementadas, como pode ser verificado na lista de instruções implementadas abaixo.
 
