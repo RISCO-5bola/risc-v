@@ -19,31 +19,40 @@ module testbench ();
     endtask
 
     initial begin
-        
+        /* teste de or */ 
+        $display("Teste or 1");
         A = 64'd10;
         B = 64'd10;
         ALUOp = 4'b0010;
         #100
         Check(64'd20);
 
+        /* teste de or */
+        $display("Teste or 2");
         A = 64'd30;
         B = 64'd10;
         ALUOp = 4'b0010;
         #100
         Check(64'd40);
 
+        /* teste de set less than immediate unsigned */
+        $display("Teste less than immedite unsigned");
         A = 64'd30;
         B = 64'd10;
         ALUOp = 4'b0110;
         #100
         Check(64'd20);
 
+        /* teste de adição */
+        $display("Teste add");
         A = 64'b0000000000111111111100;
         B = 64'b0000000000000000000111;
         ALUOp = 4'b0000;
         #100
         Check(64'b0000000000000000000100);
 
+        /* teste and */
+        $display("and");
         A = 64'b0000000000111111111100;
         B = 64'b0000000000000000000111;
         ALUOp = 4'b0001;

@@ -16,6 +16,7 @@ module or_tb ();
 
     initial begin
        #10
+       /* or entre d123 e d456 */
        $display("Test 0");
        A = 63'd123;
        B = 63'd456;
@@ -23,6 +24,7 @@ module or_tb ();
        Check({result, 64'd507});
        #10
 
+       /* or entre -1111 e d2222 */
        $display("Test 1");
        A = -63'd1111;
        B = 63'd2222;
@@ -30,6 +32,7 @@ module or_tb ();
        Check({result, -64'd1105});
        #10
 
+       /* or entre -3333 e -4444 */
        $display("Test 2");
        A = -63'd3333;
        B = -63'd4444;

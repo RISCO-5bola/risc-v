@@ -1,3 +1,6 @@
+/* modulo que faz um or entre dois numeros 
+   de 64 bits */
+
 module orModule (
     input [63:0] A,
     input [63:0] B,

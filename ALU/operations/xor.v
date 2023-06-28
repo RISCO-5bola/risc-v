@@ -1,3 +1,6 @@
+/* modulo que faz um xor entre dois
+   numeros de 64 bits */
+
 module xorModule (
     input [63:0] A,
     input [63:0] B,

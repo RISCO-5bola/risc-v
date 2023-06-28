@@ -10,8 +10,6 @@ sendo:
 cada carry i é somado com os bits Ai e Bi no somador parcial de um bit (PartialFullAdder1b)
 */
 
-//`include "./ALU/operations/PartialFullAdder1b_mod.v"
-
 module CLAAdder8b(A, B, CIN, S, COUT);
     input [7:0] A, B;
     input CIN;

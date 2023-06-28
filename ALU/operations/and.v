@@ -1,3 +1,6 @@
+/* modulo que faz comparação and entre dois numeros
+   entre 64 bits */
+
 module andModule (
     input [63:0] A,
     input [63:0] B,

@@ -16,6 +16,7 @@ module and_tb ();
 
     initial begin
        #10
+       /* and entre d123 e d456 */
        $display("Test 0");
        A = 63'd123;
        B = 63'd456;
@@ -23,6 +24,7 @@ module and_tb ();
        Check({result, 64'd72});
        #10
 
+       /* and entre -d1111 e d2222 */
        $display("Test 1");
        A = -63'd1111;
        B = 63'd2222;
@@ -30,6 +32,7 @@ module and_tb ();
        Check({result, 64'd2216});
        #10
 
+       /* and entre -3333 e -4444 */
        $display("Test 2");
        A = -63'd3333;
        B = -63'd4444;

@@ -6,8 +6,6 @@ Na subtração, é usado o complemento de 2, complementando B e somando 1 (diret
 Somador composto por 4 módulos de Carry Look-Ahead Adders de 8 bits cada, totalizando 32 bits.
 */
 
-//`include "./ALU/operations/CLAAdder8b_mod.v"
-
 module Adder64b_mod (
     input signed [63:0] A, B,
     input SUB,
