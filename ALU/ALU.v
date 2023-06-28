@@ -1,9 +1,8 @@
-//`include "./ALU/operations/and.v"
-//`include "./ALU/operations/Adder64b_mod.v"
-//`include "./ALU/operations/or.v"
-//`include "./ALU/operations/xor.v"
-//`include "./ALU/mux_15x1_64bit_ALU.v"
-
+/* ALU capaz de fazer operações de adição, subtração, or
+   and, xor, set less than, set less than unsigned, shift left logical,
+   shift right logical, shift right arithmetic, add word, sub word, 
+   shift left logical word, shift right logical word, shift right arithmetic word,
+   */
 module ALU (
     input signed [63:0] A,
     input [63:0] B,
@@ -32,10 +31,6 @@ module ALU (
     wire [31:0] resShiftRightLogicalW;
     wire [31:0] resShiftRightArithW;
 
-    /* variante do A signed para que ela faca o shift aritimetico */
-    // wire signed [63:0] signedA;
-    // assign signedA = A;
-
     /* Verifica se deve ser uma instrucao de subtracao */
     wire isSub;
     wire wire1;
@@ -48,8 +43,9 @@ module ALU (
     and (wire2, ALUOp[0], ALUOp[2]);
     /* verificar se e um sltu */
     and (wire3, ALUOp[1], ALUOp[2]);
+    /* verifica se e um subw */
     and (wire4, ALUOp[3], ALUOp[1], ALUOp[0]);
-
+    /* verificação da sub */
     or(isSub, wire1, wire2, wire3, wire4);
 
     /* pega a parte low dos operandos e separa para usar
@@ -60,18 +56,37 @@ module ALU (
     assign lowerA = A[31:0];
     assign lowerB = B[31:0];
 
+    /* set less than */
     assign resSLT = {63'd0, lesser_than};
+
+    /* set less than unsigned */
     assign resSLTU = {63'd0, unsigned_lesser};
+
+    /* shift left logical */
     assign resShiftLeftLogical = A << B[4:0];
+
+    /* shift right logical */
     assign resShiftRightLogical = A >> B[4:0];
+
+    /* shift right arithmetic */
     assign resShiftRightArith = A >>> B[4:0];
+
+    /* add word */
     assign resAddW = lowerA + lowerB;
+
+    /* sub word */
     assign resSubW = lowerA - lowerB;
+
+    /* shift left logical word */
     assign resShiftLeftLogicalW = A[31:0] << B[3:0];
+
+    /* shift right logical word */
     assign resShiftRightLogicalW = A[31:0] >> B[3:0];
+
+    /* shift right arithmetic word */
     assign resShiftRightArithW = lowerA >>> B[3:0];
 
-    /* Aqui sao calculados a soma, a subtracao, o and e o or bitwise */
+    /* Aqui sao calculados a soma, a subtracao, o and, xor e o or bitwise */
     Adder64b_mod Adder64b_mod (.A(A), .B(B), .SUB(isSub), .S(resAddSub), .COUT(overflow));
     andModule andmod (.A(A), .B(B), .result(resAnd));
     orModule ormod (.A(A), .B(B), .result(resOr));
@@ -80,8 +95,6 @@ module ALU (
     /* De acordo com o ALUOp, e selecionado o resultado entre os 4 anteriores em um mux.
        Esse mux foi feito na forma estrutural
     */
-    /* TROCAR PARA ESSA VERSAO MAIS BONITA */
-    //{56{instruction[7]},instruction[7:0]}
     mux_15x1_64bit_ALU mux_15x1_64bit_ALU(.S(ALUOp), .A(resAddSub), .B(resAnd), .C(resOr),
             .D(resAddSub), .E(resXor), .F(resSLT), .G(resSLTU), .H(resShiftLeftLogical),
             .I(resShiftRightLogical), .J(resShiftRightArith),
@@ -209,7 +222,6 @@ module ALU (
     assign greater_or_equal = ~lesser_than;
 
     // unsigned lesser & greater_or_equal:
-
     assign unsigned_lesser = A < B ? 1'b1 : 1'b0;
     assign unsigned_greater_equal = ~unsigned_lesser;
 endmodule
