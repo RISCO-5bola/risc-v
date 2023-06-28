@@ -1,16 +1,17 @@
 #### Caso esteja acessando através de um .zip, acesse o link https://github.com/RISCO-5bola/risc-v para uma melhor experiência no repositório :)
 
-# RISC-V 64 bits
+# RISC-V 64 bits - Com extensão I e com operações básicas de floating point :zap:
  Esta é a implementação em Verilog do RISC-V 64 bits do Grupo 3 de Sistemas digitais II.
+ O projeto envolve o processador RISC-V de 64 bits que realiza todas as operações do tipo I, além de operações básicas de soma e multiplicação para ponto flutuante. Funcionando com multiplos ciclos e um controle voltado especificamente para a memória.
 
 ## Contextualização
- Na disciplina de SDII, o nosso grupo (03) aceitou o desafio de fazer entregas paralelas em relação aos demais grupos da sala. Nas nossas entregas, iremos avançar na codificação do RISC-V de 64 bits em verilog com as extensões de ponto flutuante e implementação em FPGA.
+ Na disciplina de SDII, o nosso grupo (03) aceitou o desafio de fazer entregas paralelas em relação aos demais grupos da sala. Nas nossas entregas, iremos avançar na codificação do RISC-V de 64 bits em verilog com ponto flutuante.
  
  -> o diferencial do nosso projeto é o funcionamento do processador em multiciclo, implementando todas as instruções do 32I e 64I, incluindo o funcionamento de operações com ponto flutuante integrado.
 
-Até o presente momento, a maioria das as instruções básica do RISC-VI estão implementadas, como pode ser verificado na lista de instruções implementadas abaixo.
+É interessante destacar que a maioria dos módulos criados para o processador são implementados de forma estutural. Porque apesar de ser mais minucioso e relativamente mais trabalhoso, o resultado é claro e confiável.
 
- - Situação do processador: está sendo estudada a implementação da serial e de ponto flutuante.
+Todas as instruções do RISC-VI estão implementadas, como pode ser verificado na lista de instruções implementadas abaixo.
 
 
 ## Como rodar o seu código no nosso processador
@@ -105,7 +106,7 @@ As seguintes instruções foram implementadas:
 - [X] ANDI 
 - [X] SLLI 
 - [X] SRLI 
-- [X] SRAI 
+- [X] SRAI
 - [X] ADD 
 - [X] SUB 
 - [X] SLL 
@@ -207,6 +208,12 @@ As seguintes instruções foram implementadas:
 |   auipc   |add upper imm to PC|acresce o valor do PC de um immediate e soma em um dado registrador          |
 | lui | load upper immediate | carrega um valor imediate de 20 bits no 20 bits superiores de um registrador e preenche os 12 bits inferiores com zero |
 
+### Operações com Ponto Flutuante:
+| Instrução | Função            | Descrição                                                                  |
+|-----------|-------------------|----------------------------------------------------------------------------|
+|   fadd    | floating add      | Soma dois valores de ponto flutuante e salva em um registrador             |
+|   fmul    | floating mult     | Multiplica dois valores de ponto flutuante e salva em um registrador       |
+
 ## Datapath
 Abaixo está o datapath dessa entrega (baseado no livro Computer Organization and Design The Hardware Software Interface [RISC-V Edition] de David A. Patterson e John L. Hennessy):
 ![datapath](https://raw.githubusercontent.com/RISCO-5bola/risc-v/main/datapath_patterson.png)
@@ -222,6 +229,10 @@ Abaixo está o datapath dessa entrega (baseado no livro Computer Organization an
  Obs: atualmente essa maquina de estado representada pela imagem está desatualizada, pois alguns estados a mais foram adicionados.
  ![estados](https://raw.githubusercontent.com/RISCO-5bola/risc-v/main/estados_uc.png)
  
+
+## Ponto Flutuante F ()
+Foi feito uma unidade apenas para operações com ponto flutuante, esta funciona em conjunto com o processador Risc-V por meio dos sinais de controle da Unidade de Controle. Existe uma complexidade adicional quando se trata de ponto flutuante, as operações são todas em multiciclo e a necessidade de comunicação com flags é muito frequente e importante. 
+
 ## Ondas analisadas
  As instruções em binário estão no arquivo ./Memory/Memory.v e seguem o Instruction Set oficial do RISC-V. Como os dados e as instruções estão na mesma memória, considerou-se que os dados iniciam na posição 0 da memória e os dados na posição 1023.
  
