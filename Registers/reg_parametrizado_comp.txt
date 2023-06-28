@@ -1,2 +1,0 @@
-reg_parametrizado.v
-reg_parametrizado_tb.v

@@ -1,2 +1,0 @@
-mux_6x1_1bit.v
-mux_6x1_1bit_tb.v

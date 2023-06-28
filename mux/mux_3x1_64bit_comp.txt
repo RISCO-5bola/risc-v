@@ -1,2 +1,0 @@
-mux_3x1_64bit.v
-mux_3x1_64bit_tb.v

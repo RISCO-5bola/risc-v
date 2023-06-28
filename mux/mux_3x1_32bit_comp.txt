@@ -1,2 +1,0 @@
-mux_3x1_32bit.v
-mux_3x1_32bit_tb.v
