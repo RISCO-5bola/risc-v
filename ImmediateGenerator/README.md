@@ -4,7 +4,7 @@ O Immediate Generator tem como função, juntar determinados bits da instrução
 
 | Immediate typo U |||
 | [31:12] | [11:7] | [6:0] |
-|==================|||
+|-----|-----|----|
 | immediate | X | X |
 
 
