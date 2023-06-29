@@ -1,8 +1,3 @@
-//`include "./mux/mux_3x1_32bit.v"
-//`include "./mux/mux_3x1_16bit.v"
-//`include "./mux/mux_3x1_8bit.v"
-//`include "./mux/mux_3x1_1bit.v"
-
 module load_choose (
     input [63:0] dataReadFromMemory,
     input [6:0] opcode,
