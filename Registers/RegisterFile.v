@@ -33,11 +33,9 @@ module RegisterFile(
     end
 
     //Criação do registrador de valor constante 0:
-
     reg_parametrizado R0 (.in_data(64'b0), .out_data(registerOut[0]), .load(1'b1), .clk(clk));
 
     //Todos os demais registradores do banco:
-
     genvar j;
     generate
         for(j = 1; j < 32; j = j+1) begin
@@ -46,7 +44,6 @@ module RegisterFile(
     endgenerate
 
     //Realizar o assign em todos os datas respectivos:
-
     assign readData1 = registerOut[readRegister1];
     assign readData2 = registerOut[readRegister2];
 

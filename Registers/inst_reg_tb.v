@@ -1,5 +1,4 @@
 `timescale 1ns/1ns
-
 module inst_reg_tb;
 
     // Entradas

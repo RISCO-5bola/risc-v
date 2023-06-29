@@ -25,3 +25,6 @@ Registers/reg_parametrizado_64b.v
 Registers/reg_parametrizado.v
 Registers/register_23bits.v
 Registers/register_32bits.v
+
+fpu.v
+Distancerfrom28.v

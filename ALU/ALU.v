@@ -93,8 +93,7 @@ module ALU (
     xorModule xormod (.A(A), .B(B), .result(resXor));
     
     /* De acordo com o ALUOp, e selecionado o resultado entre os 4 anteriores em um mux.
-       Esse mux foi feito na forma estrutural
-    */
+       Esse mux foi feito na forma estrutural*/
     mux_15x1_64bit_ALU mux_15x1_64bit_ALU(.S(ALUOp), .A(resAddSub), .B(resAnd), .C(resOr),
             .D(resAddSub), .E(resXor), .F(resSLT), .G(resSLTU), .H(resShiftLeftLogical),
             .I(resShiftRightLogical), .J(resShiftRightArith),

@@ -198,16 +198,15 @@ module Memory(input clk,
       Memory[1104] = 8'b11111111;
       Memory[1103] = 8'b11111111;
       
-     /* Da um jump para sair da instrucao 11111, que ja foi setada anteriormente */
+      /* Da um jump para sair da instrucao 11111, que ja foi setada anteriormente */
       // imm[20|10:1|11|19:12] rd 1101111 JAL rd = x5 imm = 16
       Memory[1110] = 8'b1_1101111;  
       Memory[1109] = 8'b0000_0010; 
       Memory[1108] = 8'b100_0_0000;
       Memory[1107] = 8'b0_0000000;
 
-     /* 
-      Testes deluxe: uma nova sessão para instrucoes que nao sao as basicas
-      implementadas em sala
+      /* Testes deluxe: uma nova sessão para instrucoes 
+         que nao sao as basicas implementadas em sala
       */
       /* 0000000 rs2 rs1 111 rd 0110011 AND rs2 = x5 rs1 = x6 rd = x7 
          realiza and entre x5 e x6, guardando 1095 em x7*/

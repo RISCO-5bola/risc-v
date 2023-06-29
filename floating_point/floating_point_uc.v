@@ -13,8 +13,8 @@ module floating_point_uc (
     input [7:0] smallAluResult,
     input signalFP1,
     input signalFP2,
-    input posFirst27posReferential,
-    input posFirst28posReferential,
+    input [22:0] posFirst27posReferential,
+    input [22:0] posFirst28posReferential,
 
     /* sinal para o processador de que terminou a operação */
     output reg done,
@@ -39,6 +39,8 @@ module floating_point_uc (
     parameter SUM_EQUAL_SIGNALS = 5'b00010;
     /* estado para o caso no qual precisa normalizar novamente */
     parameter RE_NORMALIZE = 5'b00011;
+    /* estado para a multiplicação de dois valores em floating point */
+    parameter MULTIPLICATION = 5'b00100;
 
     /* registradores padrões para máquinas de estado */
     reg [4:0] currentState;
@@ -145,6 +147,30 @@ module floating_point_uc (
                 rightOrLeft <= 1'b1;
                 howMany <= 23'd1; 
                 howManyToIncreaseOrDecrease <= 8'd1; 
+            end
+
+            MULTIPLICATION:
+            begin
+                done <= 1'b0;
+                counter <= counter - 1;
+                loadRegSmall <= 1'b1;
+                controlToMux01 <= ~expDifferencePos; 
+                controlToMux02 <= 1'b0;
+                controlToMux03 <= 1'b0; //Seta o primeiro para o mux
+                controlToMux04 <= 1'b1; //Seta o segundo para o mux
+                controlToMux05 <= 1'b0; //Mandar o resultado da BIGALU para o shift left or right
+                IncreaseOrDecreaseEnable <= 1'b0; //Não incrementar
+                controlShiftRight <= smallAluResult; //ADICIONAR O VALOR DA DISTÂNCIA PARA O BIT 
+                smallALUOperation <= 4'b0000; //SOMAR OS EXPOENTES
+                controlToIncreaseOrDecrease <= {2'd0, expDifferencePos, expDifferencePos}; //
+                muxBControlSmall <= 1'b1;
+                muxAControlSmall <= 1'b1;
+                sum_sub <= 1'b0;
+                isSum <= 1'b1;
+                muxDataRegValor2 <= 1'b0;
+                rightOrLeft <= ~expDifferencePos;
+                howMany <= posFirst27posReferential; 
+                howManyToIncreaseOrDecrease <= posFirst28posReferential;
             end
 
             default: begin

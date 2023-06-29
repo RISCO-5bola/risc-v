@@ -20,16 +20,28 @@ module Distancerfrom28_tb ();
     initial begin
         #10
         //First: dist positive only
-        $display("first test: distance is +5");
-        doubleWord = 64'b00000000_00000000_00000000_00001000_000_1_0000_00000000_00000000_00000000;
+        $display("first test: distance is +7");
+        doubleWord = 64'b00000000_00000000_00000000_0000_1_000_000_1_0000_00000000_00000000_00000000;
         #10
         Check(64'd7);
         #10
         //Second: -dist neg only
         $display("Second test: distance is -5");
-        doubleWord = 64'b00000000_00000000_00000000_00000000_000_1_0000_10000000_00000000_00000000;
+        doubleWord = 64'b00000000_00000000_00000000_00000000_000_0_0000_1_0000000_00000000_00000000;
         #10
         Check(64'b1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1011);
+        #10
+        //THIRD: 0 distance
+        $display("Third test: distance is 0");
+        doubleWord = 64'b00000000_00000000_00000000_00000000_000_1_1111_1_0000000_00000000_00000000;
+        #10
+        Check(64'b0);
+
+        //THIRD: 0 distance
+        $display("Fourth test: distance is 3");
+        doubleWord = 64'b00000000_00000000_00000000_00000000_100_1_1111_1_0000000_00000000_00000000;
+        #10
+        Check(64'd3);
         #10
         $display("Test finished. Erros: %d", errors);
         $finish;

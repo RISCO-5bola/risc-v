@@ -1,12 +1,13 @@
 module floating_point(
+      input start,
       input [31:0] floatingPoint1, floatingPoint2,
-      input loadFinal, loadRegSmall,
+      input loadRegSmall,
       input clk,
       input controlToMux01, controlToMux02, controlToMux03, 
             controlToMux04, controlToMux05, IncreaseOrDecreaseEnable,
       input [7:0] controlShiftRight,
       input [3:0] smallALUOperation, controlToIncreaseOrDecrease,
-      input regSmallALULoad, muxBControlSmall, muxAControlSmall,
+      input muxBControlSmall, muxAControlSmall,
       //inputs do bigALU:
       input sum_sub, isSum, reset, muxDataRegValor2,
       /* shift left or right */
@@ -14,22 +15,25 @@ module floating_point(
       input [22:0] howMany, 
       /*increaseOrDecrease*/
       input [7:0] howManyToIncreaseOrDecrease,
-      output [31:0] resultadoFinal
-
-
+      output [31:0] resultadoFinal,
+      output rounderOverflow,
+      output [7:0] smallAluResult,
       /*Lembrar de colocar todos os sinais de controle como inputs - E SÃO VÁRIOS*/
       //Todos os muxes;
       //Sinais Da SMALLALU;
       //Sinais Da BIGALU;
       //Sinais do shifter;
       //Sinais do Rounder;
+      output [63:0] posFirst28posReferential,
+      output [63:0] posFirst27posReferential
 );
+   
 
-    initial begin
-                $dumpfile("wave.vcd");
-                $dumpvars(0, floating_point);
-            end
-            
+   //  initial begin
+   //              $dumpfile("wave.vcd");
+   //              $dumpvars(0, floating_point);
+   //          end
+   
     /* wires do sinal para multiplicacao */
     wire sign;
     /* wires de 8 bits */
@@ -162,6 +166,7 @@ AQUI ESTÃO OS SINAIS DO FELIPE E DO TADAKI PO, PARA O SINAL
    reg_parametrizado regSmallALU (.clk(clk), .load(1'b1), .in_data(smallALUToRegSmallAlu), 
                                    .out_data(regSmallALUOUT));
    wire [7:0] regSmallALUOUT;
+   assign smallAluResult = regSmallALUOUT;
    assign regSmallALUToDefineSignal = regSmallALUOUT;
     /* valor shiftado para a esquerda ou direita que sai do mux 05 e vai
        para o rounder */
@@ -170,10 +175,13 @@ AQUI ESTÃO OS SINAIS DO FELIPE E DO TADAKI PO, PARA O SINAL
                                      .shifted(shiftLeftOrRightToRound), .howMany(howMany), 
                                      .rightOrLeft(rightOrLeft));
 
-   /*Rounder */
+   /* Rounder */
    rounder rounder(.mantissa(shiftLeftOrRightToRound), .mantissaRounded(rounderOut), 
-                   .notNormalized(finalizeOperation), .clk(clk));
+                   .notNormalized(rounderOverflow), .clk(clk));
       
    assign rounderToRegFinal = rounderOut;
 
+   /* Mede distâncias até determinados bits para fazer arredondamentos */
+   Distancerfrom28 distancer28 (.doubleWord({35'd0, mux05ToRightShiftOrLeftShift}), .distance(posFirst28posReferential));
+   Distancerfrom27 distancer27 (.doubleWord({35'd0, mux05ToRightShiftOrLeftShift}), .distance(posFirst27posReferential));
 endmodule
