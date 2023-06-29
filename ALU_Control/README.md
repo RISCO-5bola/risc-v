@@ -7,7 +7,7 @@ O módulo ALU Control é responsável por gerar sinais de controle que determina
 2. Seleção da função da ALU: determina o tipo de operação a ser executada.
 3. Saída do sinal de controle:  gera o ALUOp que será enviado para a ALU
 
-### Operacoes:
+### Operações:
 - 0000: ADD
 - 0001: AND
 - 0010: OR

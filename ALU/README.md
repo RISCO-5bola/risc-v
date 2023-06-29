@@ -8,6 +8,7 @@ A Unidade Lógica e Aritmética é um componente chave responsável por realizar
 4. Manipulação de dados: executa operações de manipulação de dados, incluindo deslocamento de bits para a esquerda ou direita.
 5. Sinais de controle: recebe sinais de controle da ALU Control, que a instrui sobre qual operação realizar e como interpretar os operandos de entrada.
 
+### Operações suportadas:
 - [X] ADD
 - [X] SUB 
 - [X] OR 
