@@ -148,7 +148,7 @@ module floating_point_uc (
                 howMany <= 23'd1; 
                 howManyToIncreaseOrDecrease <= 8'd1; 
             end
-
+            //Não está totalmente definido ainda
             MULTIPLICATION:
             begin
                 done <= 1'b0;
@@ -163,11 +163,11 @@ module floating_point_uc (
                 controlShiftRight <= smallAluResult; //ADICIONAR O VALOR DA DISTÂNCIA PARA O BIT 
                 smallALUOperation <= 4'b0000; //SOMAR OS EXPOENTES
                 controlToIncreaseOrDecrease <= {2'd0, expDifferencePos, expDifferencePos}; //
-                muxBControlSmall <= 1'b1;
-                muxAControlSmall <= 1'b1;
+                muxBControlSmall <= 1'b1; //expoente
+                muxAControlSmall <= 1'b1; //expoente //somados!
                 sum_sub <= 1'b0;
-                isSum <= 1'b1;
-                muxDataRegValor2 <= 1'b0;
+                isSum <= 1'b0; //não é soma
+                muxDataRegValor2 <= 1'b1; // Isso indica que é para somar;
                 rightOrLeft <= ~expDifferencePos;
                 howMany <= posFirst27posReferential; 
                 howManyToIncreaseOrDecrease <= posFirst28posReferential;

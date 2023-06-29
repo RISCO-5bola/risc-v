@@ -21,7 +21,8 @@ module fpu (clk, rst, A, B, R, op, start, done);
     wire rightOrLeft;
     wire [22:0] howMany;
     wire [7:0] howManyToIncreaseOrDecrease;
-    
+
+    //Instanciação do controle da FPU
     floating_point_uc fp_uc (.clk(clk), .reset(rst), .start(start),
                              .operation(op), .rouderOverflow(rounderOverflow),
                              .expDifferencePos(smallAluResult[7]), .smallAluResult(smallAluResult),
@@ -34,7 +35,8 @@ module fpu (clk, rst, A, B, R, op, start, done);
                              .regSmallALULoad(regSmallALULoad), .muxBControlSmall(muxBControlSmall), .muxAControlSmall(muxAControlSmall),
                              .sum_sub(sum_sub), .isSum(isSum), .muxDataRegValor2(muxDataRegValor2), .rightOrLeft(rightOrLeft),
                              .howMany(howMany), .howManyToIncreaseOrDecrease(howManyToIncreaseOrDecrease));
-
+     
+     //Instanciação da datapath da FPU
     floating_point fp_datapath (.start(start), .floatingPoint1(A), .floatingPoint2(B), .loadRegSmall(loadRegSmall), .clk(clk),
                                 .controlToMux01(controlToMux01), .controlToMux02(controlToMux02), .controlToMux03(controltomux03),
                                 .controlToMux04(controlToMux04), .controlToMux05(controlToMux05), .IncreaseOrDecreaseEnable(IncreaseOrDecreaseEnable),

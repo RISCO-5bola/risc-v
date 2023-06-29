@@ -4,7 +4,7 @@ module BigALU (
     input reset,
     input clk,
     input muxDataRegValor2,
-    input wire[27:0] valor1,
+    input wire [27:0] valor1,
     input wire [27:0] valor2,
     output finishedMult,
     output reg [28:0] result
