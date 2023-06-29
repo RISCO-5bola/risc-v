@@ -1,7 +1,6 @@
 // iverilog risc-v.v -I ./Registers/ -I ./ImmediateGenerator/ -I ./ALU/ -I ./ALU/operations/
 
 /* Este modulo e o risc-v em si, como mostrado no diagrama do readme inicial */
-
 module riscv (
     input reset,
     input clk

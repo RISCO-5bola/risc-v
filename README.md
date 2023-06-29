@@ -5,9 +5,9 @@
  O projeto envolve o processador RISC-V de 64 bits que realiza todas as operações do tipo I, além de operações básicas de soma e multiplicação para ponto flutuante. Funcionando com multiplos ciclos e um controle voltado especificamente para a memória.
 
 ## Contextualização
- Na disciplina de SDII, o nosso grupo (03) aceitou o desafio de fazer entregas paralelas em relação aos demais grupos da sala. Nas nossas entregas, iremos avançar na codificação do RISC-V de 64 bits em verilog com ponto flutuante.
+Na disciplina de SDII, o nosso grupo (03) aceitou o desafio de fazer entregas paralelas em relação aos demais grupos da sala. Nas nossas entregas, avançamos na codificação do RISC-V de 64 bits em verilog com ponto flutuante.
  
- -> o diferencial do nosso projeto é o funcionamento do processador em multiciclo, implementando todas as instruções do 32I e 64I, incluindo o funcionamento de operações com ponto flutuante integrado.
+-> o diferencial do nosso projeto é o funcionamento do processador em multiciclo, implementando todas as instruções do 32I e 64I, incluindo o funcionamento de operações com ponto flutuante integrado.
 
 É interessante destacar que a maioria dos módulos criados para o processador são implementados de forma estutural. Porque apesar de ser mais minucioso e relativamente mais trabalhoso, o resultado é claro e confiável.
 
@@ -69,14 +69,12 @@ c - Setados os valores desejados na data memory e na instruction memory devidame
  ``iverilog -c risc-v_comp.txt``
  
  Comando para rodar:
- ``./a.out``
+ ``./a.out`` para usuários do Linux 
+ ``vvp a.out`` para usuários do Windows
 
  Comando para visualizar no GTKWave:
  ``gtkwave wave.vcd``
  
- Sistema operacional usado: Linux Mint (Debian/Ubuntu).
-
-
 ## Instruções implementadas
 As seguintes instruções foram implementadas:
 
@@ -137,8 +135,8 @@ As seguintes instruções foram implementadas:
 ### Operações básicas aritméticas com registradores: (tipo R):
 | Instrução | Função        | Descrição                                                               |
 |-----------|---------------|-------------------------------------------------------------------------|
-| add       | add           | soma entre valores de dois registradores do banco de registradores      |
-| sub       | sub           | subtração entre valores de dois registradores do banco de registradores |
+| add | add | soma entre valores de dois registradores do banco de registradores      |
+| sub | sub | subtração entre valores de dois registradores do banco de registradores |
 | sll | shift left logical | desloca bits para a esquerda por uma quantidade constante especificada por um registrador |
 | slt | set less than | compara dois números e se o primeiro for menor que o segundo, define o registrador de destino como 1 |
 | sltu | set less than unsigned | faz o mesmo que o slt, mas com inteiros positivos |
@@ -156,9 +154,9 @@ As seguintes instruções foram implementadas:
 ### Operações com immediate: (Tipo I):
 | Instrução | Função        | Descrição                                                                   |
 |-----------|---------------|-----------------------------------------------------------------------------|
-| addi      | add immediate | soma um valor de um registrador com uma dada constante                      |
-| subi      | sub immediate | essa instrução é apenas um addi com a constante (immediate) negativa        |
-| jalr      | jump link reg | salva em registrador o PC +4 e manda para o PC o valor de um reg + immediate|
+| addi | add immediate | soma um valor de um registrador com uma dada constante                      |
+| subi | sub immediate | essa instrução é apenas um addi com a constante (immediate) negativa        |
+| jalr | jump link reg | salva em registrador o PC +4 e manda para o PC o valor de um reg + immediate|
 | lb | load btye | carrega uma palavra de 8 bits da memória para um registrador e extende o sinal |
 | lh | load half | carrega uma palavra de 16 bits da memória para um registrador e extende o sinal |
 | lw | load word | carrega uma palavra de 32 bits da memória para um registrador e extende o sinal |
@@ -229,7 +227,6 @@ Abaixo está o datapath dessa entrega (baseado no livro Computer Organization an
  Obs: atualmente essa maquina de estado representada pela imagem está desatualizada, pois alguns estados a mais foram adicionados.
  ![estados](https://raw.githubusercontent.com/RISCO-5bola/risc-v/main/estados_uc.png)
  
-
 ## Ponto Flutuante F ()
 Foi feito uma unidade apenas para operações com ponto flutuante, esta funciona em conjunto com o processador Risc-V por meio dos sinais de controle da Unidade de Controle. Existe uma complexidade adicional quando se trata de ponto flutuante, as operações são todas em multiciclo e a necessidade de comunicação com flags é muito frequente e importante. 
 

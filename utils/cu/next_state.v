@@ -4,7 +4,8 @@ module next_state (
     output [3:0] ns
 );
     wire wire0, wire1, wire2, wire3, wire4, wire5, wire6, wire7,
-         wire8, wire9, wire10, wire11, wire12, wire13, wire14, wire15, wire16, wire17, wire18, wire19;
+         wire8, wire9, wire10, wire11, wire12, wire13, wire14, wire15, 
+         wire16, wire17, wire18, wire19;
 
     /* tipo jal current state 1 para next state 9*/
     and (wire0, op[6], op[5], ~op[4], op[3], op[2], op[1], op[0], ~state[3], ~state[2], ~state[1], state[0]);
