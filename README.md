@@ -25,7 +25,7 @@ Todas as instruções do RISC-VI estão implementadas, como pode ser verificado 
 
  - usamos apenas uma memory, e certas posições serão dedicadas a fazer o papel de Data Memory e as demais, para a Instruction Memory, como fica claro adiante.
 
-a - Na seção "data memory" você adicionará os valores de 64 bits, que você deseja deixar na Data Memory do processador. Para esses valores serem armazenados no registrador, você deverá usar o store, não esqueça desse detalhe.
+a - Na seção "data memory" você adicionará os valores de 64 bits, que você deseja deixar na Data Memory do processador. Para esses valores serem armazenados no registrador, você deve usar o store, não esqueça dessa etapa.
 
 *Importante: A Data Memory representa a parcela que vai da Memory[0] até a Memory[1023].
 
@@ -53,7 +53,7 @@ b - Na seção "instruction memory" você adicionará os valores de 32 bits que 
 
 - A parte do controle da memória é setado para começar no 1024 para as instruções. Então não há erros em termos da passagem das instruções e da contagem do program counter. Isto é, a ordem do program counter será respeitada devidamente.
 
-- Assim, a instrução representada na memoria de Memory[1026] a Memory[1023] reconhecida como a primeira instrução de fato.
+- Assim, a instrução representada na memoria de Memory[1026] a Memory[1023] é reconhecida como a primeira instrução de fato.
 
 Exemplo: ld x1, 0(x0)
 ```verilog 
@@ -135,7 +135,7 @@ As seguintes instruções foram implementadas:
 - [X] SRAW 
 
 ## Descrição das instruções
-### Operações básicas aritméticas com registradores: (tipo R):
+### Operações aritméticas básicas com registradores: (tipo R):
 | Instrução | Função        | Descrição                                                               |
 |-----------|---------------|-------------------------------------------------------------------------|
 | add | add | soma entre valores de dois registradores do banco de registradores      |
@@ -188,7 +188,7 @@ As seguintes instruções foram implementadas:
 | sw | store word | armazena uma palavra de 32 bits de um registrador para a memória |
 | sd | store double | armazena uma palavra de 64 bits de um registrador para a memória |
 
-### Operações do tipo B (de salto nas instruções):
+### Operações do tipo B (salto condicional):
 | Instrução | Função        | Descrição                                                                     |
 |-----------|---------------|-------------------------------------------------------------------------------|
 | beq | branch if equal | compara dois valores e pula para uma instrução específica se os valores forem iguais |
@@ -198,18 +198,18 @@ As seguintes instruções foram implementadas:
 | bltu | branch if less than (unsigned) | compara dois valores unsigned e pula para uma instrução específica se rs1 for menor que rs2 |
 | bgeu | branch if greater than or equal to(unsigned) | compara dois unsigned valores e pula para uma instrução específica se rs1 for maior que rs2 |
 
-### Operações do tipo J (salto de instruções não condicional):
+### Operações do tipo J (salto indondicional):
 | Instrução | Função        | Descrição                                                                   |
 |-----------|---------------|-----------------------------------------------------------------------------|
 |  jal      | Jump and Link | Salva o valor do PC somado de 4 em um registrador, então salta para uma dada posição da memória - ou seja, incrementa um valor no valor atual do PC e salva no PC.
 
-### Operações do tipo U ():
+### Operações do tipo U:
 | Instrução | Função            | Descrição                                                                   |
 |-----------|-------------------|-----------------------------------------------------------------------------|
 |   auipc   |add upper imm to PC|acresce o valor do PC de um immediate e soma em um dado registrador          |
 | lui | load upper immediate | carrega um valor imediate de 20 bits no 20 bits superiores de um registrador e preenche os 12 bits inferiores com zero |
 
-### Operações com Ponto Flutuante:
+### Operações com ponto flutuante:
 | Instrução | Função            | Descrição                                                                  |
 |-----------|-------------------|----------------------------------------------------------------------------|
 |   fadd    | floating add      | Soma dois valores de ponto flutuante e salva em um registrador             |

@@ -20,10 +20,3 @@ Os módulos load_choose.v e storage_choose.v são responsáveis por filtrar a pa
 
 #### Circuito sintetizado do storage_choose:
 ![storage_choose](storage_choose.JPG) -->
-
-
-
-
-
-
-
