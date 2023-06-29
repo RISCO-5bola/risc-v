@@ -1,5 +1,3 @@
-//`include "./utils/cu/outputs.v"
-//`include "./utils/cu/next_state.v"
 module ControlUnit (
     input [6:0] op, input clk, input reset,
     output PCWrite, output PCWriteCond, output IorD,
@@ -11,7 +9,7 @@ module ControlUnit (
 );  
     wire [3:0] NextState;
     reg [3:0] StateRegister;
-
+    
     parameter STATE0 = 4'b0000;
     parameter STATE1 = 4'b0001;
     parameter STATE2 = 4'b0010;
@@ -22,12 +20,12 @@ module ControlUnit (
     parameter STATE7 = 4'b0111;
     parameter STATE8 = 4'b1000;
     parameter STATE9 = 4'b1001;
-    parameter STATE10 = 4'b1010;//estado JAL
-    parameter STATE11 = 4'b1011;//estado U
-    parameter STATE12 = 4'b1100;//estado JALR
-    parameter STATE13 = 4'B1101;//tipo I
-    parameter STATE14 = 4'B1110;//correcao tipo B
-    parameter STATE15 = 4'B1111;//lui
+    parameter STATE10 = 4'b1010;
+    parameter STATE11 = 4'b1011;
+    parameter STATE12 = 4'b1100;
+    parameter STATE13 = 4'B1101;
+    parameter STATE14 = 4'B1110;
+    parameter STATE15 = 4'B1111;
     
     initial begin
         StateRegister <= STATE0;

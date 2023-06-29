@@ -78,23 +78,55 @@ module outputs (
     and (WireState15, StateRegister[3], StateRegister[2],
                       StateRegister[1], StateRegister[0]);
 
+    /* seta o PCWrite nos estados 0, 10 e 12 */
     or (PCWrite, WireState0, WireState10, WireState12);
+
+    /* seta o PCWriteCond no estado 14 */
     assign PCWriteCond = WireState14;
+
+    /* seta o IorD nos estados 3 e 5 */
     or (IorD, WireState3, WireState5);
+
+    /* seta o MemRead nos estados 0, 3, 9, 11, 12 e 15 */
     or (MemRead, WireState0, WireState3, WireState9, WireState11, WireState12, WireState15);
+    
+    /* seta o MemWrite no estado 5 */
     assign MemWrite = WireState5;
+
+    /* seta o IRWrite no estado 0 */
     assign IRWrite = WireState0;
+
+    /* seta o MemReg no estado 4 */
     assign MemtoReg = WireState4;
+
+    /* seta o PCSource1 no estado 9 */
     assign PCSource1 = WireState9;
+
+    /* seta o PCSource0 no estado 14 */
     assign PCSource0 = WireState14;
+
+    /* seta o ALUOp1 nos estados 6 e 13 */
     or (ALUOp1, WireState6, WireState13);
+
+    /* seta o ALUOp0 no estado 8 */
     assign ALUOp0 = WireState8;
+
+    /* seta o ALUSrcB1 nos estados 1, 2, 8, 9, 10, 11, 12, 13 e 15 */
     or (ALUSrcB1, WireState2, WireState1, WireState10, WireState8, WireState9, WireState11, WireState12, WireState13, WireState15);
+
+    /* seta o ALUSrcB0 nos estados 0, 1 e 9 */
     or (ALUSrcB0, WireState0, WireState1, WireState9);
+
+    /* seta o ALUSrcA[1] no estado 15 */
     assign ALUSrcA[1] = WireState15;
+
+    /* seta o ALUSrcA[0] nos estados 2, 6, 12, 13 e 14 */
     or (ALUSrcA[0], WireState2, WireState6, WireState14, WireState12, WireState13);
+
+    /* seta o RegWrite nos estados 4, 7 e 9 */
     or (RegWrite, WireState4, WireState7, WireState9);
+
+    /* seta o RegDst no estado 7 */
     assign RegDst = WireState7;
 
-    
 endmodule

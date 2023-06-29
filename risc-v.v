@@ -1,22 +1,5 @@
 // iverilog risc-v.v -I ./Registers/ -I ./ImmediateGenerator/ -I ./ALU/ -I ./ALU/operations/
 
-//`include "./Memory/Memory.v"
-//`include "./Registers/PC.v"
-//`include "./ControlUnit.v"
-//`include "./Registers/Registers.v"
-//`include "./Registers/reg_parametrizado.v"
-//`include "./ImmediateGenerator/immediateG.v"
-//`include "./ALU_Control/ALU_Control.v"
-//`include "./ALU/ALU.v"
-//`include "./mux/mux_2x1_64bit.v"
-//`include "./mux/mux_3x1_64bit.v"
-//`include "./mux/mux_4x1_64bit.v"
-//`include "./mux/mux_2x1_64bit_S2.v"
-//`include "./mux/mux_6x1_1b.v"
-//`include "./Registers/inst_reg.v"
-//`include "load_choose.v"
-//`include "storage_choose.v"
-
 /* Este modulo e o risc-v em si, como mostrado no diagrama do readme inicial */
 
 module riscv (
