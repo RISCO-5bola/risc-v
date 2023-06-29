@@ -1,6 +1,11 @@
 # ALU Control
 
-A ALU Control é o circuito responsável pelo controle das operações realizadas pela ALU. Consiste em um bloco combinatório que possui uma entrada de 4 bits e determina qual operação deve ser efetuada, de acordo com a instrução.
+O módulo ALU Control é responsável por gerar sinais de controle que determinam a operação específica a ser realizada pela ALU. O módulo de controle da ALU recebe informações como o funct e opcode de uma instrução e gera os sinais necessários para configurar a ALU para a operação desejada.
+
+### Funcionamento de uma ALU Control:
+1. Decodificação da Instrução: recebe o opcode e funct da instrução que contêm informações sobre a operação a ser executada pela ALU.
+2. Seleção da função da ALU: determina o tipo de operação a ser executada.
+3. Saída do sinal de controle:  gera o ALUOp que será enviado para a ALU
 
 ### Operacoes:
 - 0000: ADD
