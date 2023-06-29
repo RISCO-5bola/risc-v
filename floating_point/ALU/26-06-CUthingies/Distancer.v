@@ -182,7 +182,7 @@ module Distancer (
     assign distanceIsPositive = |positiveDistanceFinale;
 
     wire negOrBitTwentySeven;
-    assign negOrBitTwentySeven = ((negativeDistance || bitVinteESeteEhUm) & distanceIsPositive);
+    assign negOrBitTwentySeven = ((negativeDistance || bitVinteESeteEhUm) & ~distanceIsPositive);
 
     mux_2x1_64bit muxB (.A(negativeDistanceFinale), .B(64'b0), 
                          .S(bitVinteESeteEhUm), .X(MuxBToMuxA));
