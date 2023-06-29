@@ -9,21 +9,21 @@ A Unidade Lógica e Aritmética é um componente chave responsável por realizar
 5. Sinais de controle: recebe sinais de controle da ALU Control, que a instrui sobre qual operação realizar e como interpretar os operandos de entrada.
 
 ### Operações suportadas:
-- [X] ADD
-- [X] SUB 
-- [X] OR 
-- [X] AND 
-- [X] XOR 
-- [X] SET LESS THAN 
-- [X] SET LESS THAN UNSIGNED 
-- [X] SHIFT LEFT LOGICAL
-- [X] SHIFT RIGHT LOGICAL
-- [X] SHIFT RIGHT ARITHMETIC
-- [X] ADD WORD
-- [X] SUB WORD
-- [X] SHIFT LEFT LOGICAL WORD
-- [X] SHIFT RIGHT LOGICAL WORD
-- [X] SHIFT RIGHT ARITHMETIC WORD
+- ADD
+- SUB 
+- OR 
+- AND 
+- XOR 
+- SET LESS THAN 
+- SET LESS THAN UNSIGNED 
+- SHIFT LEFT LOGICAL
+- SHIFT RIGHT LOGICAL
+- SHIFT RIGHT ARITHMETIC
+- ADD WORD
+- SUB WORD
+- SHIFT LEFT LOGICAL WORD
+- SHIFT RIGHT LOGICAL WORD
+- SHIFT RIGHT ARITHMETIC WORD
 
 #### Abaixo é possível visualizar o circuito sintetizado da ALU:
 ![ALU](alu.jpg)
