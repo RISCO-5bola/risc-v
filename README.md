@@ -224,8 +224,7 @@ Abaixo está o datapath dessa entrega (baseado no livro Computer Organization an
 
  Abaixo, está a representação da máquina de estados da Unidade de Controle multiciclo.
  
- Obs: atualmente essa maquina de estado representada pela imagem está desatualizada, pois alguns estados a mais foram adicionados.
- ![estados](https://raw.githubusercontent.com/RISCO-5bola/risc-v/main/estados_uc.png)
+ ![estados](https://github.com/RISCO-5bola/risc-v/blob/76566efe1324316142eb8bc7403c64fbb5d37e78/stateMachine.JPG)
  
 ## Ponto Flutuante F ()
 Foi feito uma unidade apenas para operações com ponto flutuante, esta funciona em conjunto com o processador Risc-V por meio dos sinais de controle da Unidade de Controle. Existe uma complexidade adicional quando se trata de ponto flutuante, as operações são todas em multiciclo e a necessidade de comunicação com flags é muito frequente e importante. 
