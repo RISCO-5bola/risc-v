@@ -55,7 +55,7 @@ module next_state (
     /* tipo I-addi current state 1 para next state 13 */
     and (wire14, ~op[6], ~op[5], op[4], ~op[2], op[1], op[0], ~state[3], ~state[2], ~state[1], state[0]);
 
-    /* tipo I-addi current sate 13 para next state 7 */
+    /* tipo I-addi current state 13 para next state 7 */
     and (wire15, ~op[6], ~op[5], op[4], ~op[2], op[1], op[0], state[3], state[2], ~state[1], state[0]);
 
     /* tipo U-AUIPC current state 11 para next state 7 */
