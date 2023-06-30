@@ -5,27 +5,33 @@ module ControlUnit (
     output MemtoReg, output PCSource1, output PCSource0,
     output ALUOp1, output ALUOp0, output ALUSrcB1,
     output ALUSrcB0, output [1:0] ALUSrcA, output RegWrite,
-    output RegDst, output [3:0] currentState
+    output RegDst, output [3:0] currentState,
+
+    /* extensão RV-32F */
+    input doneFP,
+    output startFP,
+    output [1:0] opFP,
+    output fpuReset
 );  
-    wire [3:0] NextState;
-    reg [3:0] StateRegister;
+    wire [4:0] NextState;
+    reg [4:0] StateRegister;
     
-    parameter STATE0 = 4'b0000;
-    parameter STATE1 = 4'b0001;
-    parameter STATE2 = 4'b0010;
-    parameter STATE3 = 4'b0011;
-    parameter STATE4 = 4'b0100;
-    parameter STATE5 = 4'b0101;
-    parameter STATE6 = 4'b0110;
-    parameter STATE7 = 4'b0111;
-    parameter STATE8 = 4'b1000;
-    parameter STATE9 = 4'b1001;
-    parameter STATE10 = 4'b1010;
-    parameter STATE11 = 4'b1011;
-    parameter STATE12 = 4'b1100;
-    parameter STATE13 = 4'B1101;
-    parameter STATE14 = 4'B1110;
-    parameter STATE15 = 4'B1111;
+    parameter STATE0 = 5'b00000;
+    parameter STATE1 = 5'b00001;
+    parameter STATE2 = 5'b00010;
+    parameter STATE3 = 5'b00011;
+    parameter STATE4 = 5'b00100;
+    parameter STATE5 = 5'b00101;
+    parameter STATE6 = 5'b00110;
+    parameter STATE7 = 5'b00111;
+    parameter STATE8 = 5'b01000;
+    parameter STATE9 = 5'b01001;
+    parameter STATE10 = 5'b01010;
+    parameter STATE11 = 5'b01011;
+    parameter STATE12 = 5'b01100;
+    parameter STATE13 = 5'B01101;
+    parameter STATE14 = 5'B01110;
+    parameter STATE15 = 5'B01111;
     
     initial begin
         StateRegister <= STATE0;

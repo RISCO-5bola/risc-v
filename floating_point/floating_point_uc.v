@@ -149,11 +149,10 @@ module floating_point_uc (
                 howMany <= 23'd1; 
                 howManyToIncreaseOrDecrease <= 8'd1; 
             end
-            //Não testado, mas faz sentido.
             MULTIPLICATION:
             begin
                 done <= 1'b0;
-                //counter <= counter - 1;
+                counter <= counter - 1;
                 loadRegSmall <= 1'b1;
                 controlToMux01 <= ~expDifferencePos; 
                 controlToMux02 <= 1'b0;
