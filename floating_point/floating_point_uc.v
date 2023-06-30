@@ -139,7 +139,7 @@ module floating_point_uc (
                 IncreaseOrDecreaseEnable <= 1'b1;
                 controlShiftRight <= smallAluResultInt[7:0];
                 smallALUOperation <= 4'b0011;
-                controlToIncreaseOrDecrease <= {2'd0, expDifferencePos, expDifferencePos};
+                controlToIncreaseOrDecrease <= {2'd0, posFirst28posReferential[22], posFirst28posReferential[22]};
                 muxBControlSmall <= 1'b0;
                 muxAControlSmall <= 1'b0;
                 sum_sub <= 1'b0;
@@ -163,15 +163,15 @@ module floating_point_uc (
                 IncreaseOrDecreaseEnable <= 1'b0; //Não incrementar
                 controlShiftRight <= smallAluResultInt[7:0]; //ADICIONAR O VALOR DA DISTÂNCIA PARA O BIT 
                 smallALUOperation <= 4'b0000; //SOMAR OS EXPOENTES
-                controlToIncreaseOrDecrease <= {2'd0, expDifferencePos, expDifferencePos}; //
+                controlToIncreaseOrDecrease <= {2'd0, posFirst28posReferential[22], posFirst28posReferential[22]};
                 muxBControlSmall <= 1'b1; //expoente
                 muxAControlSmall <= 1'b1; //expoente //somados!
                 sum_sub <= 1'b0;
                 isSum <= 1'b0; //não é soma
                 muxDataRegValor2 <= 1'b1; // Isso indica que é para somar;
-                rightOrLeft <= ~expDifferencePos; //shifting like sum;
-                howMany <= posFirst27posReferential; //works the same as in the sum, i think 
-                howManyToIncreaseOrDecrease <= posFirst28posReferential; //the same as is with the sum 
+                rightOrLeft <= posFirst28posReferential[22];
+                howMany <= distancer28toTwoComplement; 
+                howManyToIncreaseOrDecrease <= distancer27toTwoComplement; 
             end
 
             default: begin
@@ -240,20 +240,20 @@ module floating_point_uc (
         end else if (currentState === RE_NORMALIZE) begin
             nextState <= IDLE;
 
-            /*Abaixo o caso da multiplicação:*/
-        end //else if(currentState === MULTIPLICATION) begin
-        //     if (doneMultiplication === 1) begin
-        //         if (rouderOverflow === 1'b1) begin
-        //             nextState <= RE_NORMALIZE;
-        //         end else begin
-        //             nextState <= IDLE;
-        //         end
-        //     end else begin
-        //         nextState <= MULTIPLICATION;
-        //     end
-        // end else if (currentState === RE_NORMALIZE) begin
-        //     nextState <= IDLE;
-
+        /*Abaixo o caso da multiplicação:*/
+        end else if(currentState === MULTIPLICATION) begin
+            if (doneMultiplication === 1'b1) begin
+                if (rouderOverflow === 1'b1) begin
+                    nextState <= RE_NORMALIZE;
+                end else begin
+                    nextState <= IDLE;
+                end
+            end else begin
+                nextState <= MULTIPLICATION;
+            end
+        end else if (currentState === RE_NORMALIZE) begin
+            nextState <= IDLE;
+        end
     end
 
     wire [63:0] distancer28toTwoComplement;
