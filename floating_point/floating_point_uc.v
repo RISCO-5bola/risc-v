@@ -247,18 +247,18 @@ module floating_point_uc (
             nextState <= IDLE;
 
             /*Abaixo o caso da multiplicação:*/
-        end else if(currentState === MULTIPLICATION) begin
-            if (doneMultiplication === 1) begin
-                if (rouderOverflow === 1'b1) begin
-                    nextState <= RE_NORMALIZE;
-                end else begin
-                    nextState <= IDLE;
-                end
-            end else begin
-                nextState <= MULTIPLICATION;
-            end
-        end else if (currentState === RE_NORMALIZE) begin
-            nextState <= IDLE;
+        end //else if(currentState === MULTIPLICATION) begin
+        //     if (doneMultiplication === 1) begin
+        //         if (rouderOverflow === 1'b1) begin
+        //             nextState <= RE_NORMALIZE;
+        //         end else begin
+        //             nextState <= IDLE;
+        //         end
+        //     end else begin
+        //         nextState <= MULTIPLICATION;
+        //     end
+        // end else if (currentState === RE_NORMALIZE) begin
+        //     nextState <= IDLE;
 
     end
 
