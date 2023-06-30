@@ -8,7 +8,7 @@ module floating_point_uc (
     input [1:0] operation,
     //00 -> soma; 01 -> multiplicação
     /* estado do restante da FPU */
-    input rouderOverflow,
+    input rounderOverflow,
     input expDifferencePos, 
     input [7:0] smallAluResult,
     input signalFP1,
@@ -139,13 +139,13 @@ module floating_point_uc (
                 IncreaseOrDecreaseEnable <= 1'b1;
                 controlShiftRight <= smallAluResultInt[7:0];
                 smallALUOperation <= 4'b0011;
-                controlToIncreaseOrDecrease <= {2'd0, posFirst28posReferential[22], posFirst28posReferential[22]};
+                controlToIncreaseOrDecrease <= 4'b0000;
                 muxBControlSmall <= 1'b0;
                 muxAControlSmall <= 1'b0;
                 sum_sub <= 1'b0;
                 isSum <= 1'b1;
                 muxDataRegValor2 <= 1'b0;
-                rightOrLeft <= 1'b1;
+                rightOrLeft <= 1'b0;
                 howMany <= 23'd1; 
                 howManyToIncreaseOrDecrease <= 8'd1; 
             end
@@ -229,7 +229,7 @@ module floating_point_uc (
     
         end else if(currentState === SUM_EQUAL_SIGNALS) begin
             if (counter === 5'd0) begin
-                if (rouderOverflow === 1'b1) begin
+                if (rounderOverflow === 1'b1) begin
                     nextState <= RE_NORMALIZE;
                 end else begin
                     nextState <= IDLE;
@@ -243,7 +243,7 @@ module floating_point_uc (
         /*Abaixo o caso da multiplicação:*/
         end else if(currentState === MULTIPLICATION) begin
             if (doneMultiplication === 1'b1) begin
-                if (rouderOverflow === 1'b1) begin
+                if (rounderOverflow === 1'b1) begin
                     nextState <= RE_NORMALIZE;
                 end else begin
                     nextState <= IDLE;

@@ -16,13 +16,13 @@ module floating_point(
       /*increaseOrDecrease*/
       input [7:0] howManyToIncreaseOrDecrease,
       output [31:0] resultadoFinal,
-      output rounderOverflow,
       output [7:0] smallAluResult,
       /*Lembrar de colocar todos os sinais de controle como inputs - E SÃO VÁRIOS*/
       //Todos os muxes;
       //Sinais Da SMALLALU;
       //Sinais Da BIGALU;
       output endMultiplication,
+      output rounderOverflow,
       //Sinais do shifter;
       //Sinais do Rounder;
       output [63:0] posFirst28posReferential,
@@ -179,6 +179,7 @@ AQUI ESTÃO OS SINAIS DO FELIPE E DO TADAKI PO, PARA O SINAL
    /* Rounder */
    rounder rounder(.mantissa(shiftLeftOrRightToRound), .mantissaRounded(rounderOut), 
                    .notNormalized(rounderOverflow), .clk(clk));
+         
       
    assign rounderToRegFinal = rounderOut;
 

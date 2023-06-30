@@ -29,7 +29,7 @@ module fpu (clk, rst, A, B, R, op, start, done);
 
     //Instanciação do controle da FPU
     floating_point_uc fp_uc (.clk(clk), .reset(rst), .start(start),
-                             .operation(op), .rouderOverflow(rounderOverflow),
+                             .operation(op), .rounderOverflow(rounderOverflow),
                              .expDifferencePos(smallAluResult[7]), .smallAluResult(smallAluResult),
                              .signalFP1(A[31]), .signalFP2(B[31]), .posFirst27posReferential(posFirst27posReferential[22:0]),
                              .posFirst28posReferential(posFirst28posReferential[22:0]), .done(done),
@@ -45,7 +45,7 @@ module fpu (clk, rst, A, B, R, op, start, done);
     floating_point fp_datapath (.start(start), .floatingPoint1(A), .floatingPoint2(B), .loadRegSmall(loadRegSmall), .clk(clk),
                                 .controlToMux01(controlToMux01), .controlToMux02(controlToMux02), .controlToMux03(controlToMux03),
                                 .controlToMux04(controlToMux04), .controlToMux05(controlToMux05), .IncreaseOrDecreaseEnable(IncreaseOrDecreaseEnable),
-                                .controlShiftRight(controlShiftRight), .smallALUOperation(smallALUOperation),
+                                .controlShiftRight(controlShiftRight), .smallALUOperation(smallALUOperation), .rounderOverflow(rounderOverflow),
                                 .controlToIncreaseOrDecrease(controlToIncreaseOrDecrease), .muxBControlSmall(muxBControlSmall),
                                 .muxAControlSmall(muxAControlSmall), .sum_sub(sum_sub), .isSum(isSum), .reset(rst), .muxDataRegValor2(muxDataRegValor2),
                                 .rightOrLeft(rightOrLeft), .howMany(howMany), .howManyToIncreaseOrDecrease(howManyToIncreaseOrDecrease), .resultadoFinal(R),
