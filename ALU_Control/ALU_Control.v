@@ -6,7 +6,7 @@ module ALU_Control (
     input [6:0] opcode,
     output [3:0] operation
 );
-    /*
+     /*
      Operacoes:
      0000: add
      0001: and
@@ -23,13 +23,11 @@ module ALU_Control (
      1100: sllw
      1101: srlw
      1110: sraw
-
      */
 
     /* A operacao a ser feita pela ALU depende do 
        estado atual da Unidade de Controle e da operacao sendo
        feita.*/
-
     wire subR;
     wire slti;
     wire slt;
@@ -60,7 +58,8 @@ module ALU_Control (
     wire srlw;
     wire sraiw;
     wire sraw;
-        
+    
+    /* wires para os estados */
     wire WireState0;    
     wire WireState1;    
     wire WireState2;
@@ -116,37 +115,17 @@ module ALU_Control (
     wire realizarShiftRightLogicalW;
     wire realizarShiftRightArithW;
 
-    // and (WireState0, ~currentState[3], ~currentState[2],
-    //                  ~currentState[1], ~currentState[0]);
-    // and (WireState1, ~currentState[3], ~currentState[2],
-    //                  ~currentState[1], currentState[0]);
-    // and (WireState2, ~currentState[3], ~currentState[2],
-    //                  currentState[1], ~currentState[0]);
-    // and (WireState3, ~currentState[3], ~currentState[2],
-    //                  currentState[1], currentState[0]);
-    // and (WireState4, ~currentState[3], currentState[2],
-    //                  ~currentState[1], ~currentState[0]);
-    // and (WireState5, ~currentState[3], currentState[2],
-    //                  ~currentState[1], currentState[0]);
+    /* estados que usam a ALU,  */
+
+    /* estado 6 é para instruções tipo R */
     and (WireState6, ~currentState[3], currentState[2],
                      currentState[1], ~currentState[0]);
-    // and (WireState7, ~currentState[3], currentState[2],
-    //                  currentState[1], currentState[0]);
-    // and (WireState8, currentState[3], ~currentState[2],
-    //                  ~currentState[1], ~currentState[0]);
-    // and (WireState9, currentState[3], ~currentState[2],
-    //                  ~currentState[1], currentState[0]);
-    // and (WireState10, currentState[3], ~currentState[2],
-    //                  currentState[1], ~currentState[0]);
-    // and (WireState11, currentState[3], ~currentState[2],
-    //                  currentState[1], currentState[0]);
-    // and (WireState12, currentState[3], currentState[2],
-    //                  ~currentState[1], ~currentState[0]);
+    /* estado 13 é para instrução I-addi */                     
     and (WireState13, currentState[3], currentState[2],
                       ~currentState[1], currentState[0]);
+    /* estado 14 é para instrução b */                      
     and (WireState14, currentState[3], currentState[2],
                       currentState[1], ~currentState[0]);
-
 
     /* Reconhece instrucoes */
     

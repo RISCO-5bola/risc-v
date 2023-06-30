@@ -190,7 +190,6 @@ module MemoryController (
         
         The following addresses will be read:
             3 -> 2 -> 1 -> 0
-
     */
     assign addressToRorW = address + waitClks - 1;
 
@@ -206,13 +205,13 @@ module MemoryController (
     /* set output read from memory */
     assign data = {reg63to56, reg55to48, reg47to40, reg39to32,
                    reg31to24, reg23to16, reg15to8, reg7to0};
-/*
-    Finite State Machine
-*/
+    /*
+        Finite State Machine
+    */
     MCOutput MCOutput (.currentState(currentState), .mem_read(mem_read),
                        .mem_write(mem_write), .active(active), .status(status));
     MCNextState MCNextState(.currentState(currentState), .zero(zero), .RorW(RorW), .isRead(isRead), .nextState(nextState));
 
-/* Instantiate memory */
+    /* Instantiate memory */
     Memory Memory (.clk(clk), .mem_read(mem_read), .mem_write(mem_write), .endereco(addressToRorW), .write_data(dataToBeWritten), .read_data(readFromMemory));
 endmodule

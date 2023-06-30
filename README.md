@@ -5,9 +5,9 @@
  O projeto envolve o processador RISC-V de 64 bits que realiza todas as operações do tipo I, além de operações básicas de soma e multiplicação para ponto flutuante. Funcionando com multiplos ciclos e um controle voltado especificamente para a memória.
 
 ## Contextualização
- Na disciplina de SDII, o nosso grupo (03) aceitou o desafio de fazer entregas paralelas em relação aos demais grupos da sala. Nas nossas entregas, iremos avançar na codificação do RISC-V de 64 bits em verilog com ponto flutuante.
+Na disciplina de SDII, o nosso grupo (03) aceitou o desafio de fazer entregas paralelas em relação aos demais grupos da sala. Nas nossas entregas, avançamos na codificação do RISC-V de 64 bits em verilog com ponto flutuante.
  
- -> o diferencial do nosso projeto é o funcionamento do processador em multiciclo, implementando todas as instruções do 32I e 64I, incluindo o funcionamento de operações com ponto flutuante integrado.
+-> o diferencial do nosso projeto é o funcionamento do processador em multiciclo, implementando todas as instruções do 32I e 64I, incluindo o funcionamento de operações com ponto flutuante integrado.
 
 É interessante destacar que a maioria dos módulos criados para o processador são implementados de forma estutural. Porque apesar de ser mais minucioso e relativamente mais trabalhoso, o resultado é claro e confiável.
 
@@ -25,19 +25,21 @@ Todas as instruções do RISC-VI estão implementadas, como pode ser verificado 
 
  - usamos apenas uma memory, e certas posições serão dedicadas a fazer o papel de Data Memory e as demais, para a Instruction Memory, como fica claro adiante.
 
-a - Na seção "data memory" você adicionará os valores de 64 bits, que você deseja deixar na data memory do processador. Para esses valores serem armazenados no registrador, você deverá usar o store, não esqueça desse detalhe.
+a - Na seção "data memory" você adicionará os valores de 64 bits, que você deseja deixar na Data Memory do processador. Para esses valores serem armazenados no registrador, você deve usar o store, não esqueça dessa etapa.
 
 *Importante: A Data Memory representa a parcela que vai da Memory[0] até a Memory[1023].
 
-Ex:
-     Memory[0] = 8'd0;
-     Memory[1] = 8'd0;
-     Memory[2] = 8'd0;
-     Memory[3] = 8'd0;
-     Memory[4] = 8'd0;
-     Memory[5] = 8'd0;
-     Memory[6] = 8'd0;
-     Memory[7] = 8'd8;
+Exemplo: 
+``` verilog
+Memory[0] = 8'd0; 
+Memory[1] = 8'd0; 
+Memory[2] = 8'd0; 
+Memory[3] = 8'd0; 
+Memory[4] = 8'd0; 
+Memory[5] = 8'd0; 
+Memory[6] = 8'd0; 
+Memory[7] = 8'd8;
+```
 
 Armazena a palavra
 
@@ -51,16 +53,17 @@ b - Na seção "instruction memory" você adicionará os valores de 32 bits que 
 
 - A parte do controle da memória é setado para começar no 1024 para as instruções. Então não há erros em termos da passagem das instruções e da contagem do program counter. Isto é, a ordem do program counter será respeitada devidamente.
 
-- Assim, a instrução representada na memoria de Memory[1026] a Memory[1023] reconhecida como a primeira instrução de fato.
+- Assim, a instrução representada na memoria de Memory[1026] a Memory[1023] é reconhecida como a primeira instrução de fato.
 
-Ex:
-     // ld x1, 0(x0)
-     Memory[1026] = 8'b1_0000011;
-     Memory[1025] = 8'b0_011_0000;
-     Memory[1024] = 8'b0000_0000;
-     Memory[1023] = 8'b00000000;
+Exemplo: ld x1, 0(x0)
+```verilog 
+Memory[1026] = 8'b1_0000011; 
+Memory[1025] = 8'b0_011_0000; 
+Memory[1024] = 8'b0000_0000; 
+Memory[1023] = 8'b00000000;
+```
 
-Representa uma primeira instrução, aqui no caso, se trata de um load, que salva o primeiro valor salvo na dm lá no primeiro registrador do banco de registradores. 
+Representa uma primeira instrução, aqui no caso, se trata de um load, que salva o primeiro valor salvo na Data Memory lá no primeiro registrador do banco de registradores. 
 
 c - Setados os valores desejados na data memory e na instruction memory devidamente, agora basta compilar e observar os resultados, segue abaixo:
 
@@ -69,14 +72,12 @@ c - Setados os valores desejados na data memory e na instruction memory devidame
  ``iverilog -c risc-v_comp.txt``
  
  Comando para rodar:
- ``./a.out``
+ ``./a.out`` para usuários do Linux 
+ ``vvp a.out`` para usuários do Windows
 
  Comando para visualizar no GTKWave:
  ``gtkwave wave.vcd``
  
- Sistema operacional usado: Linux Mint (Debian/Ubuntu).
-
-
 ## Instruções implementadas
 As seguintes instruções foram implementadas:
 
@@ -134,11 +135,11 @@ As seguintes instruções foram implementadas:
 - [X] SRAW 
 
 ## Descrição das instruções
-### Operações básicas aritméticas com registradores: (tipo R):
+### Operações aritméticas básicas com registradores: (tipo R):
 | Instrução | Função        | Descrição                                                               |
 |-----------|---------------|-------------------------------------------------------------------------|
-| add       | add           | soma entre valores de dois registradores do banco de registradores      |
-| sub       | sub           | subtração entre valores de dois registradores do banco de registradores |
+| add | add | soma entre valores de dois registradores do banco de registradores      |
+| sub | sub | subtração entre valores de dois registradores do banco de registradores |
 | sll | shift left logical | desloca bits para a esquerda por uma quantidade constante especificada por um registrador |
 | slt | set less than | compara dois números e se o primeiro for menor que o segundo, define o registrador de destino como 1 |
 | sltu | set less than unsigned | faz o mesmo que o slt, mas com inteiros positivos |
@@ -156,9 +157,9 @@ As seguintes instruções foram implementadas:
 ### Operações com immediate: (Tipo I):
 | Instrução | Função        | Descrição                                                                   |
 |-----------|---------------|-----------------------------------------------------------------------------|
-| addi      | add immediate | soma um valor de um registrador com uma dada constante                      |
-| subi      | sub immediate | essa instrução é apenas um addi com a constante (immediate) negativa        |
-| jalr      | jump link reg | salva em registrador o PC +4 e manda para o PC o valor de um reg + immediate|
+| addi | add immediate | soma um valor de um registrador com uma dada constante                      |
+| subi | sub immediate | essa instrução é apenas um addi com a constante (immediate) negativa        |
+| jalr | jump link reg | salva em registrador o PC +4 e manda para o PC o valor de um reg + immediate|
 | lb | load btye | carrega uma palavra de 8 bits da memória para um registrador e extende o sinal |
 | lh | load half | carrega uma palavra de 16 bits da memória para um registrador e extende o sinal |
 | lw | load word | carrega uma palavra de 32 bits da memória para um registrador e extende o sinal |
@@ -187,7 +188,7 @@ As seguintes instruções foram implementadas:
 | sw | store word | armazena uma palavra de 32 bits de um registrador para a memória |
 | sd | store double | armazena uma palavra de 64 bits de um registrador para a memória |
 
-### Operações do tipo B (de salto nas instruções):
+### Operações do tipo B (salto condicional):
 | Instrução | Função        | Descrição                                                                     |
 |-----------|---------------|-------------------------------------------------------------------------------|
 | beq | branch if equal | compara dois valores e pula para uma instrução específica se os valores forem iguais |
@@ -197,18 +198,18 @@ As seguintes instruções foram implementadas:
 | bltu | branch if less than (unsigned) | compara dois valores unsigned e pula para uma instrução específica se rs1 for menor que rs2 |
 | bgeu | branch if greater than or equal to(unsigned) | compara dois unsigned valores e pula para uma instrução específica se rs1 for maior que rs2 |
 
-### Operações do tipo J (salto de instruções não condicional):
+### Operações do tipo J (salto indondicional):
 | Instrução | Função        | Descrição                                                                   |
 |-----------|---------------|-----------------------------------------------------------------------------|
 |  jal      | Jump and Link | Salva o valor do PC somado de 4 em um registrador, então salta para uma dada posição da memória - ou seja, incrementa um valor no valor atual do PC e salva no PC.
 
-### Operações do tipo U ():
+### Operações do tipo U:
 | Instrução | Função            | Descrição                                                                   |
 |-----------|-------------------|-----------------------------------------------------------------------------|
 |   auipc   |add upper imm to PC|acresce o valor do PC de um immediate e soma em um dado registrador          |
 | lui | load upper immediate | carrega um valor imediate de 20 bits no 20 bits superiores de um registrador e preenche os 12 bits inferiores com zero |
 
-### Operações com Ponto Flutuante:
+### Operações com ponto flutuante:
 | Instrução | Função            | Descrição                                                                  |
 |-----------|-------------------|----------------------------------------------------------------------------|
 |   fadd    | floating add      | Soma dois valores de ponto flutuante e salva em um registrador             |
@@ -226,10 +227,8 @@ Abaixo está o datapath dessa entrega (baseado no livro Computer Organization an
 
  Abaixo, está a representação da máquina de estados da Unidade de Controle multiciclo.
  
- Obs: atualmente essa maquina de estado representada pela imagem está desatualizada, pois alguns estados a mais foram adicionados.
- ![estados](https://raw.githubusercontent.com/RISCO-5bola/risc-v/main/estados_uc.png)
+ ![estados](https://github.com/RISCO-5bola/risc-v/blob/76566efe1324316142eb8bc7403c64fbb5d37e78/stateMachine.JPG)
  
-
 ## Ponto Flutuante F ()
 Foi feito uma unidade apenas para operações com ponto flutuante, esta funciona em conjunto com o processador Risc-V por meio dos sinais de controle da Unidade de Controle. Existe uma complexidade adicional quando se trata de ponto flutuante, as operações são todas em multiciclo e a necessidade de comunicação com flags é muito frequente e importante. 
 

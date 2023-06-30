@@ -1,56 +1,65 @@
-// `include "./ImmediateGenerator/mux_7x1_64bit.v"
-// `include "../ALU/operations/Adder64b_mod.v"
 module immediateG (instruction, immediate);
 
     input [31:0] instruction;
     output [63:0] immediate;
 
-    wire [11:0] ITypeImmediate; // LW, SW, ADDI, SUBI e JALR
+    /* lb, lh, lw, lbu, lhu, addi, 
+       slti, xori, ori, andi */
+    wire [11:0] ITypeImmediate;
+
+    /* sb, sh, sw */
     wire [11:0] SWTypeImmediate;
+
+    /* beq, bne, blt, bge, bltu, bgeu */
     wire [11:0] BTypeImmediate;
+
+    /* jal */
     wire [19:0] JTypeImmediate;
+
+    /* lui, auipc    */
     wire [19:0] UTypeImmediate;
+
+    /* jalr */
     wire [11:0] JALRTypeImmediate;
 
+    /* wires the setam o sinal dos diferentes tipos de immediate */
     wire [50:0] sign;
     wire [42:0] signJ;
     wire [31:0] signU;
+
+    /* wires auxiliares de conexão */
     wire wire1, wire2, wire3, wire4, wire5, wire6;
+
+    /* seta o tipo de immediate */
     wire [2:0] type;
+
     wire [63:0] mux4;
     wire [63:0] resAddSub;
 
     /* Estes sao os sinais para o sinal,
         Transforma para complemento de 2 */
-    assign sign = {instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                   instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                   instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                   instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                   instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                   instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                   instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                   instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                   instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                   instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                   instruction[31]};
 
-   assign signJ = {instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                   instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                   instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                   instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                   instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                   instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                   instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                   instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                   instruction[31], instruction[31], instruction[31]};
+    /* sinal geral */
+    genvar i;
+    generate
+        for (i = 0; i < 51; i = i + 1) begin
+            assign sign[i] = instruction[31];
+        end
+    endgenerate
 
-    assign signU = {instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                    instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                    instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                    instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                    instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                    instruction[31], instruction[31], instruction[31], instruction[31], instruction[31],
-                    instruction[31], instruction[31]};
+   /* sinal para o tipo J */
+   generate
+        for (i = 0; i < 43; i = i + 1) begin
+            assign signJ[i] = instruction[31];
+        end
+   endgenerate
+
+    /* sinal para o tipo U */
+    generate
+        for (i = 0; i < 32; i = i + 1) begin
+            assign signU[i] = instruction[31];
+        end
+    endgenerate
 
     /* seta os outputs dependendo das instrucoes */
     assign ITypeImmediate = instruction[31:20];

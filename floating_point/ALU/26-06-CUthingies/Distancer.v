@@ -2,12 +2,6 @@ module Distancer (
     input [63:0] doubleWord,
     output [63:0] distance
 );
-    initial begin
-         $dumpfile("distancer.vcd");
-         $dumpvars(0, Distancer);
-    end
-
-
     //distance is positive (first bit 1 to the left)
     //the bit 1 will show you where is the distance
     //ex: bit 36: distance is 36.
@@ -15,6 +9,8 @@ module Distancer (
     //ex: bit 27: distance is 27
     wire [27:0]negativeDistance;
 
+    wire bitVinteESeteEhUm;
+    assign bitVinteESeteEhUm = doubleWord[27];
 
     assign positiveDistance[36] = doubleWord[63];
     assign positiveDistance[35] = (~positiveDistance[36] & doubleWord[62]);
@@ -173,6 +169,7 @@ module Distancer (
     */ 
     
     wire distanceIsNegative;
+
     assign distanceIsNegative = (negativeDistance[27]| negativeDistance[26] | negativeDistance[25] | negativeDistance [24]|
     negativeDistance[23]| negativeDistance[22] | negativeDistance[21] | negativeDistance [20]|
     negativeDistance[19]| negativeDistance[18] | negativeDistance[17] | negativeDistance [16]|
@@ -181,7 +178,18 @@ module Distancer (
     negativeDistance[7]| negativeDistance[6] | negativeDistance[5] | negativeDistance [4]|
     negativeDistance[3]| negativeDistance[2] | negativeDistance[1]);
 
-    mux_2x1_64bit muxA1 (.A(positiveDistanceFinale), .B(negativeDistanceFinale), 
-                         .S(distanceIsNegative), .X(distance)); 
+    wire distanceIsPositive;
+    assign distanceIsPositive = |positiveDistanceFinale;
+
+    wire negOrBitTwentySeven;
+    assign negOrBitTwentySeven = ((negativeDistance || bitVinteESeteEhUm) & ~distanceIsPositive);
+
+    mux_2x1_64bit muxB (.A(negativeDistanceFinale), .B(64'b0), 
+                         .S(bitVinteESeteEhUm), .X(MuxBToMuxA));
+
+    wire [63:0] MuxBToMuxA;
+
+    mux_2x1_64bit muxA1 (.A(positiveDistanceFinale), .B(MuxBToMuxA), 
+                         .S(negOrBitTwentySeven), .X(distance)); 
 
 endmodule

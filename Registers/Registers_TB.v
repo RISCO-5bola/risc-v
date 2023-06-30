@@ -9,7 +9,7 @@ module Registers_tb () ;
     wire [63:0] readData1;
     wire [63:0] readData2;
 
-    Registers UUT (.readRegister1(readRegister1), .readRegister2(readRegister2), .writeRegister(writeRegister), 
+    RegisterFile UUT (.readRegister1(readRegister1), .readRegister2(readRegister2), .writeRegister(writeRegister), 
                     .writeData(writeData), .regWrite(regWrite), .clk(clk), .readData1(readData1), .readData2(readData2));
 
     integer errors = 0;

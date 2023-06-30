@@ -27,9 +27,20 @@ module Distancer_tb ();
         #10
         //Second: -dist neg only
         $display("Second test: distance is -5");
-        doubleWord = 64'b00000000_00000000_00000000_00000000_0000_1_000_01000000_00000000_00000000;
+        doubleWord = 64'b00000000_00000000_00000000_00000000_0000_0_000_01000000_00000000_00000000;
         #10
         Check(64'b1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1011);
+        #10
+        //Third: Zero Distance
+        $display("Third test: distance is 0");
+        doubleWord = 64'b00000000_00000000_00000000_00000000_0000_1_111_11100000_00000000_00000000;
+        #10
+        Check(64'b0);
+        #10
+        $display("Fourth test: distance is 0");
+        doubleWord = 64'b00000000_00000000_00000000_00000000_0000_1_000_00000000_00000000_00000000;
+        #10
+        Check(64'b0);
         #10
         
         $display("Test finished. Erros: %d", errors);
