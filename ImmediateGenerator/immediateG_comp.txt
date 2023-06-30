@@ -1,9 +1,7 @@
 immediateG.v
 immediateG_tb.v
+../Mux/mux_8x1_64bit.v
 ../Mux/mux_7x1_64bit.v
 ../ALU/operations/Adder64b_mod.v
 ../ALU/operations/CLAAdder8b_mod.v
 ../ALU/operations/PartialFullAdder1b_mod.v
-
-
-
