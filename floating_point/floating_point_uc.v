@@ -19,6 +19,7 @@ module floating_point_uc (
 
     /* sinal para o processador de que terminou a operação */
     output reg done,
+    output reg loadRegA, loadRegB,
     /* sinais de controle para o restante da FPU */
     output reg loadRegSmall,
     output reg controlToMux01, controlToMux02, controlToMux03, 
@@ -42,6 +43,8 @@ module floating_point_uc (
     parameter RE_NORMALIZE = 5'b00011;
     /* estado para a multiplicação de dois valores em floating point */
     parameter MULTIPLICATION = 5'b00100;
+    /* estado para salvar os valores nos regs iniciais antes da operação*/
+    parameter LOAD_REGISTERS = 5'b00101;
 
     /* registradores padrões para máquinas de estado */
     reg [4:0] currentState;
@@ -59,6 +62,8 @@ module floating_point_uc (
     always @(posedge clk) begin
         case (currentState)
             IDLE: begin
+                loadRegA <= 1'b0;
+                loadRegB <= 1'b0;
                 done <= 1'b1;
                 counter <= 5'd10;
                 loadRegSmall <= 1'b0;
@@ -81,7 +86,35 @@ module floating_point_uc (
                 rightOrLeft <= posFirst28posReferential[22];
                 howMany <= distancer27toTwoComplement;
             end 
+            LOAD_REGISTERS: begin
+                loadRegA <= 1'b1;
+                loadRegB <= 1'b1;
+                done <= 1'b0;
+                counter <= 5'd00;
+                loadRegSmall <= 1'b0;
+                controlToMux01 <= 1'b0; 
+                controlToMux02 <= 1'b0;
+                controlToMux03 <= 1'b0; 
+                controlToMux04 <= 1'b0;
+                controlToMux05 <= 1'b0;
+                IncreaseOrDecreaseEnable <= 1'b0;
+                controlShiftRight <= 8'd0;
+                smallALUOperation <= 4'd0;
+                controlToIncreaseOrDecrease <= 4'd0;
+                regSmallALULoad <= 1'b0;
+                muxBControlSmall <= 1'b0;
+                muxAControlSmall <= 1'b0;
+                sum_sub <= 1'b0;
+                isSum <= 1'b0;
+                muxDataRegValor2 <= 1'b0;
+                rightOrLeft <= 1'b0;
+                howMany <= 23'd0; 
+                howManyToIncreaseOrDecrease <= 8'd0; 
+            end
+
             LOAD: begin
+                loadRegA <= 1'b0;
+                loadRegB <= 1'b0;
                 done <= 1'b0;
                 counter <= 5'd10;
                 loadRegSmall <= 1'b0;
@@ -104,7 +137,11 @@ module floating_point_uc (
                 howMany <= 23'd0; 
                 howManyToIncreaseOrDecrease <= 8'd0; 
             end
+            
+
             SUM_EQUAL_SIGNALS: begin
+                loadRegA <= 1'b0;
+                loadRegB <= 1'b0;
                 done <= 1'b0;
                 counter <= counter - 1;
                 loadRegSmall <= 1'b1;
@@ -128,6 +165,8 @@ module floating_point_uc (
             end
 
             RE_NORMALIZE: begin
+                loadRegA <= 1'b0;
+                loadRegB <= 1'b0;
                 done <= 1'b0;
                 counter <= counter - 1;
                 loadRegSmall <= 1'b1;
@@ -151,6 +190,8 @@ module floating_point_uc (
             end
             MULTIPLICATION:
             begin
+                loadRegA <= 1'b0;
+                loadRegB <= 1'b0;
                 done <= 1'b0;
                 counter <= counter - 1;
                 loadRegSmall <= 1'b1;
@@ -174,6 +215,8 @@ module floating_point_uc (
             end
 
             default: begin
+                loadRegA <= 1'b0;
+                loadRegB <= 1'b0;
                 done <= 1'b0;
                 counter <= counter - 1;
                 loadRegSmall <= 1'b0;
@@ -212,8 +255,12 @@ module floating_point_uc (
             if (start == 1'b0) begin
                 nextState <= IDLE;
             end else begin
-                nextState <= LOAD;
+                nextState <= LOAD_REGISTERS;
             end
+        end
+
+        else if (currentState === LOAD_REGISTERS) begin
+            nextState <= LOAD;
         end
         
         else if (currentState === LOAD) begin
