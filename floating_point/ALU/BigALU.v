@@ -7,7 +7,7 @@ module BigALU (
     input wire [27:0] valor1,
     input wire [27:0] valor2,
     output finishedMult,
-    output reg [28:0] result
+    output reg [63:0] result
     );
 
     // initial begin
@@ -29,7 +29,7 @@ module BigALU (
     reg [63:0] regValor2;
 
     mux_2x1_64bit mux01BigAlu(.A({36'd0, valor1}), .B(64'd0), .S(sumValor1orZero), .X(input1Adder));
-    mux_2x1_64bit mux02BigAlu(.A(regValor2), .B({36'd0, fromRegResult[28:1]}), .S(~isSum), .X(input2Adder));
+    mux_2x1_64bit mux02BigAlu(.A(regValor2), .B(fromRegResult), .S(~isSum), .X(input2Adder));
     mux_2x1_64bit mux03BigAlu(.A({36'd0, valor2}), .B(outputFromShiftRight), .S(muxDataRegValor2), .X(fromMux03ToRegValor2));
 
     Adder64b_mod adderAdd (.A(input1Adder), .B(input2Adder), .SUB(sum_sub), .S(outputAdder1));
@@ -38,7 +38,7 @@ module BigALU (
     assign resultFromAdder = sum_sub ? outputAdder2 : outputAdder1;
 
     /* wire para retroalimentar o circuito com o resultado atual */
-    wire [28:0] fromRegResult;
+    wire [63:0] fromRegResult;
     assign fromRegResult = result;
 
     /* na multiplicacao, retroalimentação com B shiftado
@@ -54,9 +54,9 @@ module BigALU (
     always @(posedge clk) begin
         regValor2 <= fromMux03ToRegValor2;
         if (reset) begin
-            result <= 29'd0;
+            result <= 64'd0;
         end else if (~finishedMult) begin
-            result <= resultFromAdder[28:0];
+            result <= resultFromAdder;
         end
     end
 endmodule

@@ -53,8 +53,8 @@ module floating_point(
    /*os aumentados*/
    wire [23:0] rightShiftToBigALU;
    wire [26:0] shiftLeftOrRightToRound;
-   wire [27:0] rightShiftOUTToBigALU, roundToMux05, mux05ToRightShiftOrLeftShift; 
-   wire [28:0] bigALUtoMux05;
+   wire [27:0] rightShiftOUTToBigALU, roundToMux05; 
+   wire [63:0] bigALUtoMux05, mux05ToRightShiftOrLeftShift;
 
    //    assign mux03ToRightShift[22:0] = mux03OUTToRightShift;
    //    assign mux03ToRightShift[23] = 1'b1;
@@ -160,7 +160,7 @@ AQUI ESTÃO OS SINAIS DO FELIPE E DO TADAKI PO, PARA O SINAL
       Para o sinal vindo do rounder (que entra pela porta B), esta sendo colocado
       um zero na frente do numero, entao nao vai precisar dar shift */
    assign roundToMux05 = {1'b0, rounderOut, 4'b0000};
-   mux_2x1_28bit mux05 (.A(bigALUtoMux05[27:0]), .B({roundToMux05}), 
+   mux_2x1_28bit mux05 (.A(bigALUtoMux05), .B({36'd0,roundToMux05}), 
                          .S(controlToMux05), .X(mux05ToRightShiftOrLeftShift));
 
     /* registrador que recebe o valor da small ALU */
@@ -184,6 +184,6 @@ AQUI ESTÃO OS SINAIS DO FELIPE E DO TADAKI PO, PARA O SINAL
    assign rounderToRegFinal = rounderOut;
 
    /* Mede distâncias até determinados bits para fazer arredondamentos */
-   Distancerfrom28 distancer28 (.doubleWord({35'd0, bigALUtoMux05}), .distance(posFirst28posReferential));
-   Distancerfrom27 distancer27 (.doubleWord({35'd0, bigALUtoMux05}), .distance(posFirst27posReferential));
+   Distancerfrom28 distancer28 (.doubleWord(bigALUtoMux05), .distance(posFirst28posReferential));
+   Distancerfrom27 distancer27 (.doubleWord(bigALUtoMux05), .distance(posFirst27posReferential));
 endmodule

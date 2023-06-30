@@ -1,7 +1,7 @@
 /* 0 - right
    1 - left */
 module shiftLeftOrRight(
-input [27:0]mantissaToShift,
+input [63:0]mantissaToShift,
 output [26:0] shifted,
 input [22:0] howMany,
 input rightOrLeft
@@ -11,10 +11,10 @@ input rightOrLeft
          $dumpfile("ShiftLeftOrRight.vcd");
          $dumpvars(0, shiftLeftOrRight);
     end*/
-wire [27:0] rightShifted;
-wire [27:0] leftShifted;
-wire [27:0] transient;
-wire [27:0] saidaMux;
+wire [63:0] rightShifted;
+wire [63:0] leftShifted;
+wire [63:0] transient;
+wire [63:0] saidaMux;
 assign transient = mantissaToShift;
 
 assign rightShifted = mantissaToShift >> howMany;

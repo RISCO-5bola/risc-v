@@ -1,7 +1,7 @@
 module mux_2x1_28bit (
     input S,
-    input [27:0] A, B,
-    output reg [27:0] X
+    input [63:0] A, B,
+    output reg [63:0] X
 );
 
 always @ (*) 
