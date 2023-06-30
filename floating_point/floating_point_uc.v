@@ -6,7 +6,7 @@ module floating_point_uc (
 
     /* input para escolher qual a operação a ser feita */
     input [1:0] operation,
-
+    //00 -> soma; 01 -> multiplicação
     /* estado do restante da FPU */
     input rouderOverflow,
     input expDifferencePos, 
@@ -15,6 +15,7 @@ module floating_point_uc (
     input signalFP2,
     input [22:0] posFirst27posReferential,
     input [22:0] posFirst28posReferential,
+    input doneMultiplication,
 
     /* sinal para o processador de que terminou a operação */
     output reg done,
@@ -148,11 +149,11 @@ module floating_point_uc (
                 howMany <= 23'd1; 
                 howManyToIncreaseOrDecrease <= 8'd1; 
             end
-            //Não está totalmente definido ainda
+            //Não testado, mas faz sentido.
             MULTIPLICATION:
             begin
                 done <= 1'b0;
-                counter <= counter - 1;
+                //counter <= counter - 1;
                 loadRegSmall <= 1'b1;
                 controlToMux01 <= ~expDifferencePos; 
                 controlToMux02 <= 1'b0;
@@ -168,9 +169,9 @@ module floating_point_uc (
                 sum_sub <= 1'b0;
                 isSum <= 1'b0; //não é soma
                 muxDataRegValor2 <= 1'b1; // Isso indica que é para somar;
-                rightOrLeft <= ~expDifferencePos;
-                howMany <= posFirst27posReferential; 
-                howManyToIncreaseOrDecrease <= posFirst28posReferential;
+                rightOrLeft <= ~expDifferencePos; //shifting like sum;
+                howMany <= posFirst27posReferential; //works the same as in the sum, i think 
+                howManyToIncreaseOrDecrease <= posFirst28posReferential; //the same as is with the sum 
             end
 
             default: begin
@@ -227,8 +228,11 @@ module floating_point_uc (
                     end
             end else begin
                 /* implementar multiplicação */
-                nextState <= IDLE;
+                if (operation === 2'b01) begin
+                nextState <= MULTIPLICATION;
+                end
             end
+    
         end else if(currentState === SUM_EQUAL_SIGNALS) begin
             if (counter === 5'd0) begin
                 if (rouderOverflow === 1'b1) begin
@@ -241,7 +245,21 @@ module floating_point_uc (
             end
         end else if (currentState === RE_NORMALIZE) begin
             nextState <= IDLE;
-        end
+
+            /*Abaixo o caso da multiplicação:*/
+        end else if(currentState === MULTIPLICATION) begin
+            if (doneMultiplication === 1) begin
+                if (rouderOverflow === 1'b1) begin
+                    nextState <= RE_NORMALIZE;
+                end else begin
+                    nextState <= IDLE;
+                end
+            end else begin
+                nextState <= MULTIPLICATION;
+            end
+        end else if (currentState === RE_NORMALIZE) begin
+            nextState <= IDLE;
+
     end
 
     wire [63:0] distancer28toTwoComplement;

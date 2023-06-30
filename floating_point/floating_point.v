@@ -22,6 +22,7 @@ module floating_point(
       //Todos os muxes;
       //Sinais Da SMALLALU;
       //Sinais Da BIGALU;
+      output endMultiplication,
       //Sinais do shifter;
       //Sinais do Rounder;
       output [63:0] posFirst28posReferential,

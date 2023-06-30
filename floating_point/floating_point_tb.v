@@ -25,7 +25,7 @@ module floating_point_tb ();
         controlToMux04, controlToMux05;
 
     /* regs da big ALU */
-    reg sum_sub, isSum, reset, muxDataRegValor2;
+    reg sum_sub, isSum, reset, muxDataRegValor2 endMultiplication;
         
 
     /* regs da small ALU */
@@ -60,6 +60,7 @@ module floating_point_tb ();
                         .rightOrLeft(rightOrLeft), .howMany(howMany),
                         /* Big ALU */
                         .sum_sub(sum_sub), .isSum(isSum), .reset(reset), .muxDataRegValor2(muxDataRegValor2),
+                        .endMultiplication(endMultiplication),
                         /* Small ALU */
                         .smallALUOperation(smallALUOperation), .muxAControlSmall(muxAControlSmall),
                         .muxBControlSmall(muxBControlSmall), .loadRegSmall(loadRegSmall));
@@ -148,8 +149,8 @@ module floating_point_tb ();
        /* multiplicacao 0.38*3.34543 */
        floatingPoint1 = 32'b0_10000000_10101100001101110000110;
        floatingPoint2 = 32'b0_01111101_10000101000111101011100;
-       muxAControlSmall = 1'b0; 
-       muxBControlSmall = 1'b0;
+       muxAControlSmall = 1'b1; 
+       muxBControlSmall = 1'b1;
        reset = 1'b1;
        muxDataRegValor2 = 1'b0;
        #20
@@ -160,8 +161,8 @@ module floating_point_tb ();
        /* sinal dos muxes */
        controlToMux01 = 1'b1; 
        controlToMux02 = 1'b0; 
-       controlToMux03 = 1'b1;
-       controlToMux04 = 1'b0;
+       controlToMux03 = 1'b0;
+       controlToMux04 = 1'b1;
        controlToMux05 = 1'b0;
 
         /* shifters */
@@ -178,9 +179,9 @@ module floating_point_tb ();
        muxDataRegValor2 = 1'b1;
 
        /* small ALU */
-       smallALUOperation = 4'b0011;
-       muxAControlSmall = 1'b0; 
-       muxBControlSmall = 1'b0;
+       smallALUOperation = 4'b0000;
+       muxAControlSmall = 1'b1; 
+       muxBControlSmall = 1'b1;
        loadRegSmall = 1'b1;
        #1000
 
@@ -191,8 +192,8 @@ module floating_point_tb ();
        /* multiplicacao -0.38*3.34543 */
        floatingPoint1 = 32'b1_10000000_10101100001101110000110;
        floatingPoint2 = 32'b0_01111101_10000101000111101011100;
-       muxAControlSmall = 1'b0; 
-       muxBControlSmall = 1'b0;
+       muxAControlSmall = 1'b1; 
+       muxBControlSmall = 1'b1;
        reset = 1'b1;
        muxDataRegValor2 = 1'b0;
        #20
@@ -203,8 +204,8 @@ module floating_point_tb ();
        /* sinal dos muxes */
        controlToMux01 = 1'b1; 
        controlToMux02 = 1'b0; 
-       controlToMux03 = 1'b1;
-       controlToMux04 = 1'b0;
+       controlToMux03 = 1'b0;
+       controlToMux04 = 1'b1;
        controlToMux05 = 1'b0;
 
         /* shifters */
