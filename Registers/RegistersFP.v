@@ -7,7 +7,7 @@ Q -> reflete a quantidade de registradores parametrizados incluidos
 Este módulo é fortemente inspirado na implementação do grupo 40
 */
 
-module RegisterFileFP (
+module RegistersFP (
     input [4:0] readRegister1,
     input [4:0] readRegister2,
     input [4:0] writeRegister, //SELECTOR
@@ -33,13 +33,13 @@ module RegisterFileFP (
     end
 
     //Criação do registrador de valor constante 0:
-    reg_parametrizado2 R0 (.in_data(32'b0), .out_data(registerOut[0]), .load(1'b1), .clk(clk));
+    reg_parametrizado32b R0 (.in_data(32'b0), .out_data(registerOut[0]), .load(1'b1), .clk(clk));
 
     //Todos os demais registradores do banco:
     genvar j;
     generate
         for(j = 1; j < 32; j = j+1) begin
-            reg_parametrizado2 xI (.in_data(writeData), .out_data(registerOut[j]), .load(write_enabler[j]), .clk(clk));
+            reg_parametrizado32b xI (.in_data(writeData), .out_data(registerOut[j]), .load(write_enabler[j]), .clk(clk));
         end
     endgenerate
 
