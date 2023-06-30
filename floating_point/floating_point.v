@@ -2,6 +2,8 @@ module floating_point(
       input start,
       input [31:0] floatingPoint1, floatingPoint2,
       input loadRegSmall,
+      //load first
+      input loadRegA, loadRegB,
       input clk,
       input controlToMux01, controlToMux02, controlToMux03, 
             controlToMux04, controlToMux05, IncreaseOrDecreaseEnable,
@@ -98,9 +100,9 @@ AQUI ESTÃO OS SINAIS DO FELIPE E DO TADAKI PO, PARA O SINAL
 
    assign Mux06ToMux02 = IncreaseOrDecreaseToMux06;
    /*registradores para salvar os valores de entrada para operar -> 64bits*/ 
-   register_32bits regFA (.clk(clk), .load(1'b1), .in_data(floatingPoint1), 
+   register_32bits regFA (.clk(clk), .load(loadRegA), .in_data(floatingPoint1), 
                                    .out_data(regFAOUT));
-   register_32bits regFB (.clk(clk), .load(1'b1), .in_data(floatingPoint2), 
+   register_32bits regFB (.clk(clk), .load(loadRegB), .in_data(floatingPoint2), 
                                    .out_data(regFBOUT));
    register_32bits regFinal (.clk(clk), .load(1'b1), .in_data(regFinalInput), 
                                    .out_data(resultadoFinal));

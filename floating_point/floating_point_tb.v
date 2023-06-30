@@ -25,7 +25,7 @@ module floating_point_tb ();
         controlToMux04, controlToMux05;
 
     /* regs da big ALU */
-    reg sum_sub, isSum, reset, muxDataRegValor2 endMultiplication;
+    reg sum_sub, isSum, reset, muxDataRegValor2, endMultiplication;
         
 
     /* regs da small ALU */
@@ -355,7 +355,9 @@ module floating_point_tb ();
        muxBControlSmall = 1'b0;
        reset = 1'b1;
        muxDataRegValor2 = 1'b0;
-       #20
+       #10
+       reset = 1'b1;
+       #10
        reset = 1'b0;
        muxAControlSmall = 1'b1; 
        muxBControlSmall = 1'b1;

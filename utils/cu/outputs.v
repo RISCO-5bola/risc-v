@@ -1,5 +1,5 @@
 module outputs (
-    input [3:0] StateRegister,
+    input [4:0] StateRegister,
     output PCWrite, output PCWriteCond, output IorD,
     output MemRead, output MemWrite, output IRWrite,
     output MemtoReg, output PCSource1, output PCSource0,
@@ -25,57 +25,57 @@ module outputs (
     wire WireState15;
 
     /* vai para o state 1 */
-    and (WireState0, ~StateRegister[3], ~StateRegister[2],
+    and (WireState0, ~StateRegister[4], ~StateRegister[3], ~StateRegister[2],
                      ~StateRegister[1], ~StateRegister[0]);
 
     /* vai para os states 2(lw, sw), 6(r), 8(b), 
        9(jal, I-jalr), 13(I-addi), 15(U-lui) */                     
-    and (WireState1, ~StateRegister[3], ~StateRegister[2],
+    and (WireState1, ~StateRegister[4], ~StateRegister[3], ~StateRegister[2],
                      ~StateRegister[1], StateRegister[0]);
 
     /* vai para os states 3(lw) e 5(sw) */                     
-    and (WireState2, ~StateRegister[3], ~StateRegister[2],
+    and (WireState2, ~StateRegister[4], ~StateRegister[3], ~StateRegister[2],
                      StateRegister[1], ~StateRegister[0]);
 
     /* vai para o state 4 */                     
-    and (WireState3, ~StateRegister[3], ~StateRegister[2],
+    and (WireState3, ~StateRegister[4], ~StateRegister[3], ~StateRegister[2],
                      StateRegister[1], StateRegister[0]);
            
-    and (WireState4, ~StateRegister[3], StateRegister[2],
+    and (WireState4, ~StateRegister[4], ~StateRegister[3], StateRegister[2],
                      ~StateRegister[1], ~StateRegister[0]);
-    and (WireState5, ~StateRegister[3], StateRegister[2],
+    and (WireState5, ~StateRegister[4], ~StateRegister[3], StateRegister[2],
                      ~StateRegister[1], StateRegister[0]);
 
     /* vai para o state 7 */                     
-    and (WireState6, ~StateRegister[3], StateRegister[2],
+    and (WireState6, ~StateRegister[4], ~StateRegister[3], StateRegister[2],
                      StateRegister[1], ~StateRegister[0]);
     
-    and (WireState7, ~StateRegister[3], StateRegister[2],
+    and (WireState7, ~StateRegister[4], ~StateRegister[3], StateRegister[2],
                      StateRegister[1], StateRegister[0]);
     
     /* vai para o state 14(b) */
-    and (WireState8, StateRegister[3], ~StateRegister[2],
+    and (WireState8, ~StateRegister[4], StateRegister[3], ~StateRegister[2],
                      ~StateRegister[1], ~StateRegister[0]);
 
     /* vai par o state 10(jal) e 12(I-jalr) */                     
-    and (WireState9, StateRegister[3], ~StateRegister[2],
+    and (WireState9, ~StateRegister[4], StateRegister[3], ~StateRegister[2],
                      ~StateRegister[1], StateRegister[0]);
                      
-    and (WireState10, StateRegister[3], ~StateRegister[2],
+    and (WireState10, ~StateRegister[4], StateRegister[3], ~StateRegister[2],
                      StateRegister[1], ~StateRegister[0]);
 
     /* vai para o state 7(u-auipc) */                     
-    and (WireState11, StateRegister[3], ~StateRegister[2],
+    and (WireState11, ~StateRegister[4], StateRegister[3], ~StateRegister[2],
                      StateRegister[1], StateRegister[0]);
-    and (WireState12, StateRegister[3], StateRegister[2],
+    and (WireState12, ~StateRegister[4], StateRegister[3], StateRegister[2],
                      ~StateRegister[1], ~StateRegister[0]);
-    and (WireState13, StateRegister[3], StateRegister[2],
+    and (WireState13, ~StateRegister[4], StateRegister[3], StateRegister[2],
                       ~StateRegister[1], StateRegister[0]);
-    and (WireState14, StateRegister[3], StateRegister[2],
+    and (WireState14, ~StateRegister[4], StateRegister[3], StateRegister[2],
                       StateRegister[1], ~StateRegister[0]);
 
     /* vai para o state 7(u-lui) */                      
-    and (WireState15, StateRegister[3], StateRegister[2],
+    and (WireState15, ~StateRegister[4], StateRegister[3], StateRegister[2],
                       StateRegister[1], StateRegister[0]);
 
     /* seta o PCWrite nos estados 0, 10 e 12 */

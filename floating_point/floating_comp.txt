@@ -28,3 +28,6 @@ Registers/register_32bits.v
 
 fpu.v
 Distancerfrom28.v
+Distancerfrom27.v
+floating_point_uc.v
+TwosComplementToInt.v
