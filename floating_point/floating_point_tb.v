@@ -272,7 +272,7 @@ module floating_point_tb ();
        #1000
 
        Check1({resultadoFinal, 32'b00111111101000101011100011000010});
-
+    
        $display("Teste 6 - soma com sinais distintos, primeiro positivo e segundo negativo");
        /* adicao 31.5 - 4.25 = 27.25*/
        floatingPoint1 = 32'b0_10000011_11111000000000000000000 ; // 31.5
@@ -307,7 +307,6 @@ module floating_point_tb ();
        muxBControlSmall = 1'b0;
        loadRegSmall = 1'b1;
        #100
-
        Check1({resultadoFinal, 32'b0_10000011_10110100000000000000000}); // 27.25
 
        $display("Teste 7 - soma com sinais iguais, ambos negativos");

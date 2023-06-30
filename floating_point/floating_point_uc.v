@@ -119,7 +119,7 @@ module floating_point_uc (
                 controlToIncreaseOrDecrease <= {2'd0, posFirst28posReferential[22], posFirst28posReferential[22]};
                 muxBControlSmall <= 1'b0;
                 muxAControlSmall <= 1'b0;
-                sum_sub <= 1'b0;
+                sum_sub <= ^{signalFP1, signalFP2};
                 isSum <= 1'b1;
                 muxDataRegValor2 <= 1'b0;
                 rightOrLeft <= posFirst28posReferential[22];
@@ -219,13 +219,7 @@ module floating_point_uc (
         
         else if (currentState === LOAD) begin
             if (operation === 2'b00) begin
-                if (signalFP1 === signalFP2)
-                    begin
-                    nextState <= SUM_EQUAL_SIGNALS;
-                    end else begin
-                    /* implementar outras somas */
-                    nextState <= IDLE;
-                    end
+                nextState <= SUM_EQUAL_SIGNALS;
             end else begin
                 /* implementar multiplicação */
                 if (operation === 2'b01) begin
