@@ -1,0 +1,74 @@
+[*]
+[*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
+[*] Fri Jun 30 08:11:17 2023
+[*]
+[dumpfile] "C:\Users\berta\Documents\risc-v\floating_point\wave.vcd"
+[dumpfile_mtime] "Fri Jun 30 08:09:03 2023"
+[dumpfile_size] 851542
+[savefile] "C:\Users\berta\Documents\risc-v\floating_point\wave.gtkw"
+[timestart] 0
+[size] 1366 697
+[pos] -1 -1
+*-7.000000 228 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] fpu_tb.
+[treeopen] fpu_tb.fpu.
+[treeopen] fpu_tb.fpu.fp_datapath.
+[sst_width] 211
+[signals_width] 182
+[sst_expanded] 1
+[sst_vpaned_height] 188
+@28
+fpu_tb.fpu.fp_uc.clk
+fpu_tb.fpu.fp_uc.done
+fpu_tb.fpu.fp_uc.reset
+fpu_tb.fpu.fp_datapath.controlToMux01
+fpu_tb.fpu.fp_datapath.controlToMux02
+fpu_tb.fpu.fp_datapath.controlToMux03
+fpu_tb.fpu.fp_datapath.controlToMux04
+fpu_tb.fpu.fp_datapath.controlToMux05
+@22
+fpu_tb.fpu.fp_uc.currentState[4:0]
+@c00022
+fpu_tb.fpu.R[31:0]
+@28
+(0)fpu_tb.fpu.R[31:0]
+(1)fpu_tb.fpu.R[31:0]
+(2)fpu_tb.fpu.R[31:0]
+(3)fpu_tb.fpu.R[31:0]
+(4)fpu_tb.fpu.R[31:0]
+(5)fpu_tb.fpu.R[31:0]
+(6)fpu_tb.fpu.R[31:0]
+(7)fpu_tb.fpu.R[31:0]
+(8)fpu_tb.fpu.R[31:0]
+(9)fpu_tb.fpu.R[31:0]
+(10)fpu_tb.fpu.R[31:0]
+(11)fpu_tb.fpu.R[31:0]
+(12)fpu_tb.fpu.R[31:0]
+(13)fpu_tb.fpu.R[31:0]
+(14)fpu_tb.fpu.R[31:0]
+(15)fpu_tb.fpu.R[31:0]
+(16)fpu_tb.fpu.R[31:0]
+(17)fpu_tb.fpu.R[31:0]
+(18)fpu_tb.fpu.R[31:0]
+(19)fpu_tb.fpu.R[31:0]
+(20)fpu_tb.fpu.R[31:0]
+(21)fpu_tb.fpu.R[31:0]
+(22)fpu_tb.fpu.R[31:0]
+(23)fpu_tb.fpu.R[31:0]
+(24)fpu_tb.fpu.R[31:0]
+(25)fpu_tb.fpu.R[31:0]
+(26)fpu_tb.fpu.R[31:0]
+(27)fpu_tb.fpu.R[31:0]
+(28)fpu_tb.fpu.R[31:0]
+(29)fpu_tb.fpu.R[31:0]
+(30)fpu_tb.fpu.R[31:0]
+(31)fpu_tb.fpu.R[31:0]
+@1401200
+-group_end
+@22
+fpu_tb.fpu.A[31:0]
+fpu_tb.fpu.B[31:0]
+fpu_tb.fpu.fp_datapath.BigALU.valor1[27:0]
+fpu_tb.fpu.fp_datapath.BigALU.valor2[27:0]
+[pattern_trace] 1
+[pattern_trace] 0

@@ -4,7 +4,12 @@ module fpu (clk, rst, A, B, R, op, start, done);
     output [31:0] R;
     input [1:0] op;
     input start;
-    input done;
+    output done;
+
+    initial begin
+            $dumpfile("wave.vcd");
+            $dumpvars(0, fpu);
+    end
 
     wire rounderOverflow;
     wire [7:0] smallAluResult;
@@ -38,11 +43,11 @@ module fpu (clk, rst, A, B, R, op, start, done);
      
      //Instanciação da datapath da FPU
     floating_point fp_datapath (.start(start), .floatingPoint1(A), .floatingPoint2(B), .loadRegSmall(loadRegSmall), .clk(clk),
-                                .controlToMux01(controlToMux01), .controlToMux02(controlToMux02), .controlToMux03(controltomux03),
+                                .controlToMux01(controlToMux01), .controlToMux02(controlToMux02), .controlToMux03(controlToMux03),
                                 .controlToMux04(controlToMux04), .controlToMux05(controlToMux05), .IncreaseOrDecreaseEnable(IncreaseOrDecreaseEnable),
                                 .controlShiftRight(controlShiftRight), .smallALUOperation(smallALUOperation),
                                 .controlToIncreaseOrDecrease(controlToIncreaseOrDecrease), .muxBControlSmall(muxBControlSmall),
                                 .muxAControlSmall(muxAControlSmall), .sum_sub(sum_sub), .isSum(isSum), .reset(rst), .muxDataRegValor2(muxDataRegValor2),
                                 .rightOrLeft(rightOrLeft), .howMany(howMany), .howManyToIncreaseOrDecrease(howManyToIncreaseOrDecrease), .resultadoFinal(R),
-                                .posFirst28posReferential(posFirst28posReferential), .posFirst27posReferential(posFirst27posReferential));
+                                .posFirst28posReferential(posFirst28posReferential), .posFirst27posReferential(posFirst27posReferential), .smallAluResult(smallAluResult));
 endmodule

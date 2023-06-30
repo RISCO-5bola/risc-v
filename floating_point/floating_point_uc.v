@@ -77,8 +77,8 @@ module floating_point_uc (
                 isSum <= 1'b0;
                 muxDataRegValor2 <= 1'b0;
                 rightOrLeft <= 1'b0;
-                howMany <= 23'd0; 
-                howManyToIncreaseOrDecrease <= 8'd0; 
+                rightOrLeft <= posFirst28posReferential[22];
+                howMany <= distancer27toTwoComplement;
             end 
             LOAD: begin
                 done <= 1'b0;
@@ -107,23 +107,23 @@ module floating_point_uc (
                 done <= 1'b0;
                 counter <= counter - 1;
                 loadRegSmall <= 1'b1;
-                controlToMux01 <= ~expDifferencePos; 
+                controlToMux01 <= expDifferencePos; 
                 controlToMux02 <= 1'b0;
-                controlToMux03 <= expDifferencePos; 
-                controlToMux04 <= ~expDifferencePos;
+                controlToMux03 <= ~expDifferencePos; 
+                controlToMux04 <= expDifferencePos;
                 controlToMux05 <= 1'b0;
                 IncreaseOrDecreaseEnable <= 1'b1;
-                controlShiftRight <= smallAluResult;
+                controlShiftRight <= smallAluResultInt[7:0];
                 smallALUOperation <= 4'b0011;
-                controlToIncreaseOrDecrease <= {2'd0, expDifferencePos, expDifferencePos};
+                controlToIncreaseOrDecrease <= {2'd0, posFirst28posReferential[22], posFirst28posReferential[22]};
                 muxBControlSmall <= 1'b0;
                 muxAControlSmall <= 1'b0;
                 sum_sub <= 1'b0;
                 isSum <= 1'b1;
                 muxDataRegValor2 <= 1'b0;
-                rightOrLeft <= ~expDifferencePos;
-                howMany <= posFirst27posReferential; 
-                howManyToIncreaseOrDecrease <= posFirst28posReferential; 
+                rightOrLeft <= posFirst28posReferential[22];
+                howMany <= distancer28toTwoComplement; 
+                howManyToIncreaseOrDecrease <= distancer27toTwoComplement; 
             end
 
             RE_NORMALIZE: begin
@@ -136,7 +136,7 @@ module floating_point_uc (
                 controlToMux04 <= ~expDifferencePos;
                 controlToMux05 <= 1'b1;
                 IncreaseOrDecreaseEnable <= 1'b1;
-                controlShiftRight <= smallAluResult;
+                controlShiftRight <= smallAluResultInt[7:0];
                 smallALUOperation <= 4'b0011;
                 controlToIncreaseOrDecrease <= {2'd0, expDifferencePos, expDifferencePos};
                 muxBControlSmall <= 1'b0;
@@ -160,7 +160,7 @@ module floating_point_uc (
                 controlToMux04 <= 1'b1; //Seta o segundo para o mux
                 controlToMux05 <= 1'b0; //Mandar o resultado da BIGALU para o shift left or right
                 IncreaseOrDecreaseEnable <= 1'b0; //Não incrementar
-                controlShiftRight <= smallAluResult; //ADICIONAR O VALOR DA DISTÂNCIA PARA O BIT 
+                controlShiftRight <= smallAluResultInt[7:0]; //ADICIONAR O VALOR DA DISTÂNCIA PARA O BIT 
                 smallALUOperation <= 4'b0000; //SOMAR OS EXPOENTES
                 controlToIncreaseOrDecrease <= {2'd0, expDifferencePos, expDifferencePos}; //
                 muxBControlSmall <= 1'b1; //expoente
@@ -205,8 +205,6 @@ module floating_point_uc (
     always @(*) begin
         if (reset == 1'b1) begin
             currentState <= IDLE;
-        end else begin
-            currentState <= nextState;
         end
 
         /* calcula próximo estado */
@@ -245,4 +243,12 @@ module floating_point_uc (
             nextState <= IDLE;
         end
     end
+
+    wire [63:0] distancer28toTwoComplement;
+    wire [63:0] distancer27toTwoComplement;
+    wire [63:0] smallAluResultInt;
+   TwosComplementToInt toIntDistancer28 (.TwosComplementValue({{41{posFirst28posReferential[22]}}, posFirst28posReferential}), .result(distancer28toTwoComplement));
+   TwosComplementToInt toIntDistancer27 (.TwosComplementValue({{41{posFirst27posReferential[22]}}, posFirst27posReferential}), .result(distancer27toTwoComplement));
+   TwosComplementToInt toIntSmallAlu (.TwosComplementValue({{56{smallAluResult[7]}}, smallAluResult}), .result(smallAluResultInt));
+    
 endmodule

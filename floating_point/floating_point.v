@@ -55,8 +55,8 @@ module floating_point(
    wire [27:0] rightShiftOUTToBigALU, roundToMux05, mux05ToRightShiftOrLeftShift; 
    wire [28:0] bigALUtoMux05;
 
-//    assign mux03ToRightShift[22:0] = mux03OUTToRightShift;
-//    assign mux03ToRightShift[23] = 1'b1;
+   //    assign mux03ToRightShift[22:0] = mux03OUTToRightShift;
+   //    assign mux03ToRightShift[23] = 1'b1;
    assign mux04ToBigALU = {1'b1, mux04OUTToBigALU};
 
     /* valor shiftado para a direita que sai do mux 03 e vai para a big ALU */
@@ -182,6 +182,6 @@ AQUI ESTÃO OS SINAIS DO FELIPE E DO TADAKI PO, PARA O SINAL
    assign rounderToRegFinal = rounderOut;
 
    /* Mede distâncias até determinados bits para fazer arredondamentos */
-   Distancerfrom28 distancer28 (.doubleWord({35'd0, mux05ToRightShiftOrLeftShift}), .distance(posFirst28posReferential));
-   Distancerfrom27 distancer27 (.doubleWord({35'd0, mux05ToRightShiftOrLeftShift}), .distance(posFirst27posReferential));
+   Distancerfrom28 distancer28 (.doubleWord({35'd0, bigALUtoMux05}), .distance(posFirst28posReferential));
+   Distancerfrom27 distancer27 (.doubleWord({35'd0, bigALUtoMux05}), .distance(posFirst27posReferential));
 endmodule
