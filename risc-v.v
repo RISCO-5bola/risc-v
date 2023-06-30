@@ -121,7 +121,7 @@ module riscv (
     load_choose load_choose (.dataReadFromMemory(dataToWrite), .opcode(instrRegOut[6:0]), .funct3(instrRegOut[14:12]), .writeDataReg(dataChoosenToBeWrittenMux));
     storage_choose storage_choose (.writeData(regBparaMux2), .funct3(instrRegOut[14:12]), .dataToBeWritten(dataToWriteMem));
 
-    Registers regs (
+    RegisterFile regs (
         .readRegister1({
             instrRegOut[19],
             instrRegOut[18],

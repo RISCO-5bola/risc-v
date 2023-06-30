@@ -22,8 +22,8 @@ Mux/mux_6x1_1bit.v
 utils/cu/next_state.v
 utils/cu/outputs.v
 Registers/inst_reg.v
-load_choose.v
-storage_choose.v
+LoadStore/load_choose.v
+LoadStore/storage_choose.v
 ALU/operations/CLAAdder8b_mod.v
 ALU/operations/PartialFullAdder1b_mod.v
 ALU/operations/Adder64b_mod.v
