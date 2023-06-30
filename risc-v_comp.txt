@@ -18,6 +18,7 @@ Mux/mux_3x1_1bit.v
 Mux/mux_3x1_32bit.v
 Mux/mux_3x1_8bit.v
 Mux/mux_7x1_64bit.v
+Mux/mux_8x1_64bit.v
 Mux/mux_6x1_1bit.v
 utils/cu/next_state.v
 utils/cu/outputs.v
